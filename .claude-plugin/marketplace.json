@@ -8,5 +8,11 @@
     "description": "Claude Code plugins for working with Tenzir",
     "version": "0.1.0"
   },
-  "plugins": []
+  "plugins": [
+    {
+      "name": "formatter",
+      "description": "Auto-format files after Claude edits",
+      "source": "./formatter"
+    }
+  ]
 }

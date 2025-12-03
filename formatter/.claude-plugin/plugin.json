@@ -1,0 +1,6 @@
+{
+  "name": "formatter",
+  "description": "Auto-format files after Claude edits",
+  "version": "0.1.0",
+  "author": "Tenzir"
+}
