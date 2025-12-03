@@ -1,0 +1,12 @@
+{
+  "name": "tenzir",
+  "owner": {
+    "name": "Tenzir",
+    "url": "https://tenzir.com"
+  },
+  "metadata": {
+    "description": "Claude Code plugins for working with Tenzir",
+    "version": "0.1.0"
+  },
+  "plugins": []
+}
