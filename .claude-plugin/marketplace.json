@@ -13,6 +13,11 @@
       "name": "formatter",
       "description": "Auto-format files after Claude edits",
       "source": "./formatter"
+    },
+    {
+      "name": "auto-update",
+      "description": "Auto-update the tenzir marketplace on session start",
+      "source": "./auto-update"
     }
   ]
 }
