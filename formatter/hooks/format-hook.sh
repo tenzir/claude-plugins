@@ -31,9 +31,12 @@ if [[ "$FILE_PATH" =~ \.(cmake|CMakeLists\.txt)$ ]]; then
 fi
 
 # Run shfmt for shell scripts
+# -i 2: indent with 2 spaces
+# -ci: indent switch cases
+# -bn: binary ops may start line
 if [[ "$FILE_PATH" =~ \.(sh|bash)$ ]]; then
   if command -v shfmt &>/dev/null; then
-    shfmt -w "$FILE_PATH"
+    shfmt -i 2 -ci -bn -w "$FILE_PATH"
   else
     echo "shfmt not found, skipping auto-formatting" >&2
   fi
