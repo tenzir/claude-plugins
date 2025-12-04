@@ -2,18 +2,18 @@
 
 Manage changelogs and release notes with tenzir-changelog.
 
-## Features
+## ✨ Features
 
-- **Changelog Skill**: Auto-triggered assistance for creating and managing changelog entries
-- **Release Command**: Step-by-step guidance for Python project releases via `/python-release`
+- 📋 **Changelog Skill**: Auto-triggered assistance for creating and managing changelog entries
+- 🚀 **Release Command**: Step-by-step guidance for Python project releases via `/python-release`
 
-## Installation
+## 📦 Installation
 
 ```
 /plugin install changelog@tenzir
 ```
 
-## How it works
+## ⚙️ How it works
 
 ### Changelog Skill
 

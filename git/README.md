@@ -2,17 +2,17 @@
 
 Git workflows for Tenzir repositories.
 
-## Features
+## ✨ Features
 
-- **Commit Message Writing Skill**: Auto-triggered guidance for writing clear, consistent git commit messages
+- 📝 **Commit Message Writing**: Auto-triggered guidance for writing clear, consistent git commit messages
 
-## Installation
+## 📦 Installation
 
 ```
 /plugin install git@tenzir
 ```
 
-## How it works
+## ⚙️ How it works
 
 ### Commit Message Writing Skill
 
