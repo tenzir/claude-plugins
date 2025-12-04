@@ -18,6 +18,11 @@
       "name": "auto-update",
       "description": "Auto-update the tenzir marketplace on session start",
       "source": "./auto-update"
+    },
+    {
+      "name": "changelog",
+      "description": "Manage changelogs and release notes with tenzir-changelog",
+      "source": "./changelog"
     }
   ]
 }
