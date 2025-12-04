@@ -8,6 +8,7 @@
     }
   },
   "enabledPlugins": {
+    "auto-update@tenzir": true,
     "formatter@tenzir": true
   }
 }
