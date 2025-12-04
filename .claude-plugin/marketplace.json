@@ -23,6 +23,11 @@
       "name": "changelog",
       "description": "Manage changelogs and release notes with tenzir-changelog",
       "source": "./changelog"
+    },
+    {
+      "name": "git",
+      "description": "Git workflows for Tenzir repositories",
+      "source": "./git"
     }
   ]
 }
