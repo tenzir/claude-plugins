@@ -42,7 +42,7 @@ always reflect the current state of plugin directories. Each entry in the
 
 ## Plugin README Template
 
-Every plugin should have a `README.md` following this structure:
+Every plugin should have a `README.md` following this structure **exactly**:
 
 ```markdown
 # Plugin Name
@@ -75,5 +75,4 @@ Describe the plugin's behavior in detail. Include:
 - When it triggers (e.g., on edit, on session start)
 - What actions it performs
 - Any side effects or dependencies
-
 ```
