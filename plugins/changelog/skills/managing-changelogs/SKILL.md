@@ -152,3 +152,4 @@ uvx tenzir-changelog show -m v5.0.0 --root ~/core --root ~/cloud > release-notes
 7. **Preview first** - Always preview releases before committing
 8. **Validate in CI** - Automate validation to enforce metadata completeness
 9. **Consistent components** - Document and reuse component labels
+10. **Use Markdown deliberately** - Frame code and technical terms in backticks (e.g., `--option 42`, `cmd`). Use _emphasis_ and **bold** where it improves clarity
