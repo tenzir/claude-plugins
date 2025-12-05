@@ -89,10 +89,18 @@ changelog/
 uvx tenzir-changelog add \
   --title "Add feature X" \
   --type feature \
-  --description-file /path/to/description.md
+  --description-file /path/to/description.md \
+  --author alice \
+  --author bob \
+  --component api \
+  --component cli \
+  --pr 123 \
+  --pr 456
 ```
 
-Always pass `--description-file` to skip the interactive editor and avoid shell escaping issues. Add `--component`, `--author`, and `--pr` as needed.
+Always pass `--description-file` to skip the interactive editor and avoid shell escaping issues. Pass `--component`, `--author`, and `--pr` multiple times for multiple values.
+
+Every entry must have at least one human author. Coding agents like `claude` or `codex` alone are insufficient—always include a human alongside the agent.
 
 ### Show Entries
 
