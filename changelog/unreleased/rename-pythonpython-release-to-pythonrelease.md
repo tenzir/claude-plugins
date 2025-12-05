@@ -1,9 +1,14 @@
 ---
-title: Rename /python:python-release to /python:release
+title: Replace `/python:release` with `/changelog:release`
 type: breaking
-author: mavam
-component: python
+authors:
+  - mavam
+  - claude
+components:
+  - python
 created: 2025-12-05T07:23:51.267263Z
 ---
 
-The release command is now invoked as `/python:release` instead of the redundant `/python:python-release`, since the plugin namespace already provides the `python:` prefix.
+The `/python:release` command has been removed. Use `/changelog:release`
+instead, which auto-detects Python projects and applies the appropriate quality
+gates and version bumping.
