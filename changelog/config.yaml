@@ -1,0 +1,8 @@
+id: claude-plugins
+name: Claude Plugins
+components:
+  - auto-update
+  - changelog
+  - formatter
+  - git
+  - python
