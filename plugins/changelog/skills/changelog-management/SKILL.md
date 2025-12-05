@@ -90,17 +90,16 @@ uvx tenzir-changelog add \
   --title "Add feature X" \
   --type feature \
   --description-file /path/to/description.md \
-  --author alice \
-  --author bob \
+  --co-author claude \
   --component api \
   --component cli \
   --pr 123 \
   --pr 456
 ```
 
-Always pass `--description-file` to skip the interactive editor and avoid shell escaping issues. Pass `--component`, `--author`, and `--pr` multiple times for multiple values.
+Always pass `--description-file` to skip the interactive editor and avoid shell escaping issues. Pass `--component`, `--pr`, and `--co-author` multiple times for multiple values.
 
-Every entry must have at least one human author. Coding agents like `claude` or `codex` alone are insufficient—always include a human alongside the agent.
+The CLI infers the primary author from environment variables or the GitHub CLI. Use `--co-author` to credit additional contributors (ideal for AI-assisted development). Use `--author` only to override the inferred author entirely.
 
 ### Show Entries
 
