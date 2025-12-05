@@ -28,6 +28,11 @@
       "name": "git",
       "description": "Git workflows for Tenzir repositories",
       "source": "./git"
+    },
+    {
+      "name": "python",
+      "description": "Python coding conventions for Tenzir projects",
+      "source": "./python"
     }
   ]
 }

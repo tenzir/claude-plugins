@@ -6,6 +6,15 @@ description: Release a Python project using tenzir-changelog and uv
 
 Guide me through releasing a Python project that uses `tenzir-changelog` and `uv`.
 
+## Required Plugin
+
+This command requires the `changelog` plugin for managing changelog entries and
+release notes. Install it with:
+
+```
+/plugin install changelog@tenzir
+```
+
 ## Pre-Release Checklist
 
 Before starting, verify:
@@ -18,14 +27,8 @@ Before starting, verify:
 
 ### 1. Pre-release validation
 
-Make sure the tree is clean and all checks pass:
-
-```sh
-uv run check-release
-```
-
-If `check-release` does not exist, run the project-specific checks (e.g.,
-linting, type checking, tests).
+Make sure the tree is clean and all quality gates pass. See the
+`writing-python-code` skill for the full check suite.
 
 ### 2. Determine version
 
@@ -35,30 +38,25 @@ Ask me what version to release. Options:
 - **minor** (x.Y.0) - New features, backward compatible
 - **major** (X.0.0) - Breaking changes
 
-### 3. Create intro file
+### 3. Stage the release
 
-Create an intro file summarizing the release:
+Create an intro file (`/tmp/intro.md`) with a brief summary of the release
+highlights. Example:
 
-```sh
-cat > /tmp/intro.md << 'EOF'
-This release introduces new feature X and fixes several bugs related to Y.
-EOF
-```
+> This release adds support for custom templates and improves validation
+> performance. It also fixes several bugs related to YAML parsing.
 
-### 4. Stage the release
-
-Stage the release manifest and move unreleased changelog entries:
+Then stage the release:
 
 ```sh
 uvx tenzir-changelog release create vX.Y.Z --intro-file /tmp/intro.md --yes
-uvx tenzir-changelog validate
 ```
 
 The command relocates the contents of `changelog/unreleased/` into
 `changelog/releases/vX.Y.Z/entries/`, records release metadata in
 `manifest.yaml`, and refreshes the release notes.
 
-### 5. Bump version
+### 4. Bump version
 
 Bump the version:
 
@@ -68,7 +66,7 @@ uv version --bump patch|minor|major
 
 This updates `pyproject.toml` and `uv.lock`. Do not modify `pyproject.toml` manually.
 
-### 6. Commit release artifacts
+### 5. Commit release artifacts
 
 Commit the release artifacts and version bump:
 
@@ -76,7 +74,7 @@ Commit the release artifacts and version bump:
 git commit -am "Bump version to vX.Y.Z"
 ```
 
-### 7. Publish
+### 6. Publish
 
 Publish the release and annotate the tag:
 
