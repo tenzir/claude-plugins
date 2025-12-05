@@ -1,6 +1,6 @@
 ---
-name: changelog
-description: Create and manage changelog entries and release notes using the tenzir-changelog framework. Use when completing features, bugfixes, or breaking changes that need documentation, or when the user asks about changelog entries or release notes.
+name: managing-changelogs
+description: Create changelog entries with tenzir-changelog. Use when completing features/bugfixes, editing files in changelog/unreleased/, running uvx tenzir-changelog, or asking about release notes, entry format, or changelog validation.
 ---
 
 # Changelog and Release Notes Management

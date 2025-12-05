@@ -4,7 +4,7 @@ Git workflows for Tenzir repositories.
 
 ## ✨ Features
 
-- 📝 **Commit Message Writing**: Auto-triggered guidance for writing clear, consistent git commit messages
+- 📝 **Writing Commit Messages**: Auto-triggered guidance for writing clear, consistent git commit messages
 
 ## 📦 Installation
 
@@ -14,9 +14,9 @@ Git workflows for Tenzir repositories.
 
 ## ⚙️ How it works
 
-### Commit Message Writing Skill
+### Writing Commit Messages Skill
 
-The `commit-message-writing` skill activates when committing changes. It provides guidance on:
+The `writing-commit-messages` skill activates when committing changes. It provides guidance on:
 
 - Commit message format (subject under 50 chars, body wrapped at 72)
 - Writing style focused on user capability, not implementation

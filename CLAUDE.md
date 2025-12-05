@@ -76,3 +76,42 @@ Describe the plugin's behavior in detail. Include:
 - What actions it performs
 - Any side effects or dependencies
 ```
+
+## Skills
+
+Read the [skill best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices.md)
+for general guidance.
+
+### Naming
+
+Use gerund form (verb + -ing) with lowercase letters, numbers, and hyphens:
+
+- `writing-commit-messages` (not `commit-message-writing`)
+- `managing-changelogs` (not `changelog`)
+
+### Structure
+
+- Keep `SKILL.md` under 500 lines
+- Link to reference files for details, but keep references one level deep
+- Every paragraph must justify its token cost
+
+### Descriptions
+
+Descriptions must be specific to enable discovery. Use the "Use when" pattern:
+
+```yaml
+description: <What the skill does>. Use when <trigger1>, <trigger2>, or <trigger3>.
+```
+
+Good triggers include:
+
+- File types: `.py` files, `pyproject.toml`, `changelog/unreleased/`
+- Commands: `git commit`, `uvx tenzir-changelog`, `ruff check`
+- Actions: editing, reviewing, setting up, running
+- Topics: type hints, commit format, release notes
+
+Example:
+
+```yaml
+description: Write and review Python code. Use when editing .py files, running ruff/mypy/pytest, or asking about type hints.
+```
