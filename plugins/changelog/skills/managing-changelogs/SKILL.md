@@ -86,8 +86,13 @@ changelog/
 ### Add an Entry
 
 ```bash
-uvx tenzir-changelog add --title "Add feature X" --type feature --author "Name" --pr 123
+uvx tenzir-changelog add \
+  --title "Add feature X" \
+  --type feature \
+  --description "The body explains what changed and why it matters."
 ```
+
+Always pass `--description` to skip the interactive editor. Add `--component`, `--author`, and `--pr` as needed.
 
 ### Show Entries
 
