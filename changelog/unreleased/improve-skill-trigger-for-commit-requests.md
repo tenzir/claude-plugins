@@ -1,6 +1,6 @@
 ---
 title: Improve skill trigger for commit requests
-type: change
+type: bugfix
 author: mavam
 component: git
 created: 2025-12-05T06:04:27.179454Z

@@ -1,6 +1,6 @@
 ---
 title: Always pass --description to skip interactive editor
-type: change
+type: bugfix
 author: mavam
 component: changelog
 created: 2025-12-05T06:10:00Z
