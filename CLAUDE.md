@@ -5,21 +5,23 @@ plugins that extend Claude's capabilities for working with the Tenzir ecosystem.
 
 ## Repository Structure
 
-Every top-level directory in this repository is a plugin. The marketplace
-manifest registers all available plugins.
+All plugins live in the `plugins/` subdirectory. The marketplace manifest
+registers all available plugins.
 
 ```
 claude-plugins/
 ├── .claude-plugin/
 │   └── marketplace.json   # Marketplace manifest (MUST stay in sync)
-├── my-plugin/             # A plugin
-├── another-plugin/        # Another plugin
+├── plugins/
+│   ├── my-plugin/         # A plugin
+│   ├── another-plugin/    # Another plugin
+│   └── ...
 └── ...
 ```
 
 ## Adding a Plugin
 
-Create a new directory at the repository root. Then update
+Create a new directory in `plugins/`. Then update
 `.claude-plugin/marketplace.json` to register it:
 
 ```json
@@ -28,7 +30,7 @@ Create a new directory at the repository root. Then update
     {
       "name": "plugin-name",
       "description": "What this plugin does",
-      "source": "./<plugin-name>"
+      "source": "./plugins/<plugin-name>"
     }
   ]
 }
@@ -37,7 +39,7 @@ Create a new directory at the repository root. Then update
 ## Marketplace Manifest
 
 The `.claude-plugin/marketplace.json` file defines this marketplace. It must
-always reflect the current state of plugin directories. Each entry in the
+always reflect the current state of the `plugins/` directory. Each entry in the
 `plugins` array should correspond to an actual plugin directory. Keep the
 plugins sorted alphabetically by name.
 

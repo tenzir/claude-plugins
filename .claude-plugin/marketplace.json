@@ -12,27 +12,27 @@
     {
       "name": "auto-update",
       "description": "Auto-update the tenzir marketplace on session start",
-      "source": "./auto-update"
+      "source": "./plugins/auto-update"
     },
     {
       "name": "changelog",
       "description": "Manage changelogs and release notes with tenzir-changelog",
-      "source": "./changelog"
+      "source": "./plugins/changelog"
     },
     {
       "name": "formatter",
       "description": "Auto-format files after Claude edits",
-      "source": "./formatter"
+      "source": "./plugins/formatter"
     },
     {
       "name": "git",
       "description": "Git workflows for Tenzir repositories",
-      "source": "./git"
+      "source": "./plugins/git"
     },
     {
       "name": "python",
       "description": "Python coding conventions for Tenzir projects",
-      "source": "./python"
+      "source": "./plugins/python"
     }
   ]
 }
