@@ -1,6 +1,6 @@
 ---
-name: writing-python-code
-description: Write and review Python code in Tenzir projects. Use when editing .py files, running ruff/mypy/pytest, setting up pyproject.toml, or asking about Python style, type hints, or project structure.
+name: python-conventions
+description: Tenzir Python coding standards and tooling setup. Use when working in a Python repository or encountering pyproject.toml/uv.lock/ruff.toml/.py files.
 ---
 
 # Python Coding Conventions
