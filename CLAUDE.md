@@ -44,9 +44,12 @@ When modifying an existing plugin, follow these steps:
 
 2. **Bump the version** in `plugins/<plugin-name>/.claude-plugin/plugin.json`
    according to SemVer:
-   - Patch (0.1.0 → 0.1.1): Bug fixes, minor improvements
-   - Minor (0.1.0 → 0.2.0): New features, backward-compatible changes
-   - Major (0.1.0 → 1.0.0): Breaking changes
+   - **Patch** (0.1.0 → 0.1.1): Bug fixes, typo corrections, minor wording
+     improvements
+   - **Minor** (0.1.0 → 0.2.0): New features (e.g., new skill, new slash
+     command, new hook), backward-compatible enhancements
+   - **Major** (0.1.0 → 1.0.0): Breaking changes (e.g., renamed skill,
+     changed hook behavior, removed functionality)
 
 3. **Create a changelog entry** summarizing user-facing changes.
 
