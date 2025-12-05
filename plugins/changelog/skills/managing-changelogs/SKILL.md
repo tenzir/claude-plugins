@@ -89,10 +89,10 @@ changelog/
 uvx tenzir-changelog add \
   --title "Add feature X" \
   --type feature \
-  --description "The body explains what changed and why it matters."
+  --description-file /path/to/description.md
 ```
 
-Always pass `--description` to skip the interactive editor. Add `--component`, `--author`, and `--pr` as needed.
+Always pass `--description-file` to skip the interactive editor and avoid shell escaping issues. Add `--component`, `--author`, and `--pr` as needed.
 
 ### Show Entries
 
