@@ -38,7 +38,8 @@ Create a new directory at the repository root. Then update
 
 The `.claude-plugin/marketplace.json` file defines this marketplace. It must
 always reflect the current state of plugin directories. Each entry in the
-`plugins` array should correspond to an actual plugin directory.
+`plugins` array should correspond to an actual plugin directory. Keep the
+plugins sorted alphabetically by name.
 
 ## Plugin README Template
 
