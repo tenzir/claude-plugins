@@ -1,6 +1,6 @@
 ---
 name: writing-commit-messages
-description: Write git commit messages for Tenzir repositories. Use when the user asks to commit changes, running git commit, drafting commit messages, or asking about commit message format, subject lines, or commit best practices.
+description: Write git commit messages for Tenzir repositories. Use when committing changes, running git commit, drafting commit messages, detecting staged changes, or asking about commit format and subject lines.
 ---
 
 # Commit Message Writing

@@ -1,6 +1,6 @@
 ---
 name: python-conventions
-description: Tenzir Python coding standards and tooling setup. Use when working in a Python repository or encountering pyproject.toml/uv.lock/ruff.toml/.py files.
+description: Tenzir Python coding standards and tooling setup. Use when editing .py files, running ruff/mypy/pytest, encountering pyproject.toml/uv.lock, or setting up a new Python project.
 ---
 
 # Python Coding Conventions
@@ -32,8 +32,8 @@ The chain fails fast on the first error.
 
 ## Python Version
 
-Target the latest stable Python (currently 3.12+). Do not write backwards-compatible
-code for older versions—use modern syntax and stdlib features freely.
+Target Python 3.12+. Use modern syntax and stdlib features freely—no
+backwards-compatibility with older versions.
 
 ## Coding Style
 

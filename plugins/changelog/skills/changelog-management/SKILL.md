@@ -1,6 +1,6 @@
 ---
 name: changelog-management
-description: Tenzir changelog management with tenzir-changelog. Use when asking about changelogs/release notes or encountering a changelog/ directory.
+description: Tenzir changelog management with tenzir-changelog. Use when creating changelog entries, preparing releases, completing features/bugfixes, encountering changelog/ directories, or asking about release notes.
 ---
 
 # Changelog and Release Notes Management
@@ -47,7 +47,7 @@ authors:
 prs:
   - 123
 component: optional-component-label
-created: 2024-01-15T10:30:00Z
+created: 2025-01-15T10:30:00Z
 ---
 
 Optional extended description with more details about the change.
