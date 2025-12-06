@@ -94,13 +94,14 @@ git add -A && git commit -m "Release vX.Y.Z"
 
 ### 7. Publish the release
 
-First, dry-run to verify the steps look correct:
+Preview the release notes that will be published:
 
 ```sh
-uvx tenzir-changelog release publish vX.Y.Z --tag
+uvx tenzir-changelog release notes vX.Y.Z
 ```
 
-If the output looks reasonable, confirm and run with `--yes`:
+If the output looks correct, publish the release (this creates the git tag,
+pushes it, and creates the GitHub release):
 
 ```sh
 uvx tenzir-changelog release publish vX.Y.Z --tag --yes
