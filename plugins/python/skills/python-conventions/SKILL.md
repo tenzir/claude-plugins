@@ -83,3 +83,4 @@ that tool's configuration:
 - [pytest.md](./pytest.md) — Pytest runner config
 - [coverage.md](./coverage.md) — Coverage reporting config
 - [dev-dependencies.md](./dev-dependencies.md) — Dev dependency group
+- [upgrading-dependencies.md](./upgrading-dependencies.md) — Upgrading and committing dependency changes
