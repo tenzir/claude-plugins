@@ -2,14 +2,17 @@
 
 Standard dev dependencies for Tenzir Python projects.
 
+> **Note**: The versions below are examples. Always use the latest available
+> versions from PyPI rather than copying these verbatim.
+
 ```toml
 [dependency-groups]
 dev = [
-  "pytest>=8.3.0",
-  "pytest-cov>=5.0.0",
-  "mypy>=1.11.0",
-  "ruff>=0.7.0",
-  "coverage[toml]>=7.6.0",
+  "pytest>=9.0",
+  "pytest-cov>=7.0",
+  "mypy>=1.19",
+  "ruff>=0.14",
+  "coverage[toml]>=7.12",
 ]
 ```
 
