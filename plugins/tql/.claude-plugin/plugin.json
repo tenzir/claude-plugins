@@ -1,0 +1,19 @@
+{
+  "name": "tql",
+  "version": "0.1.0",
+  "description": "Build TQL pipelines with the Tenzir MCP server",
+  "author": {
+    "name": "Tenzir",
+    "email": "engineering@tenzir.com",
+    "url": "https://github.com/tenzir"
+  },
+  "homepage": "https://github.com/tenzir/claude-plugins",
+  "repository": "https://github.com/tenzir/claude-plugins",
+  "license": "Apache-2.0",
+  "mcpServers": {
+    "tenzir": {
+      "command": "uvx",
+      "args": ["tenzir-mcp"]
+    }
+  }
+}

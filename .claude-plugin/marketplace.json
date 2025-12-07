@@ -38,6 +38,11 @@
       "name": "python",
       "description": "Python coding conventions for Tenzir projects",
       "source": "./plugins/python"
+    },
+    {
+      "name": "tql",
+      "description": "Build TQL pipelines with the Tenzir MCP server",
+      "source": "./plugins/tql"
     }
   ]
 }

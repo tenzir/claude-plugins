@@ -163,6 +163,36 @@ if [ "$manifest_plugins_ordered" != "$manifest_plugins_sorted" ]; then
 fi
 
 # =============================================================================
+# Validate changelog components
+# =============================================================================
+
+info "checking changelog components..."
+
+CHANGELOG_CONFIG="$REPO_ROOT/changelog/config.yaml"
+if [ -f "$CHANGELOG_CONFIG" ]; then
+  # Extract components from YAML (lines after "components:" until next non-indented line)
+  changelog_components=$(awk '/^components:/{found=1; next} found && /^[^ ]/{exit} found && /^  - /{gsub(/^  - /, ""); print}' "$CHANGELOG_CONFIG" | sort)
+
+  # Check that each plugin is listed as a component
+  while IFS= read -r plugin; do
+    [ -z "$plugin" ] && continue
+    if ! echo "$changelog_components" | grep -qx "$plugin"; then
+      error "plugin '$plugin' is not listed as a component in changelog/config.yaml"
+    fi
+  done < <(echo "$manifest_plugins")
+
+  # Check for components that don't correspond to plugins
+  while IFS= read -r component; do
+    [ -z "$component" ] && continue
+    if ! echo "$manifest_plugins" | grep -qx "$component"; then
+      warn "changelog component '$component' does not correspond to any plugin"
+    fi
+  done < <(echo "$changelog_components")
+else
+  warn "changelog/config.yaml not found, skipping component validation"
+fi
+
+# =============================================================================
 # Validate source paths in marketplace.json
 # =============================================================================
 

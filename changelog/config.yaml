@@ -7,3 +7,4 @@ components:
   - git
   - meta
   - python
+  - tql
