@@ -7,22 +7,15 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   validate:
-    name: Validate Plugins
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install jq
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y jq
-
       - name: Run validation
-        run: |
-          chmod +x scripts/validate-plugins.sh
-          ./scripts/validate-plugins.sh
+        run: ./scripts/validate-plugins.sh
