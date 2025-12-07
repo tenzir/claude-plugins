@@ -134,20 +134,20 @@ manifest_plugins=$(jq -r '.plugins[].name' "$MARKETPLACE_JSON" | sort)
 actual_plugins=$(find "$PLUGINS_DIR" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | sort)
 
 # Check for plugins in manifest but not in directory.
-echo "$manifest_plugins" | while IFS= read -r plugin; do
+while IFS= read -r plugin; do
   [ -z "$plugin" ] && continue
   if [ ! -d "$PLUGINS_DIR/$plugin" ]; then
     error "plugin '$plugin' listed in marketplace.json but directory doesn't exist"
   fi
-done
+done < <(echo "$manifest_plugins")
 
 # Check for plugin directories not in manifest.
-echo "$actual_plugins" | while IFS= read -r plugin; do
+while IFS= read -r plugin; do
   [ -z "$plugin" ] && continue
   if ! echo "$manifest_plugins" | grep -qx "$plugin"; then
     error "plugin directory '$plugin' exists but is not listed in marketplace.json"
   fi
-done
+done < <(echo "$actual_plugins")
 
 # =============================================================================
 # Validate alphabetical ordering in marketplace.json
@@ -168,7 +168,7 @@ fi
 
 info "checking source paths..."
 
-jq -c '.plugins[]' "$MARKETPLACE_JSON" | while IFS= read -r line; do
+while IFS= read -r line; do
   name=$(echo "$line" | jq -r '.name')
   source=$(echo "$line" | jq -r '.source')
   expected_source="./plugins/$name"
@@ -176,7 +176,7 @@ jq -c '.plugins[]' "$MARKETPLACE_JSON" | while IFS= read -r line; do
   if [ "$source" != "$expected_source" ]; then
     error "marketplace.json: plugin '$name' has source '$source', expected '$expected_source'"
   fi
-done
+done < <(jq -c '.plugins[]' "$MARKETPLACE_JSON")
 
 # =============================================================================
 # Validate each plugin
@@ -276,7 +276,7 @@ for plugin_dir in "$PLUGINS_DIR"/*/; do
     validate_json "$hooks_json"
 
     # Check that referenced scripts exist.
-    jq -r '.. | objects | select(.type == "command") | .command' "$hooks_json" 2>/dev/null | while IFS= read -r command; do
+    while IFS= read -r command; do
       [ -z "$command" ] && continue
       # Replace $CLAUDE_PLUGIN_ROOT with actual plugin directory.
       resolved_command=$(echo "$command" | sed "s|\\\$CLAUDE_PLUGIN_ROOT|$plugin_dir|g" | sed "s|\\\${CLAUDE_PLUGIN_ROOT}|$plugin_dir|g")
@@ -289,7 +289,7 @@ for plugin_dir in "$PLUGINS_DIR"/*/; do
       elif [ ! -x "$script_path" ]; then
         error "$plugin_name/hooks: script is not executable: $command"
       fi
-    done
+    done < <(jq -r '.. | objects | select(.type == "command") | .command' "$hooks_json" 2>/dev/null)
   fi
 done
 
