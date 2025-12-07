@@ -5,4 +5,5 @@ components:
   - changelog
   - formatter
   - git
+  - meta
   - python

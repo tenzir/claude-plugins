@@ -62,8 +62,9 @@ plugins sorted alphabetically by name.
 
 ## Skills
 
-**Always use the `managing-plugins` skill when creating or modifying plugins.**
+**Always load the `managing-plugins` skill when working in the `plugins/`
+directory.** This includes creating, modifying, reviewing, or debugging any
+plugin.
 
-This skill (from the `meta` plugin) contains essential guidance on plugin
-structure, README templates, skill conventions, and marketplace registration.
-It is auto-enabled for this repository.
+This skill contains essential guidance on plugin structure, README templates,
+skill conventions, and marketplace registration.
