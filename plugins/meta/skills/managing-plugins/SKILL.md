@@ -1,12 +1,11 @@
 ---
-name: writing-plugins
-description: Write Claude Code plugins for the tenzir marketplace. Use when creating plugins, editing plugin.json, writing plugin READMEs, or working in the plugins/ directory.
+name: managing-plugins
+description: Create and maintain Claude Code plugins. Use when working in the plugins/ directory, writing SKILL.md, editing plugin.json or hooks.json, updating marketplace.json, creating slash commands, or asking about plugin structure and best practices.
 ---
 
-# Writing Plugins
+# Managing Plugins
 
-This skill provides guidance for creating and maintaining Claude Code plugins
-in the tenzir marketplace.
+This skill provides guidance for creating and maintaining Claude Code plugins.
 
 ## Plugin Structure
 

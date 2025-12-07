@@ -62,7 +62,7 @@ plugins sorted alphabetically by name.
 
 ## Skills
 
-**Always use the `writing-plugins` skill when creating or modifying plugins.**
+**Always use the `managing-plugins` skill when creating or modifying plugins.**
 
 This skill (from the `meta` plugin) contains essential guidance on plugin
 structure, README templates, skill conventions, and marketplace registration.
