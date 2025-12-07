@@ -2,8 +2,12 @@
 title: Improve skill descriptions for better discoverability
 type: change
 authors:
-- mavam
-- claude
+  - mavam
+  - claude
+components:
+  - changelog
+  - git
+  - python
 created: 2025-12-06T01:02:17.842233Z
 ---
 
