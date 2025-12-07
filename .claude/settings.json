@@ -10,6 +10,7 @@
   "enabledPlugins": {
     "changelog@tenzir": true,
     "formatter@tenzir": true,
-    "git@tenzir": true
+    "git@tenzir": true,
+    "meta@tenzir": true
   }
 }

@@ -30,6 +30,11 @@
       "source": "./plugins/git"
     },
     {
+      "name": "meta",
+      "description": "Skills for managing the tenzir plugin marketplace",
+      "source": "./plugins/meta"
+    },
+    {
       "name": "python",
       "description": "Python coding conventions for Tenzir projects",
       "source": "./plugins/python"

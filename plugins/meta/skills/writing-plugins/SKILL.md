@@ -1,0 +1,127 @@
+---
+name: writing-plugins
+description: Write Claude Code plugins for the tenzir marketplace. Use when creating plugins, editing plugin.json, writing plugin READMEs, or working in the plugins/ directory.
+---
+
+# Writing Plugins
+
+This skill provides guidance for creating and maintaining Claude Code plugins
+in the tenzir marketplace.
+
+## Plugin Structure
+
+Every plugin lives in `plugins/<plugin-name>/` with this structure:
+
+```
+plugins/<plugin-name>/
+├── .claude-plugin/
+│   └── plugin.json    # Plugin metadata and configuration
+├── README.md          # User-facing documentation (required)
+├── skills/            # Agent skills (optional)
+│   └── <skill-name>/
+│       └── SKILL.md
+├── commands/          # Slash commands (optional)
+│   └── <command>.md
+└── hooks/             # Event hooks (optional)
+    ├── hooks.json
+    └── *.sh
+```
+
+## Plugin Metadata
+
+The `plugin.json` file defines the plugin:
+
+```json
+{
+  "name": "plugin-name",
+  "version": "0.1.0",
+  "description": "Brief description of what this plugin does",
+  "author": {
+    "name": "Tenzir",
+    "email": "engineering@tenzir.com",
+    "url": "https://github.com/tenzir"
+  },
+  "homepage": "https://github.com/tenzir/claude-plugins",
+  "repository": "https://github.com/tenzir/claude-plugins",
+  "license": "Apache-2.0"
+}
+```
+
+For MCP servers, add:
+
+```json
+{
+  "mcpServers": {
+    "server-name": {
+      "command": "uvx",
+      "args": ["package-name"]
+    }
+  }
+}
+```
+
+## README Template
+
+Every plugin **must** have a `README.md`. See
+[readme-template.md](./readme-template.md) for the exact
+structure.
+
+## Marketplace Registration
+
+After creating a plugin, register it in `.claude-plugin/marketplace.json`:
+
+```json
+{
+  "name": "plugin-name",
+  "description": "What this plugin does",
+  "source": "./plugins/plugin-name"
+}
+```
+
+Keep plugins sorted alphabetically by name.
+
+## Versioning
+
+Follow SemVer when updating plugins:
+
+- **Patch** (0.1.0 → 0.1.1): Bug fixes, typo corrections
+- **Minor** (0.1.0 → 0.2.0): New features, backward-compatible enhancements
+- **Major** (0.1.0 → 1.0.0): Breaking changes
+
+## Skills
+
+Before creating or modifying a skill, read the [skill best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices.md).
+
+### Naming
+
+Use gerund form (verb + -ing) with lowercase letters, numbers, and hyphens:
+
+- `writing-commit-messages` (not `commit-message-writing`)
+- `managing-changelogs` (not `changelog`)
+
+### Structure
+
+- Keep `SKILL.md` under 500 lines
+- Link to reference files for details, but keep references one level deep
+- Every paragraph must justify its token cost
+
+### Descriptions
+
+Descriptions must be specific to enable discovery. Use the "Use when" pattern:
+
+```yaml
+description: <What the skill does>. Use when <trigger1>, <trigger2>, or <trigger3>.
+```
+
+Good triggers include:
+
+- File types: `.py` files, `pyproject.toml`, `changelog/unreleased/`
+- Commands: `git commit`, `uvx tenzir-changelog`, `ruff check`
+- Actions: editing, reviewing, setting up, running
+- Topics: type hints, commit format, release notes
+
+Example:
+
+```yaml
+description: Write and review Python code. Use when editing .py files, running ruff/mypy/pytest, or asking about type hints.
+```
