@@ -63,39 +63,35 @@ Consistent spacing scale for padding and margin throughout the design system.
 
 ## CSS Custom Properties
 
+Use the `--tnz-` prefix for all custom properties:
+
 ```css
 :root {
   /* Spacing scale */
-  --spacing-0: 0px;
-  --spacing-0-5: 0.125rem; /* 2px */
-  --spacing-1: 0.25rem; /* 4px */
-  --spacing-1-5: 0.375rem; /* 6px */
-  --spacing-2: 0.5rem; /* 8px */
-  --spacing-3: 0.75rem; /* 12px */
-  --spacing-4: 1rem; /* 16px */
-  --spacing-5: 1.25rem; /* 20px */
-  --spacing-6: 1.5rem; /* 24px */
-  --spacing-7: 1.75rem; /* 28px */
-  --spacing-8: 2rem; /* 32px */
-  --spacing-10: 2.5rem; /* 40px */
-  --spacing-16: 4rem; /* 64px */
-  --spacing-20: 5rem; /* 80px */
+  --tnz-space-0: 0;
+  --tnz-space-0-5: 0.125rem; /* 2px */
+  --tnz-space-1: 0.25rem; /* 4px */
+  --tnz-space-1-5: 0.375rem; /* 6px */
+  --tnz-space-2: 0.5rem; /* 8px */
+  --tnz-space-3: 0.75rem; /* 12px */
+  --tnz-space-4: 1rem; /* 16px */
+  --tnz-space-5: 1.25rem; /* 20px */
+  --tnz-space-6: 1.5rem; /* 24px */
+  --tnz-space-7: 1.75rem; /* 28px */
+  --tnz-space-8: 2rem; /* 32px */
+  --tnz-space-10: 2.5rem; /* 40px */
+  --tnz-space-16: 4rem; /* 64px */
+  --tnz-space-20: 5rem; /* 80px */
+}
+```
 
-  /* Shorthand aliases */
-  --p-0: var(--spacing-0);
-  --p-0-5: var(--spacing-0-5);
-  --p-1: var(--spacing-1);
-  --p-1-5: var(--spacing-1-5);
-  --p-2: var(--spacing-2);
-  --p-3: var(--spacing-3);
-  --p-4: var(--spacing-4);
-  --p-5: var(--spacing-5);
-  --p-6: var(--spacing-6);
-  --p-7: var(--spacing-7);
-  --p-8: var(--spacing-8);
-  --p-10: var(--spacing-10);
-  --p-16: var(--spacing-16);
-  --p-20: var(--spacing-20);
+**Usage example:**
+
+```css
+.container {
+  padding: var(--tnz-space-4); /* 16px */
+  gap: var(--tnz-space-2); /* 8px */
+  margin-bottom: var(--tnz-space-6); /* 24px */
 }
 ```
 

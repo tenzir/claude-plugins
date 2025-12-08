@@ -78,12 +78,30 @@ box-shadow:
 
 ## CSS Custom Properties
 
+Use the `--tnz-` prefix for all custom properties:
+
 ```css
 :root {
-  --shadow-l: 0px 20px 40px -16px #0e101733, 0px 8px 16px -8px #0e101733;
-  --shadow-m: 0px 10px 20px -8px #0e101733, 0px 4px 8px -6px #0e101733;
-  --shadow-s: 0px 8px 16px -8px #0e101733, 0px 3px 6px -3px #0e101733;
-  --shadow-xs: 0px 8px 16px -8px #0e10171a, 0px 3px 6px -3px #0e10171a;
+  --tnz-shadow-l: 0px 20px 40px -16px #0e101733, 0px 8px 16px -8px #0e101733;
+  --tnz-shadow-m: 0px 10px 20px -8px #0e101733, 0px 4px 8px -6px #0e101733;
+  --tnz-shadow-s: 0px 8px 16px -8px #0e101733, 0px 3px 6px -3px #0e101733;
+  --tnz-shadow-xs: 0px 8px 16px -8px #0e10171a, 0px 3px 6px -3px #0e10171a;
+}
+```
+
+**Usage example:**
+
+```css
+.card {
+  box-shadow: var(--tnz-shadow-xs);
+}
+
+.card:hover {
+  box-shadow: var(--tnz-shadow-s);
+}
+
+.modal {
+  box-shadow: var(--tnz-shadow-l);
 }
 ```
 

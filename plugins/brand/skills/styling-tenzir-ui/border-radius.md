@@ -10,10 +10,19 @@ Standard corner radius token for the design system.
 
 ## CSS Custom Properties
 
+Use the `--tnz-` prefix for all custom properties:
+
 ```css
 :root {
-  --radius: 5px;
-  --border-radius: 5px;
+  --tnz-radius: 5px;
+}
+```
+
+**Usage example:**
+
+```css
+.button {
+  border-radius: var(--tnz-radius);
 }
 ```
 
@@ -40,16 +49,8 @@ All rectangular components use the same 5px border radius:
 | Radio button             | 50%     | Circular by design                |
 | Toggle switch            | 35px    | Pill shape by design              |
 
-## CSS Implementation
-
-```css
-.component {
-  border-radius: var(--radius);
-}
-```
-
 ## Usage Guidelines
 
 1. **Consistency** - Use 5px for standard rectangular components
 2. **Exceptions exist** - See the exceptions table above for components that use different values
-3. **Use the token** - Reference `var(--radius)` instead of hardcoding `5px`
+3. **Use the token** - Reference `var(--tnz-radius)` instead of hardcoding `5px`

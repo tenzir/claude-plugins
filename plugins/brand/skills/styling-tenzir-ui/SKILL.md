@@ -103,6 +103,74 @@ When implementing frontend components, always reference the appropriate section:
 
 - **Toast** - 48px min-height, shadow-s, optional icon/subtitle/button/progress bar
 
+## CSS Custom Properties Naming Convention
+
+When implementing the design system in CSS, use the `--tnz-` prefix for all custom properties:
+
+```css
+:root {
+  /* Typography */
+  --tnz-font-sans: "Inter Variable", "Inter", system-ui, sans-serif;
+  --tnz-font-mono: "JetBrains Mono Variable", "JetBrains Mono", monospace;
+
+  /* Font Sizes */
+  --tnz-text-xxs: 0.625rem; /* 10px */
+  --tnz-text-xs: 0.75rem; /* 12px */
+  --tnz-text-sm: 0.875rem; /* 14px */
+  --tnz-text-base: 1rem; /* 16px */
+  --tnz-text-lg: 1.125rem; /* 18px */
+  --tnz-text-xl: 1.25rem; /* 20px */
+  --tnz-text-2xl: 1.5rem; /* 24px */
+  --tnz-text-3xl: 1.875rem; /* 30px */
+  --tnz-text-4xl: 2.25rem; /* 36px */
+  --tnz-text-5xl: 3rem; /* 48px */
+
+  /* Border Radius - 5px is the standard */
+  --tnz-radius: 5px;
+
+  /* Spacing Scale (base unit: 4px) */
+  --tnz-space-0: 0;
+  --tnz-space-0-5: 0.125rem; /* 2px */
+  --tnz-space-1: 0.25rem; /* 4px */
+  --tnz-space-1-5: 0.375rem; /* 6px */
+  --tnz-space-2: 0.5rem; /* 8px */
+  --tnz-space-3: 0.75rem; /* 12px */
+  --tnz-space-4: 1rem; /* 16px */
+  --tnz-space-5: 1.25rem; /* 20px */
+  --tnz-space-6: 1.5rem; /* 24px */
+  --tnz-space-7: 1.75rem; /* 28px */
+  --tnz-space-8: 2rem; /* 32px */
+  --tnz-space-10: 2.5rem; /* 40px */
+  --tnz-space-16: 4rem; /* 64px */
+  --tnz-space-20: 5rem; /* 80px */
+
+  /* Shadows */
+  --tnz-shadow-xs: 0px 8px 16px -8px #0e10171a, 0px 3px 6px -3px #0e10171a;
+  --tnz-shadow-s: 0px 8px 16px -8px #0e101733, 0px 3px 6px -3px #0e101733;
+  --tnz-shadow-m: 0px 10px 20px -8px #0e101733, 0px 4px 8px -6px #0e101733;
+  --tnz-shadow-l: 0px 20px 40px -16px #0e101733, 0px 8px 16px -8px #0e101733;
+
+  /* Transitions */
+  --tnz-transition-fast: 0.15s ease;
+  --tnz-transition-base: 0.2s ease;
+  --tnz-transition-slow: 0.3s ease;
+
+  /* Colors - see colors.md for full palette */
+  /* Primary Blue */
+  --tnz-primary-500: #0a54ff;
+  --tnz-primary-600: #0043e0;
+  /* ... etc */
+
+  /* Neutrals */
+  --tnz-neutral-50: #fdfdfe;
+  --tnz-neutral-100: #f7f8fa;
+  --tnz-neutral-200: #f0f1f5;
+  /* ... etc */
+}
+```
+
+**Important:** Always use design tokens via CSS custom properties. Never hardcode values like `font-family: 'Inter'` or `border-radius: 5px` - use `var(--tnz-font-sans)` and `var(--tnz-radius)` instead.
+
 ## When to Load References
 
 Load the specific reference file when you need detailed specifications:

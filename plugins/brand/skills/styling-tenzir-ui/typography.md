@@ -78,40 +78,60 @@ JetBrains Mono is used for code or where a monospace font is required.
 
 ## CSS Custom Properties
 
+Use the `--tnz-` prefix for all custom properties. Include Variable font variants with static fallbacks:
+
 ```css
 :root {
-  /* Font families */
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
+  /* Font families - use Variable fonts with static fallbacks */
+  --tnz-font-sans: "Inter Variable", "Inter", system-ui, sans-serif;
+  --tnz-font-mono: "JetBrains Mono Variable", "JetBrains Mono", monospace;
 
   /* Font sizes */
-  --text-xxs: 0.625rem;
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
-  --text-base: 1rem;
-  --text-lg: 1.125rem;
-  --text-xl: 1.25rem;
-  --text-2xl: 1.5rem;
-  --text-3xl: 1.875rem;
-  --text-4xl: 2.25rem;
-  --text-5xl: 3rem;
+  --tnz-text-xxs: 0.625rem; /* 10px */
+  --tnz-text-xs: 0.75rem; /* 12px */
+  --tnz-text-sm: 0.875rem; /* 14px */
+  --tnz-text-base: 1rem; /* 16px */
+  --tnz-text-lg: 1.125rem; /* 18px */
+  --tnz-text-xl: 1.25rem; /* 20px */
+  --tnz-text-2xl: 1.5rem; /* 24px */
+  --tnz-text-3xl: 1.875rem; /* 30px */
+  --tnz-text-4xl: 2.25rem; /* 36px */
+  --tnz-text-5xl: 3rem; /* 48px */
 
   /* Line heights */
-  --leading-xxs: 0.875rem;
-  --leading-xs: 1.125rem;
-  --leading-sm: 1.25rem;
-  --leading-base: 1.5rem;
-  --leading-lg: 1.75rem;
-  --leading-xl: 1.75rem;
-  --leading-2xl: 2rem;
-  --leading-3xl: 2.25rem;
-  --leading-4xl: 2.5rem;
-  --leading-5xl: 3.5rem;
+  --tnz-leading-xxs: 0.875rem; /* 14px */
+  --tnz-leading-xs: 1.125rem; /* 18px */
+  --tnz-leading-sm: 1.25rem; /* 20px */
+  --tnz-leading-base: 1.5rem; /* 24px */
+  --tnz-leading-lg: 1.75rem; /* 28px */
+  --tnz-leading-xl: 1.75rem; /* 28px */
+  --tnz-leading-2xl: 2rem; /* 32px */
+  --tnz-leading-3xl: 2.25rem; /* 36px */
+  --tnz-leading-4xl: 2.5rem; /* 40px */
+  --tnz-leading-5xl: 3.5rem; /* 56px */
 
   /* Font weights */
-  --font-regular: 400;
-  --font-medium: 500;
-  --font-semibold: 600;
+  --tnz-font-regular: 400;
+  --tnz-font-medium: 500;
+  --tnz-font-semibold: 600;
+}
+```
+
+**Usage example:**
+
+```css
+.heading {
+  font-family: var(--tnz-font-sans);
+  font-size: var(--tnz-text-2xl);
+  line-height: var(--tnz-leading-2xl);
+  font-weight: var(--tnz-font-semibold);
+  letter-spacing: -0.005em;
+}
+
+.code-block {
+  font-family: var(--tnz-font-mono);
+  font-size: var(--tnz-text-sm);
+  line-height: var(--tnz-leading-sm);
 }
 ```
 

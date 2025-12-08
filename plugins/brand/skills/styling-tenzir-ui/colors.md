@@ -220,111 +220,114 @@ Use these colors in sequence for multi-series charts:
 
 ## CSS Custom Properties
 
+Use the `--tnz-` prefix for all custom properties:
+
 ```css
 :root {
   /* Neutrals */
-  --neutral-800: #0e1017;
-  --neutral-700: #262e40;
-  --neutral-600: #414b62;
-  --neutral-500: #68738d;
-  --neutral-400: #959db1;
-  --neutral-300: #ced3de;
-  --neutral-250: #e3e6ed;
-  --neutral-200: #f0f1f5;
-  --neutral-100: #f7f8fa;
-  --neutral-50: #fdfdfe;
+  --tnz-neutral-800: #0e1017;
+  --tnz-neutral-700: #262e40;
+  --tnz-neutral-600: #414b62;
+  --tnz-neutral-500: #68738d;
+  --tnz-neutral-400: #959db1;
+  --tnz-neutral-300: #ced3de;
+  --tnz-neutral-250: #e3e6ed;
+  --tnz-neutral-200: #f0f1f5;
+  --tnz-neutral-100: #f7f8fa;
+  --tnz-neutral-50: #fdfdfe;
 
-  /* Blue */
-  --blue-600: #0043e0;
-  --blue-500: #0a54ff;
-  --blue-400: #477eff;
-  --blue-300: #adc6ff;
-  --blue-200: #e0eaff;
-  --blue-100: #f0f4ff;
-  --blue-50: #f8f9fc;
+  /* Blue (Primary) */
+  --tnz-blue-600: #0043e0;
+  --tnz-blue-500: #0a54ff;
+  --tnz-blue-400: #477eff;
+  --tnz-blue-300: #adc6ff;
+  --tnz-blue-200: #e0eaff;
+  --tnz-blue-100: #f0f4ff;
+  --tnz-blue-50: #f8f9fc;
 
-  /* Green */
-  --green-600: #1ab252;
-  --green-500: #29e06c;
-  --green-400: #5ee891;
-  --green-300: #b8f5ce;
-  --green-200: #e4fbec;
-  --green-100: #f2fdf6;
+  /* Green (Secondary) */
+  --tnz-green-600: #1ab252;
+  --tnz-green-500: #29e06c;
+  --tnz-green-400: #5ee891;
+  --tnz-green-300: #b8f5ce;
+  --tnz-green-200: #e4fbec;
+  --tnz-green-100: #f2fdf6;
 
   /* Primary aliases (maps to blue) */
-  --primary-600: var(--blue-600);
-  --primary-500: var(--blue-500);
-  --primary-400: var(--blue-400);
-  --primary-300: var(--blue-300);
-  --primary-200: var(--blue-200);
-  --primary-100: var(--blue-100);
+  --tnz-primary-600: var(--tnz-blue-600);
+  --tnz-primary-500: var(--tnz-blue-500);
+  --tnz-primary-400: var(--tnz-blue-400);
+  --tnz-primary-300: var(--tnz-blue-300);
+  --tnz-primary-200: var(--tnz-blue-200);
+  --tnz-primary-100: var(--tnz-blue-100);
+  --tnz-primary-50: var(--tnz-blue-50);
 
   /* Secondary aliases (maps to green) */
-  --secondary-600: var(--green-600);
-  --secondary-500: var(--green-500);
-  --secondary-400: var(--green-400);
-  --secondary-300: var(--green-300);
-  --secondary-200: var(--green-200);
-  --secondary-100: var(--green-100);
+  --tnz-secondary-600: var(--tnz-green-600);
+  --tnz-secondary-500: var(--tnz-green-500);
+  --tnz-secondary-400: var(--tnz-green-400);
+  --tnz-secondary-300: var(--tnz-green-300);
+  --tnz-secondary-200: var(--tnz-green-200);
+  --tnz-secondary-100: var(--tnz-green-100);
 
   /* Lightblue */
-  --lightblue-600: #0096e0;
-  --lightblue-500: #0aadff;
-  --lightblue-400: #47c2ff;
-  --lightblue-300: #ade4ff;
-  --lightblue-200: #e0f5ff;
-  --lightblue-100: #f0faff;
+  --tnz-lightblue-600: #0096e0;
+  --tnz-lightblue-500: #0aadff;
+  --tnz-lightblue-400: #47c2ff;
+  --tnz-lightblue-300: #ade4ff;
+  --tnz-lightblue-200: #e0f5ff;
+  --tnz-lightblue-100: #f0faff;
 
   /* Purple */
-  --purple-600: #b400e0;
-  --purple-500: #cf0aff;
-  --purple-400: #db47ff;
-  --purple-300: #efadff;
-  --purple-200: #f9e0ff;
-  --purple-100: #fcf0ff;
+  --tnz-purple-600: #b400e0;
+  --tnz-purple-500: #cf0aff;
+  --tnz-purple-400: #db47ff;
+  --tnz-purple-300: #efadff;
+  --tnz-purple-200: #f9e0ff;
+  --tnz-purple-100: #fcf0ff;
 
   /* Pink */
-  --pink-600: #e0008e;
-  --pink-500: #ff0aa5;
-  --pink-400: #ff47bc;
-  --pink-300: #ffade1;
-  --pink-200: #ffe0f4;
-  --pink-100: #fff0f9;
+  --tnz-pink-600: #e0008e;
+  --tnz-pink-500: #ff0aa5;
+  --tnz-pink-400: #ff47bc;
+  --tnz-pink-300: #ffade1;
+  --tnz-pink-200: #ffe0f4;
+  --tnz-pink-100: #fff0f9;
 
   /* Orange */
-  --orange-600: #e04b00;
-  --orange-500: #ff5c0a;
-  --orange-400: #ff8547;
-  --orange-300: #ffc9ad;
-  --orange-200: #ffebe0;
-  --orange-100: #fff5f0;
+  --tnz-orange-600: #e04b00;
+  --tnz-orange-500: #ff5c0a;
+  --tnz-orange-400: #ff8547;
+  --tnz-orange-300: #ffc9ad;
+  --tnz-orange-200: #ffebe0;
+  --tnz-orange-100: #fff5f0;
 
   /* Yellow */
-  --yellow-600: #d09611;
-  --yellow-500: #edae1d;
-  --yellow-400: #f1c255;
-  --yellow-300: #f9e4b4;
-  --yellow-200: #fef6e1;
-  --yellow-100: #fff9f0;
+  --tnz-yellow-600: #d09611;
+  --tnz-yellow-500: #edae1d;
+  --tnz-yellow-400: #f1c255;
+  --tnz-yellow-300: #f9e4b4;
+  --tnz-yellow-200: #fef6e1;
+  --tnz-yellow-100: #fff9f0;
 
   /* Red */
-  --red-600: #e00025;
-  --red-500: #ff0a33;
-  --red-400: #ff4766;
-  --red-300: #ffadbb;
-  --red-200: #ffe0e5;
-  --red-100: #fff0f2;
+  --tnz-red-600: #e00025;
+  --tnz-red-500: #ff0a33;
+  --tnz-red-400: #ff4766;
+  --tnz-red-300: #ffadbb;
+  --tnz-red-200: #ffe0e5;
+  --tnz-red-100: #fff0f2;
 
   /* Semantic aliases */
-  --color-primary: var(--blue-500);
-  --color-success: var(--green-600);
-  --color-warning: var(--yellow-600);
-  --color-error: var(--red-500);
-  --color-text: var(--neutral-800);
-  --color-text-secondary: var(--neutral-600);
-  --color-text-tertiary: var(--neutral-500);
-  --color-background: var(--neutral-100);
-  --color-surface: var(--neutral-50);
-  --color-border: var(--neutral-200);
+  --tnz-color-primary: var(--tnz-blue-500);
+  --tnz-color-success: var(--tnz-green-600);
+  --tnz-color-warning: var(--tnz-yellow-600);
+  --tnz-color-error: var(--tnz-red-500);
+  --tnz-color-text: var(--tnz-neutral-800);
+  --tnz-color-text-secondary: var(--tnz-neutral-600);
+  --tnz-color-text-tertiary: var(--tnz-neutral-500);
+  --tnz-color-background: var(--tnz-neutral-100);
+  --tnz-color-surface: var(--tnz-neutral-50);
+  --tnz-color-border: var(--tnz-neutral-200);
 }
 ```
