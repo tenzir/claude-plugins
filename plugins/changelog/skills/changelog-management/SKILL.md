@@ -1,6 +1,6 @@
 ---
 name: changelog-management
-description: Tenzir changelog management with tenzir-changelog. Use when creating changelog entries, preparing releases, completing features/bugfixes, encountering changelog/ directories, or asking about release notes.
+description: Create and manage changelog entries. Use when adding changelog entries, finishing features or bugfixes, documenting changes, writing release notes, working in changelog/ directories, or wrapping up commits and PRs.
 ---
 
 # Changelog and Release Notes Management
