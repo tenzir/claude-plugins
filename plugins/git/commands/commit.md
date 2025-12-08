@@ -35,6 +35,9 @@ Identify any project-specific commit requirements, such as:
 - Version bumps
 - Validation steps
 
+If the project maintains a changelog, load the `changelog:changelog-management`
+skill for guidance on creating them.
+
 Fulfill all requirements before committing. Do not skip steps.
 
 ## 4. Stage and commit
