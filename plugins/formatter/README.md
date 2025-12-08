@@ -20,13 +20,13 @@ Keeps your code consistently formatted without manual intervention.
 
 The plugin uses these formatters (install the ones you need):
 
-| File Type                       | Formatter    | Install                           |
-| ------------------------------- | ------------ | --------------------------------- |
-| `.cpp`, `.hpp`                  | clang-format | `brew install clang-format`       |
-| `.cmake`, `CMakeLists.txt`      | cmake-format | `pip install cmake-format`        |
-| `.sh`, `.bash`                  | shfmt        | `brew install shfmt`              |
-| `.md`                           | markdownlint | `npm install -g markdownlint-cli` |
-| `.md`, `.json`, `.yaml`, `.yml` | prettier     | `npm install -g prettier`         |
+| File Type                               | Formatter    | Install                           |
+| --------------------------------------- | ------------ | --------------------------------- |
+| `.cpp`, `.hpp`                          | clang-format | `brew install clang-format`       |
+| `.cmake`, `CMakeLists.txt`              | cmake-format | `pip install cmake-format`        |
+| `.sh`, `.bash`                          | shfmt        | `brew install shfmt`              |
+| `.md`, `.mdx`                           | markdownlint | `npm install -g markdownlint-cli` |
+| `.md`, `.mdx`, `.json`, `.yaml`, `.yml` | prettier     | `npm install -g prettier`         |
 
 ## ⚙️ How it works
 

@@ -43,7 +43,7 @@ if [[ "$FILE_PATH" =~ \.(sh|bash)$ ]]; then
 fi
 
 # Run markdownlint for Markdown files
-if [[ "$FILE_PATH" =~ \.(md)$ ]]; then
+if [[ "$FILE_PATH" =~ \.(md|mdx)$ ]]; then
   if command -v markdownlint &>/dev/null; then
     markdownlint "$FILE_PATH" --fix
   else
@@ -52,7 +52,7 @@ if [[ "$FILE_PATH" =~ \.(md)$ ]]; then
 fi
 
 # Run prettier on supported files
-if [[ "$FILE_PATH" =~ \.(md|json|yaml|yml)$ ]]; then
+if [[ "$FILE_PATH" =~ \.(md|mdx|json|yaml|yml)$ ]]; then
   if command -v prettier &>/dev/null; then
     prettier --write "$FILE_PATH"
   else
