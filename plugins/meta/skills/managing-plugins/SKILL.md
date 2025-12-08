@@ -77,6 +77,10 @@ After creating a plugin, register it in `.claude-plugin/marketplace.json`:
 }
 ```
 
+**Note**: The `description` must be duplicated in both `plugin.json` and
+`marketplace.json`. The marketplace does not read descriptions from
+`plugin.json`—it needs its own copy for plugin discovery.
+
 Keep plugins sorted alphabetically by name.
 
 ## Versioning
