@@ -27,12 +27,14 @@ The first invocation creates a `changelog/` subdirectory with `config.yaml` and 
 
 ## Entry Types
 
-| Type       | Description                               |
-| ---------- | ----------------------------------------- |
-| `breaking` | Breaking changes that require user action |
-| `feature`  | New functionality                         |
-| `bugfix`   | Bug fixes                                 |
-| `change`   | Other changes (refactoring, improvements) |
+| Type       | Use When                                                                    |
+| ---------- | --------------------------------------------------------------------------- |
+| `breaking` | User action required (API changes, removed features, renamed options)       |
+| `feature`  | New capability that didn't exist before                                     |
+| `bugfix`   | Something was broken and is now fixed (crashes, wrong output, regressions)  |
+| `change`   | Modifications to existing functionality (improvements, refactoring, tweaks) |
+
+**Choosing between `bugfix` and `change`:** If something was broken and is now fixed, use `bugfix`. If something worked correctly but is now better (faster, cleaner, more maintainable), use `change`.
 
 ## Entry File Format
 
