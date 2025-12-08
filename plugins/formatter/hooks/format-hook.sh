@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Bail out early if jq is not available
 command -v jq &>/dev/null || exit 1
