@@ -21,7 +21,7 @@ Before starting, verify:
 2. **CI passing**: Confirm CI is green on the main branch
 3. **Unreleased entries exist**: Check `changelog/unreleased/` for pending entries
 
-If any check fails, stop and ask how to proceed.
+If any check fails, use `AskUserQuestion` to ask how to proceed.
 
 ## Release Steps
 
@@ -41,7 +41,7 @@ Fix any failures before continuing.
 
 ### 2. Determine version
 
-Ask what version to release:
+Use `AskUserQuestion` to ask what version to release:
 
 - **patch** (x.y.Z) - Bug fixes, minor changes
 - **minor** (x.Y.0) - New features, backward compatible
@@ -63,7 +63,7 @@ uvx tenzir-changelog release create vX.Y.Z --intro-file /tmp/intro.md --yes
 
 ### 4. Review release notes
 
-Display the generated release notes and ask for confirmation:
+Display the generated release notes and use `AskUserQuestion` to ask for confirmation:
 
 ```sh
 uvx tenzir-changelog release show vX.Y.Z
