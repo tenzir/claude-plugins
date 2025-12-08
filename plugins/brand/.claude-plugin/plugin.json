@@ -1,0 +1,13 @@
+{
+  "name": "brand",
+  "version": "0.1.0",
+  "description": "Tenzir brand and style guidelines for frontend development",
+  "author": {
+    "name": "Tenzir",
+    "email": "engineering@tenzir.com",
+    "url": "https://github.com/tenzir"
+  },
+  "homepage": "https://github.com/tenzir/claude-plugins",
+  "repository": "https://github.com/tenzir/claude-plugins",
+  "license": "Apache-2.0"
+}

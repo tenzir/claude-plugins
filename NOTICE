@@ -1,0 +1,20 @@
+Claude Plugins for Tenzir
+Copyright 2025 Tenzir GmbH
+
+This product includes software developed at Tenzir GmbH (https://tenzir.com/).
+
+Trademark Notice
+----------------
+
+"Tenzir" and the Tenzir logo are trademarks of Tenzir GmbH. The Apache License
+2.0 does not grant permission to use these trademarks except as required for
+reasonable and customary use in describing the origin of this work.
+
+Brand Assets
+------------
+
+The brand guidelines and design system specifications contained in the "brand"
+plugin (plugins/brand/) describe Tenzir's proprietary visual identity. While
+the plugin code is licensed under Apache 2.0, using these specifications to
+create products or materials that suggest official Tenzir affiliation requires
+written permission from Tenzir GmbH.

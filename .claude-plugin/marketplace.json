@@ -15,6 +15,11 @@
       "source": "./plugins/auto-update"
     },
     {
+      "name": "brand",
+      "description": "Tenzir brand and style guidelines for frontend development",
+      "source": "./plugins/brand"
+    },
+    {
       "name": "changelog",
       "description": "Manage changelogs and release notes with tenzir-changelog",
       "source": "./plugins/changelog"
