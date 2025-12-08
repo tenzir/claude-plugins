@@ -1,6 +1,6 @@
 ---
 name: managing-plugins
-description: Create and maintain Claude Code plugins. Use when working in the plugins/ directory, writing SKILL.md, editing plugin.json or hooks.json, updating marketplace.json, creating slash commands, or asking about plugin structure and best practices.
+description: Create and maintain Claude Code plugins. Use when editing ANY file in the plugins/ directory (commands, skills, hooks, or config), bumping plugin versions, registering plugins in marketplace.json, or asking about plugin structure and best practices.
 ---
 
 # Managing Plugins
