@@ -48,6 +48,11 @@
       "name": "tql",
       "description": "Build TQL pipelines with the Tenzir MCP server",
       "source": "./plugins/tql"
+    },
+    {
+      "name": "writing",
+      "description": "Writing guidelines for documentation, marketing, and more",
+      "source": "./plugins/writing"
     }
   ]
 }
