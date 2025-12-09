@@ -66,7 +66,7 @@ uvx tenzir-changelog release create vX.Y.Z --intro-file /tmp/intro.md --yes
 Display the generated release notes and use `AskUserQuestion` to ask for confirmation:
 
 ```sh
-uvx tenzir-changelog release show vX.Y.Z
+uvx tenzir-changelog release notes vX.Y.Z
 ```
 
 If adjustments are needed, edit the intro or entries and re-run `release create`.
