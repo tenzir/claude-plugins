@@ -2,8 +2,8 @@
   "extraKnownMarketplaces": {
     "tenzir": {
       "source": {
-        "source": "github",
-        "repo": "tenzir/claude-plugins"
+        "source": "directory",
+        "path": "."
       }
     }
   },
