@@ -9,6 +9,8 @@ Tenzir brand and style guidelines for frontend development.
 - 🧩 **Component Specs** - Buttons, inputs, tags, toasts, and 15+ UI components
   with all states documented
 - 🎯 **Tailwind Ready** - Configuration snippets for immediate integration
+- 🖼️ **Logo Assets** - Official SVG logos and logomarks in standard and white
+  variants
 
 ## 📦 Installation
 
@@ -30,6 +32,17 @@ When working on frontend code, Claude will:
 
 The skill uses a modular structure with a top-level overview and detailed
 reference files that are loaded on demand to minimize context usage.
+
+## Logo Assets
+
+Official Tenzir logos are available in `assets/logos/`:
+
+| File                 | Description                    |
+| -------------------- | ------------------------------ |
+| `logo.svg`           | Full Tenzir logo               |
+| `logo-white.svg`     | Full logo for dark backgrounds |
+| `logomark.svg`       | Logomark only (the "T" symbol) |
+| `logomark-white.svg` | Logomark for dark backgrounds  |
 
 ## Legal
 
