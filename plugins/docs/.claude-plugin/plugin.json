@@ -1,0 +1,13 @@
+{
+  "name": "docs",
+  "version": "0.1.0",
+  "description": "Documentation workflows for Tenzir projects",
+  "author": {
+    "name": "Tenzir",
+    "email": "engineering@tenzir.com",
+    "url": "https://github.com/tenzir"
+  },
+  "homepage": "https://github.com/tenzir/claude-plugins",
+  "repository": "https://github.com/tenzir/claude-plugins",
+  "license": "Apache-2.0"
+}

@@ -4,6 +4,7 @@ components:
   - auto-update
   - brand
   - changelog
+  - docs
   - formatter
   - git
   - meta

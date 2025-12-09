@@ -25,6 +25,11 @@
       "source": "./plugins/changelog"
     },
     {
+      "name": "docs",
+      "description": "Documentation workflows for Tenzir projects",
+      "source": "./plugins/docs"
+    },
+    {
       "name": "formatter",
       "description": "Auto-format files after Claude edits",
       "source": "./plugins/formatter"
