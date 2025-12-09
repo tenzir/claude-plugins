@@ -31,7 +31,7 @@ Organized by vendor: `integrations/<vendor>/<product>.mdx`
 
 ## Directory Structure
 
-Documentation lives in `.tenzir-docs/src/content/docs/`:
+Documentation lives at `src/content/docs/` relative to the documentation root.
 
 ```
 src/content/docs/
@@ -71,7 +71,7 @@ Load the `writing:technical-writing` skill for detailed style guidance.
 
 ## Workflow
 
-1. If `.tenzir-docs/` doesn't exist, call `docs:manager` with `initialize` mode.
-2. Make changes in `.tenzir-docs/src/content/docs/`.
-3. Use `docs:manager` with `preview` mode to verify changes.
-4. Use `docs:manager` with `pr` mode to create a pull request.
+1. Call `docs:manager` with `initialize` mode (auto-detects if in docs repo or needs clone)
+2. Make changes in content directory
+3. Use `docs:manager` with `preview` mode to verify changes
+4. Use `docs:manager` with `pr` mode to create a pull request

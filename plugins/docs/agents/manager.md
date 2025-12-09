@@ -17,7 +17,17 @@ You manage the Tenzir documentation repository for local development.
 ## Repository information
 
 - **Source**: `https://github.com/tenzir/docs`
-- **Local path**: `.tenzir-docs/` in the project root
+
+## Preamble (runs before every operation)
+
+Detect the documentation root path:
+
+1. Run: `git remote get-url origin 2>/dev/null | grep -q 'tenzir/docs'`
+2. If it matches, set `$DOCS_ROOT=.` (working directly in docs repo)
+3. Otherwise, set `$DOCS_ROOT=.tenzir-docs/` (clone mode)
+
+For clone mode operations (except `initialize`): if `.tenzir-docs/` doesn't
+exist, report an error and suggest running with `initialize` mode first.
 
 ## Commands reference
 
@@ -48,68 +58,51 @@ If the argument is missing, empty, or invalid:
 
 Set up the documentation repository for local development.
 
-1. Check if `.tenzir-docs/` already exists
-2. If it doesn't exist:
+1. If clone mode and `.tenzir-docs/` doesn't exist:
    - Clone `https://github.com/tenzir/docs.git` to `.tenzir-docs/`
-3. Run `pnpm install` in `.tenzir-docs/`
-4. Report success with the path to the docs
+2. Run `pnpm install` in `$DOCS_ROOT` if `node_modules/` doesn't exist
+3. Report success with `$DOCS_ROOT` path
 
 ### update
 
 Pull the latest changes from the docs repository.
 
-1. Verify `.tenzir-docs/` exists
-2. If it doesn't exist, report error and suggest running with `initialize` mode
-3. Run `git pull` in `.tenzir-docs/`
-4. If there were changes, run `pnpm install` to update dependencies
-5. Report what was updated
+1. If direct mode, report that git operations are managed manually and exit
+2. Run `git pull` in `.tenzir-docs/`
+3. If there were changes, run `pnpm install`
+4. Report what was updated
 
 ### preview
 
 Start the documentation development server.
 
-1. Verify `.tenzir-docs/` exists
-2. If it doesn't exist, report error and suggest running with `initialize` mode
-3. Check if a dev server is already running on port 4321
-4. If already running, report the URL and skip starting another
-5. Run `pnpm dev` in `.tenzir-docs/` in the background
-6. Report the preview URL: `http://localhost:4321`
+1. Check if port 4321 is already in use; if so, report the URL and exit
+2. Run `pnpm dev` in `$DOCS_ROOT` in the background
+3. Report the preview URL: `http://localhost:4321`
 
 ### build
 
 Build the production documentation site.
 
-1. Verify `.tenzir-docs/` exists
-2. If it doesn't exist, report error and suggest running with `initialize` mode
-3. Run `pnpm build` in `.tenzir-docs/`
-4. Report success or failure with actionable error messages
-5. If successful, report the output location: `.tenzir-docs/dist/`
+1. Run `pnpm build` in `$DOCS_ROOT`
+2. Report success with output location `$DOCS_ROOT/dist/`, or failure with actionable error messages
 
 ### pr
 
 Create a pull request for documentation changes.
 
-1. Verify `.tenzir-docs/` exists
-2. If it doesn't exist, report error and suggest running with `initialize` mode
-3. Check for uncommitted changes
-4. If no changes, report "No changes to submit" and exit
-5. Run `pnpm lint` to validate; if errors, report them and exit
-6. Create a descriptive topic branch based on the changes (e.g., `topic/kafka-guide`)
-7. Stage all changes
-8. Commit following `git:writing-commit-messages` conventions
-9. Create a PR using `gh pr create` with:
-   - A clear title describing the documentation
-   - A body summarizing what was added or changed
-10. Report the PR URL
+1. Check for uncommitted changes in `$DOCS_ROOT`; if none, report "No changes to submit" and exit
+2. Run `pnpm lint`; if errors, report them and exit
+3. Create a topic branch (e.g., `topic/kafka-guide`)
+4. Stage and commit following `git:writing-commit-messages` conventions
+5. Create PR with `gh pr create` (clear title, summary body)
+6. Report the PR URL
 
 ## Autonomous decision-making
 
-Subagents cannot use AskUserQuestion—it will fail. Make all decisions
-autonomously:
+Make all decisions autonomously without asking the user:
 
-- **Directory exists during initialize**: Skip clone and package installation
-- **Server already running**: Report existing server, don't start another
 - **Build failures**: Report the error with context, suggest fixes if obvious
-- **Git conflicts during update**: Report the conflict, suggest resolution
-- **Branch already exists during pr**: Choose a different name
-- **Lint failures during pr**: Report errors and exit without creating PR
+- **Git conflicts**: Report the conflict, suggest resolution
+- **Branch already exists**: Choose a different name
+- **Lint failures**: Report errors and exit without creating PR
