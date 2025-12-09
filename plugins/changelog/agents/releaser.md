@@ -1,6 +1,6 @@
 ---
 name: releaser
-description: Release a project using tenzir-changelog. Use when the user wants to create a release, publish a new version, or bump the version number.
+description: Release a project using tenzir-changelog. Use when the user wants to cut/create a release, publish a new version, or bump the version number.
 tools: Read, Glob, Grep, Bash, Edit, Write, Skill, SlashCommand
 model: haiku
 args:

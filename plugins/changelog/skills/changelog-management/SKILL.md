@@ -1,6 +1,6 @@
 ---
 name: changelog-management
-description: Create and manage changelog entries. Use when adding changelog entries, finishing features or bugfixes, documenting changes, writing release notes, working in changelog/ directories, or wrapping up commits and PRs.
+description: Create and manage changelog entries. Use when adding changelog entries, finishing features or bugfixes, documenting changes, writing release notes, working in changelog/ directories, wrapping up commits and PRs, or cutting a release.
 ---
 
 # Changelog and Release Notes Management
