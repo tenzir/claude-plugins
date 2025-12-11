@@ -5,7 +5,7 @@ Python coding conventions and workflows for Tenzir projects.
 ## ✨ Features
 
 - 🛠️ **Coding Conventions**: uv-based tooling, Ruff formatting, strict Mypy, naming conventions
-- 🚀 **Release Command**: Step-by-step guidance for Python project releases via `/python:release`
+- 🚀 **Release Workflow**: Step-by-step guidance for Python project releases via `/changelog:release`
 
 ## 📦 Installation
 
@@ -26,9 +26,9 @@ The `python:following-conventions` skill provides comprehensive guidance on:
 - **Testing**: `test_*.py` pattern, ≥80% coverage, `tmp_path` for filesystem tests
 - **Project structure**: `src/` layout, tests mirroring module names
 
-### Release Command
+### Release Workflow
 
-Invoke `/python:release` to get guided through the full release workflow:
+Invoke `/changelog:release` to get guided through the full release workflow:
 
 1. Pre-release validation (lint, format, types, tests, build)
 2. Stage release with `uvx tenzir-changelog release create vX.Y.Z`

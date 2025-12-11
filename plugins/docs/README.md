@@ -2,7 +2,7 @@
 
 Documentation workflows for Tenzir projects.
 
-## Features
+## ✨ Features
 
 - 📝 **Writing Documentation Skill**: Guidance on the Diátaxis framework,
   section selection, and Tenzir docs conventions
@@ -10,13 +10,13 @@ Documentation workflows for Tenzir projects.
   repository
 - 🚀 **Write Docs Command**: Interactive workflow for documenting changes
 
-## Installation
+## 📦 Installation
 
 ```
 /plugin install docs@tenzir
 ```
 
-## How it works
+## ⚙️ How it works
 
 ### Writing documentation skill
 
