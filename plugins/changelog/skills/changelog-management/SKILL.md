@@ -15,16 +15,6 @@ This skill helps you create and manage changelog entries and release notes using
 - When validating existing changelog entries
 - When viewing or exporting release notes
 
-## Setup
-
-Initialize a changelog in a new project:
-
-```bash
-uvx tenzir-changelog add
-```
-
-The first invocation creates a `changelog/` subdirectory with `config.yaml` and `unreleased/`, inferring defaults from the parent directory name. When you provide an explicit `--root` flag, the CLI uses that directory directly instead of creating a subdirectory.
-
 ## Entry Types
 
 | Type       | Use When                                                                    |
@@ -33,40 +23,6 @@ The first invocation creates a `changelog/` subdirectory with `config.yaml` and 
 | `feature`  | New capability that didn't exist before                                     |
 | `bugfix`   | Something was broken and is now fixed (crashes, wrong output, regressions)  |
 | `change`   | Modifications to existing functionality (improvements, refactoring, tweaks) |
-
-**Choosing between `bugfix` and `change`:** If something was broken and is now fixed, use `bugfix`. If something worked correctly but is now better (faster, cleaner, more maintainable), use `change`.
-
-## Entry File Format
-
-Entries are Markdown files with YAML frontmatter. Unreleased entries live in `changelog/unreleased/`, and released entries are archived in `changelog/releases/<version>/entries/`:
-
-```markdown
----
-title: Brief description of the change
-type: feature
-authors:
-  - Author Name
-prs:
-  - 123
-component: optional-component-label
-created: 2025-01-15T10:30:00Z
----
-
-Optional extended description with more details about the change.
-Can include multiple paragraphs and formatting.
-```
-
-### Required Fields
-
-- `title` - Entry heading (keep concise)
-- `type` - One of: `breaking`, `feature`, `bugfix`, `change`
-- `created` - ISO 8601 UTC timestamp
-
-### Optional Fields
-
-- `author` / `authors` - Contributor name(s)
-- `pr` / `prs` - Pull request number(s)
-- `component` - Component label (if project uses components)
 
 ## Directory Structure
 
@@ -83,25 +39,11 @@ changelog/
         └── entries/      # Archived changelog entries
 ```
 
-## Commands
+## Use Cases
 
 ### Add an Entry
 
-```bash
-uvx tenzir-changelog add \
-  --title "Add feature X" \
-  --type feature \
-  --description-file /path/to/description.md \
-  --co-author claude \
-  --component api \
-  --component cli \
-  --pr 123 \
-  --pr 456
-```
-
-Always pass `--description-file` to skip the interactive editor and avoid shell escaping issues. Pass `--component`, `--pr`, and `--co-author` multiple times for multiple values.
-
-The CLI infers the primary author from environment variables or the GitHub CLI. Use `--co-author` to credit additional contributors (ideal for AI-assisted development). Use `--author` only to override the inferred author entirely.
+Use the `/changelog:add` slash command.
 
 ### Show Entries
 
@@ -162,3 +104,13 @@ uvx tenzir-changelog show -m v5.0.0 --root ~/core --root ~/cloud > release-notes
 8. **Validate in CI** - Automate validation to enforce metadata completeness
 9. **Consistent components** - Document and reuse component labels
 10. **Use Markdown deliberately** - Frame code and technical terms in backticks (e.g., `--option 42`, `cmd`). Use _emphasis_ and **bold** where it improves clarity
+
+## Setup
+
+Initialize a changelog in a new project:
+
+```bash
+uvx tenzir-changelog add
+```
+
+The first invocation creates a `changelog/` subdirectory with `config.yaml` and `unreleased/`, inferring defaults from the parent directory name. When you provide an explicit `--root` flag, the CLI uses that directory directly instead of creating a subdirectory.

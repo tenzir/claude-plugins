@@ -5,6 +5,7 @@ Manage changelogs and release notes with tenzir-changelog.
 ## ✨ Features
 
 - 📋 **Managing Changelogs Skill**: Auto-triggered assistance for creating and managing changelog entries
+- ➕ **Add Command**: Create changelog entries via `/changelog:add`
 - 🚀 **Release Command**: Generic release workflow via `/changelog:release`
 
 ## 📦 Installation

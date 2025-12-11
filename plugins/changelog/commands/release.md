@@ -2,7 +2,9 @@
 description: Guide through releasing a project with tenzir-changelog (detect, stage, review, commit, publish, verify).
 ---
 
-# Release Workflow
+Make sure you loaded the `changelog-management` skill.
+
+# Create a Release
 
 Guide me through releasing a project that uses `tenzir-changelog`.
 
@@ -122,4 +124,4 @@ Then verify:
 
 #### Project type: python
 
-3. The **Publish to PyPI** workflow completed successfully
+1. The **Publish to PyPI** workflow completed successfully
