@@ -1,12 +1,11 @@
 ---
 name: writing-documentation
-description: Write documentation for Tenzir projects. Use when writing docs, updating guides, creating tutorials, adding integrations, or working with the tenzir/docs repository.
+description: Write documentation for Tenzir projects. Use when adding or updating docs for tutorials, guides, explanations, reference, or integrations.
 ---
 
 # Writing Documentation
 
-Write documentation for Tenzir projects following the Diátaxis framework and
-Tenzir conventions.
+Write documentation for Tenzir projects following the Diátaxis framework.
 
 ## Diátaxis Framework
 
@@ -27,11 +26,11 @@ See [diataxis.md](./diataxis.md) for the decision tree and section guidelines.
 Separately from Diátaxis, **Integrations** documents third-party products:
 "How do I use X with Tenzir?"
 
-Organized by vendor: `integrations/<vendor>/<product>.mdx`
+Organized by vendor/category: `integrations/<category>/<product>.mdx`
 
 ## Directory Structure
 
-Documentation lives at `src/content/docs/` relative to the documentation root.
+Documentation content lives at `src/content/docs/` relative to the documentation root.
 
 ```
 src/content/docs/
@@ -41,8 +40,6 @@ src/content/docs/
 ├── reference/      # Technical specifications (some auto-generated)
 └── integrations/   # Third-party products by vendor
 ```
-
-Integrations are organized by vendor: `integrations/<vendor>/<product>.mdx`
 
 ### Auto-Updated Files
 
@@ -71,7 +68,6 @@ Load the `writing:technical-writing` skill for detailed style guidance.
 
 ## Workflow
 
-1. Call `docs:manager` with `initialize` mode (auto-detects if in docs repo or needs clone)
-2. Make changes in content directory
-3. Use `docs:manager` with `preview` mode to verify changes
-4. Use `docs:manager` with `pr` mode to create a pull request
+1. Run `/docs:write-docs` to create or update documentation
+2. Preview locally: `cd $DOCS_ROOT && pnpm dev`
+3. Run `/docs:pr` to create a pull request
