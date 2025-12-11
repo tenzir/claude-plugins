@@ -20,7 +20,7 @@ Tenzir brand and style guidelines for frontend development.
 
 ## ⚙️ How it works
 
-This plugin provides a `styling-tenzir-ui` skill that gives Claude access to
+This plugin provides a `brand:styling-tenzir-ui` skill that gives Claude access to
 Tenzir's design system specifications.
 
 When working on frontend code, Claude will:

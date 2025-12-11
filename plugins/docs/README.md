@@ -27,7 +27,7 @@ Automatically loaded when working with documentation. Provides:
 - Decision tree for choosing the right documentation section
 - File format conventions (`.md`, `.mdx`, `.mdoc`)
 - Frontmatter templates
-- Integration with the `technical-writing` skill for style guidance
+- Integration with the `writing:technical-writing` skill for style guidance
 
 ### Manager agent
 

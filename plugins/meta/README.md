@@ -20,7 +20,7 @@ marketplace repository.
 
 ### Writing Plugins Skill
 
-The `writing-plugins` skill activates when working with plugins. It provides:
+The `meta:managing-plugins` skill activates when working with plugins. It provides:
 
 - Plugin directory structure and required files
 - `plugin.json` metadata format

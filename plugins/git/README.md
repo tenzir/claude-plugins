@@ -17,7 +17,7 @@ Git workflows for Tenzir repositories.
 
 ### Writing Commit Messages Skill
 
-The `writing-commit-messages` skill activates when committing changes. It provides guidance on:
+The `git:writing-commit-messages` skill activates when committing changes. It provides guidance on:
 
 - Commit message format (subject under 50 chars, body wrapped at 72)
 - Writing style focused on user capability, not implementation

@@ -2,7 +2,7 @@
 description: Add a changelog entry for recent changes (feature, bugfix, breaking, change).
 ---
 
-Make sure you loaded the `changelog-management` skill.
+Make sure you loaded the `changelog:managing-entries` skill.
 
 # Add Changelog Entry
 

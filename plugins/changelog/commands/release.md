@@ -2,7 +2,7 @@
 description: Guide through releasing a project with tenzir-changelog (detect, stage, review, commit, publish, verify).
 ---
 
-Make sure you loaded the `changelog-management` skill.
+Make sure you loaded the `changelog:managing-entries` skill.
 
 # Create a Release
 

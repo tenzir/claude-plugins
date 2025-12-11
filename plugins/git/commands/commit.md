@@ -43,6 +43,6 @@ Fulfill all requirements before committing. Do not skip steps.
 
 ## 4. Stage and commit
 
-Stage changes and commit following the `writing-commit-messages` skill.
+Stage changes and commit following the `git:writing-commit-messages` skill.
 
 If it's unclear whether to amend the last commit or create a new one, ask the user.
