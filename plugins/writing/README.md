@@ -20,7 +20,7 @@ documentation, README files, API docs, code comments, and user guides.
 
 ### Skills
 
-**technical-writing**: Automatically loaded when writing documentation. Covers:
+**writing:technical-writing**: Automatically loaded when writing documentation. Covers:
 
 - Voice and tone (second person, active voice)
 - Inclusive language guidelines

@@ -25,7 +25,7 @@ The `git:writing-commit-messages` skill activates when committing changes. It pr
 
 ### Committer Subagent
 
-The `committer` subagent is a lightweight Haiku-based agent that handles the
+The `git:committer` subagent is a lightweight Haiku-based agent that handles the
 entire commit workflow. It executes the `/git:commit` slash command internally,
 which:
 
