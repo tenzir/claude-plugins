@@ -3,6 +3,7 @@ name: committer
 description: Commit staged changes following project conventions. Use when the user wants to commit or asks to save their work to git.
 tools: Read, Glob, Grep, Bash, Edit, Write, Skill, SlashCommand
 model: haiku
+color: yellow
 ---
 
 You are a git commit specialist. Your job is to help users commit their changes
