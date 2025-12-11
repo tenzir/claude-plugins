@@ -31,9 +31,9 @@ If all staged changes form a single logical unit, proceed to the next step.
 
 Identify any project-specific commit requirements, such as:
 
-- **Changelog entries**: If the project maintains a changelog, typically
-  (`changelog/` in the project root), invoke the
-  `changelog:changelog-management` skill and consider adding an entry.
+- **Changelog entries**: If the project maintains a changelog (typically
+  `changelog/` in the project root), use `/changelog:add` for a guided
+  workflow to create an entry.
 - **Version bumps**: Check if the project requires version updates for this
   type of change.
 - **Validation steps**: Run any pre-commit checks the project uses, such as
