@@ -17,7 +17,7 @@ Python coding conventions and workflows for Tenzir projects.
 
 ### Writing Python Code Skill
 
-The `python:python-conventions` skill provides comprehensive guidance on:
+The `python:following-conventions` skill provides comprehensive guidance on:
 
 - **Quality gates**: Chained checks (ruff, mypy, pytest, uv build) that fail fast
 - **Formatting**: 4-space indentation, double quotes, 88 char lines via Ruff

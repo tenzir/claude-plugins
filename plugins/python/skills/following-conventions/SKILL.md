@@ -1,5 +1,5 @@
 ---
-name: python-conventions
+name: following-conventions
 description: Tenzir Python coding standards and tooling setup. Use when editing .py files, running ruff/mypy/pytest, encountering pyproject.toml/uv.lock, or setting up a new Python project.
 ---
 
