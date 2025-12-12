@@ -1,6 +1,6 @@
 {
   "name": "tql",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Build TQL pipelines with the Tenzir MCP server",
   "author": {
     "name": "Tenzir",
@@ -13,7 +13,7 @@
   "mcpServers": {
     "tenzir": {
       "command": "uvx",
-      "args": ["tenzir-mcp"]
+      "args": ["tenzir-mcp@latest"]
     }
   }
 }

@@ -23,5 +23,5 @@ Requires [uv](https://docs.astral.sh/uv/) to be installed.
 
 - **When it triggers**: The MCP server starts when the plugin is loaded
 - **What actions it performs**: Provides tools for building and executing TQL
-  pipelines via the `uvx tenzir-mcp` command
+  pipelines via the MCP server
 - **Dependencies**: Requires `uv` / `uvx` to be installed
