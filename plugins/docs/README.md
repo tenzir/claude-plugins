@@ -51,7 +51,7 @@ Create a pull request via `/docs:pr`:
 
 The plugin auto-detects whether you're working directly in the `tenzir/docs`
 repository or in another project. For other projects, it clones
-`github.com/tenzir/docs` to `.tenzir-docs/` in your project root.
+`github.com/tenzir/docs` to `.docs/` in your project root.
 
 ## Documentation sections
 
