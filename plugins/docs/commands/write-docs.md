@@ -20,7 +20,7 @@ DOCS_ROOT=$($CLAUDE_PLUGIN_ROOT/scripts/detect-docs-root.sh)
 
 If `$DOCS_ROOT` is `.docs` and doesn't exist:
 
-1. Clone `https://github.com/tenzir/docs.git` to `.docs/`
+1. Clone `git@github.com:tenzir/docs.git` to `.docs/`
 2. Run `pnpm install` in `.docs/`
 
 If `$DOCS_ROOT/node_modules/` doesn't exist, run `pnpm install` in `$DOCS_ROOT`.
