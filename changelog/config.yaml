@@ -3,13 +3,4 @@ name: Tenzir Claude Code Plugin Marketplace
 description: >-
   A Claude Code plugin marketplace containing plugins that extend Claude's
   capabilities for working with the Tenzir ecosystem.
-components:
-  - brand
-  - changelog
-  - docs
-  - formatter
-  - git
-  - meta
-  - python
-  - tql
-  - writing
+modules: "../plugins/*/changelog"

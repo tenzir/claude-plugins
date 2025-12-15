@@ -2,9 +2,6 @@
 title: Improve skill discoverability with artifact-based triggers
 type: change
 author: mavam
-components:
-  - python
-  - changelog
 created: 2025-12-05T15:48:21.137362Z
 ---
 

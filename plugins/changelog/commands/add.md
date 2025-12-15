@@ -14,11 +14,15 @@ Introspect the local repository to understand what changed. Look at staged
 changes, recent commits, and uncommitted work. Use this context to suggest an
 appropriate entry type and title.
 
-## Discover Available Components
+## Determine Target Changelog
 
-Check `changelog/config.yaml` for a `components:` list. If a component clearly
-fits the change, select one. If the change doesn't fit any component (e.g., CI
-work, cross-cutting concerns), it's fine to omit.
+For module-based projects (those with `modules:` in the parent `config.yaml`):
+
+1. Identify which module the change affects
+2. Use `--root <module>/changelog` to target that module's changelog
+3. For cross-cutting changes affecting multiple modules, use the parent changelog
+
+For standalone projects, the default changelog directory is used.
 
 ## Determine Entry Details
 
@@ -27,13 +31,10 @@ Infer the following from the repository context:
 1. **Entry type**
 2. **Title**
 3. **Description**
-4. **Component** - If a component clearly fits the change, select one from the
-   config. Omit if the change doesn't fit any component (e.g., CI, cross-cutting
-   concerns).
 
 ## Create the Entry
 
-First, Write the description to a temporary file, e.g., in /tmp.
+First, write the description to a temporary file, e.g., in /tmp.
 
 Then create the entry:
 
@@ -43,12 +44,12 @@ uvx tenzir-changelog add \
   --type <type> \
   --description-file /tmp/changelog-description.md \
   --co-author claude \
-  --component <component>
+  --root <module>/changelog  # For module-based projects
 ```
 
 Omit `--description-file` if no description was provided.
 
-Omit `--component` if the change doesn't clearly fit any defined component.
+Omit `--root` for standalone projects or when targeting the parent changelog.
 
 ## Verify
 

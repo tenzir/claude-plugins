@@ -1,6 +1,6 @@
 {
   "name": "tql",
-  "version": "0.1.1",
+  "version": "0.0.0",
   "description": "Build TQL pipelines with the Tenzir MCP server",
   "author": {
     "name": "Tenzir",

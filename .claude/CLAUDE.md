@@ -6,23 +6,34 @@ plugins that extend Claude's capabilities for working with the Tenzir ecosystem.
 ## Repository Structure
 
 All plugins live in the `plugins/` subdirectory. The marketplace manifest
-registers all available plugins.
+registers all available plugins. Each plugin maintains its own changelog.
 
 ```
 claude-plugins/
 ├── .claude-plugin/
 │   └── marketplace.json   # Marketplace manifest (MUST stay in sync)
+├── changelog/             # Parent changelog (cross-cutting entries)
 ├── plugins/
-│   ├── my-plugin/         # A plugin
-│   ├── another-plugin/    # Another plugin
+│   ├── my-plugin/
+│   │   ├── changelog/     # Plugin changelog
+│   │   └── ...
 │   └── ...
 └── ...
 ```
 
 ## Adding a Plugin
 
-Create a new directory in `plugins/`. Then update
-`.claude-plugin/marketplace.json` to register it:
+Create a new directory in `plugins/` with the following structure:
+
+```
+plugins/<plugin-name>/
+├── .claude-plugin/
+│   └── plugin.json    # name, version, description
+├── changelog/         # Plugin changelog
+└── README.md
+```
+
+Then update `.claude-plugin/marketplace.json` to register it:
 
 ```json
 {
@@ -51,7 +62,12 @@ When modifying an existing plugin, follow these steps:
    - **Major** (0.1.0 → 1.0.0): Breaking changes (e.g., renamed skill,
      changed hook behavior, removed functionality)
 
-3. **Create a changelog entry** summarizing user-facing changes.
+3. **Create a changelog entry** in `plugins/<plugin-name>/changelog/unreleased/`
+   summarizing user-facing changes. Use the `/changelog:add` command for a
+   guided workflow.
+
+   For cross-cutting changes that affect multiple plugins or the marketplace
+   itself, add entries to the parent `changelog/unreleased/` directory.
 
 ## Marketplace Manifest
 

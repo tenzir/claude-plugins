@@ -163,33 +163,19 @@ if [ "$manifest_plugins_ordered" != "$manifest_plugins_sorted" ]; then
 fi
 
 # =============================================================================
-# Validate changelog components
+# Validate changelog structure (module-based)
 # =============================================================================
 
-info "checking changelog components..."
+info "checking changelog structure..."
 
 CHANGELOG_CONFIG="$REPO_ROOT/changelog/config.yaml"
 if [ -f "$CHANGELOG_CONFIG" ]; then
-  # Extract components from YAML (lines after "components:" until next non-indented line)
-  changelog_components=$(awk '/^components:/{found=1; next} found && /^[^ ]/{exit} found && /^  - /{gsub(/^  - /, ""); print}' "$CHANGELOG_CONFIG" | sort)
-
-  # Check that each plugin is listed as a component
-  while IFS= read -r plugin; do
-    [ -z "$plugin" ] && continue
-    if ! echo "$changelog_components" | grep -qx "$plugin"; then
-      error "plugin '$plugin' is not listed as a component in changelog/config.yaml"
-    fi
-  done < <(echo "$manifest_plugins")
-
-  # Check for components that don't correspond to plugins
-  while IFS= read -r component; do
-    [ -z "$component" ] && continue
-    if ! echo "$manifest_plugins" | grep -qx "$component"; then
-      warn "changelog component '$component' does not correspond to any plugin"
-    fi
-  done < <(echo "$changelog_components")
+  # Check that parent config uses modules pattern
+  if ! grep -q "^modules:" "$CHANGELOG_CONFIG"; then
+    warn "changelog/config.yaml: missing 'modules' field for module-based setup"
+  fi
 else
-  warn "changelog/config.yaml not found, skipping component validation"
+  warn "changelog/config.yaml not found, skipping changelog validation"
 fi
 
 # =============================================================================
@@ -320,6 +306,26 @@ for plugin_dir in "$PLUGINS_DIR"/*/; do
         error "$plugin_name/hooks: script is not executable: $command"
       fi
     done < <(jq -r '.. | objects | select(.type == "command") | .command' "$hooks_json" 2>/dev/null)
+  fi
+
+  # ---------------------------------------------------------------------------
+  # Validate plugin changelog
+  # ---------------------------------------------------------------------------
+
+  plugin_changelog_config="$plugin_dir/changelog/config.yaml"
+  if [ -f "$plugin_changelog_config" ]; then
+    # Check that id matches plugin name
+    changelog_id=$(grep "^id:" "$plugin_changelog_config" | sed 's/^id: *//')
+    if [ -n "$changelog_id" ] && [ "$changelog_id" != "$plugin_name" ]; then
+      error "$plugin_name/changelog: config.yaml id '$changelog_id' doesn't match plugin name"
+    fi
+
+    # Check unreleased directory exists
+    if [ ! -d "$plugin_dir/changelog/unreleased" ]; then
+      warn "$plugin_name/changelog: missing unreleased directory"
+    fi
+  else
+    warn "$plugin_name: missing changelog/config.yaml"
   fi
 done
 
