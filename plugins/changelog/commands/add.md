@@ -55,7 +55,7 @@ Omit `--component` if the change doesn't clearly fit any defined component.
 After creating the entry, show the result:
 
 ```sh
-uvx tenzir-changelog show -c 1
+uvx tenzir-changelog show --markdown 1
 ```
 
 Confirm the entry looks correct and inform the user where the file was created.

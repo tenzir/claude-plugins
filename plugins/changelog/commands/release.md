@@ -120,7 +120,7 @@ uvx tenzir-changelog release notes vX.Y.Z
 Then verify:
 
 1. The GitHub release page shows correct release notes
-2. CI workflows triggered by the tag are passing
+2. GitHu Actions workflows triggered by the tag are passing
 
 #### Project type: python
 
