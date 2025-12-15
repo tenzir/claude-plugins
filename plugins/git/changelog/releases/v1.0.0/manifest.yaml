@@ -1,0 +1,6 @@
+created: 2025-12-15
+title: Git Plugin v1.0.0
+intro: >-
+  This major release standardizes skill naming with `python:following-conventions`
+  and replaces the plugin-specific release command with the generic `/changelog:release`
+  command. It also adds a dependency upgrade guide for Python projects.

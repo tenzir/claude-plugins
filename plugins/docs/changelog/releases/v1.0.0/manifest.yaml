@@ -1,0 +1,7 @@
+created: 2025-12-15
+title: Docs Plugin v1.0.0
+intro: >-
+  This is the first stable release of the docs plugin. It introduces a streamlined
+  workflow with dedicated commands for documentation management, replacing the previous
+  agent-based approach. The plugin now features intelligent path detection, SSH-based
+  repository cloning, and a simplified directory structure.

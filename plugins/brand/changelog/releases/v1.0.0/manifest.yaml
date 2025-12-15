@@ -1,0 +1,9 @@
+created: 2025-12-15
+title: Brand Plugin v1.0.0
+intro: >-
+  This is the initial major release of the brand plugin, providing comprehensive Tenzir
+  design system specifications for frontend development. The plugin includes design tokens
+  for colors, typography, spacing, and shadows, along with detailed component specifications
+  for 10+ UI elements. It features CSS custom properties with the `--tnz-` namespace prefix,
+  official SVG logo assets, and an expanded color palette supporting 9 colors across tags
+  and badges.
