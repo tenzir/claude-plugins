@@ -75,12 +75,3 @@ The `.claude-plugin/marketplace.json` file defines this marketplace. It must
 always reflect the current state of the `plugins/` directory. Each entry in the
 `plugins` array should correspond to an actual plugin directory. Keep the
 plugins sorted alphabetically by name.
-
-## Skills
-
-**Always load the `managing-plugins` skill when working in the `plugins/`
-directory.** This includes creating, modifying, reviewing, or debugging any
-plugin.
-
-This skill contains essential guidance on plugin structure, README templates,
-skill conventions, and marketplace registration.
