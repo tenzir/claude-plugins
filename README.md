@@ -38,11 +38,6 @@ Consult the official [Claude Code plugins
 documentation](https://code.claude.com/docs/en/plugins) for details on plugin
 structure and configuration.
 
-## 🧑‍💻 Development
-
-See [`AGENTS.md`](AGENTS.md) for guidelines on contributing agent definitions
-and maintaining plugin quality.
-
 ## 📜 License
 
 `claude-plugins` is available under the Apache License, Version 2.0. See
