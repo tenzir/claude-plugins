@@ -10,11 +10,6 @@
   },
   "plugins": [
     {
-      "name": "auto-update",
-      "description": "Auto-update the tenzir marketplace on session start",
-      "source": "./plugins/auto-update"
-    },
-    {
       "name": "brand",
       "description": "Tenzir brand and style guidelines for frontend development",
       "source": "./plugins/brand"

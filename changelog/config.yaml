@@ -1,7 +1,6 @@
 id: claude-plugins
 name: Claude Plugins
 components:
-  - auto-update
   - brand
   - changelog
   - docs
