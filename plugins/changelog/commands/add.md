@@ -14,6 +14,12 @@ Introspect the local repository to understand what changed. Look at staged
 changes, recent commits, and uncommitted work. Use this context to suggest an
 appropriate entry type and title.
 
+## Discover Available Components
+
+Check `changelog/config.yaml` for a `components:` list. If a component clearly
+fits the change, select one. If the change doesn't fit any component (e.g., CI
+work, cross-cutting concerns), it's fine to omit.
+
 ## Determine Entry Details
 
 Infer the following from the repository context:
@@ -21,7 +27,9 @@ Infer the following from the repository context:
 1. **Entry type**
 2. **Title**
 3. **Description**
-4. **Component**
+4. **Component** - If a component clearly fits the change, select one from the
+   config. Omit if the change doesn't fit any component (e.g., CI, cross-cutting
+   concerns).
 
 ## Create the Entry
 
@@ -40,7 +48,7 @@ uvx tenzir-changelog add \
 
 Omit `--description-file` if no description was provided.
 
-Omit `--component` if not available or no suitable component is found.
+Omit `--component` if the change doesn't clearly fit any defined component.
 
 ## Verify
 
