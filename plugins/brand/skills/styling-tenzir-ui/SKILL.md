@@ -1,6 +1,6 @@
 ---
 name: styling-tenzir-ui
-description: Provides Tenzir design system tokens and component specifications. Use when building UI components, styling with CSS/Tailwind, choosing colors, typography, spacing, or implementing buttons, inputs, tags, toasts, and other Tenzir UI elements.
+description: Provides Tenzir design system tokens and component specifications. Use when building UI components, styling with CSS/Tailwind, choosing colors, typography, spacing, or implementing buttons, inputs, tags/badges, toasts, and other Tenzir UI elements.
 ---
 
 # Styling Tenzir UI
@@ -92,8 +92,8 @@ When implementing frontend components, always reference the appropriate section:
 
 ### Tags & Badges
 
-- **Tag** - 24px height, 10 colors, add/remove variants
-- **Badge** - 16px height, 8px uppercase text, blue/red colors
+- **Tag** - 24px height, 9 colors, add/remove variants
+- **Badge** - 16px height, 8px uppercase text, 9 colors (same palette as tags)
 
 ### Navigation
 
