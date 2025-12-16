@@ -67,13 +67,8 @@ uvx tenzir-changelog release notes v1.0.0
 
 ## Best Practices
 
-1. **Standalone first sentence** - The first sentence of the body must summarize the entire change, as compact mode only displays this
-2. **One entry per logical change** - Don't combine unrelated changes
-3. **Write for users** - Explain what changed and why it matters
-4. **Avoid implementation details** - Focus on user-visible outcomes, not code structure or internal mechanics
-5. **Use present tense** - "Add feature" not "Added feature"
-6. **Link PRs** - Always include PR numbers for traceability
-7. **Breaking changes** - Clearly explain migration steps in the body
-8. **Preview first** - Always preview releases before committing
-9. **Validate in CI** - Automate validation to enforce metadata completeness
-10. **Use Markdown deliberately** - Frame code and technical terms in backticks (e.g., `--option 42`, `cmd`). Use _emphasis_ and **bold** where it improves clarity
+1. **One entry per logical change** - Don't combine unrelated changes
+2. **Link PRs** - Always include PR numbers for traceability
+3. **Breaking changes** - Clearly explain migration steps in the body
+4. **Preview first** - Always preview releases before committing
+5. **Validate in CI** - Automate validation to enforce metadata completeness
