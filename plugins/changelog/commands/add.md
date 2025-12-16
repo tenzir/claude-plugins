@@ -47,24 +47,23 @@ First, write the description to a temporary file, e.g., in /tmp.
 Then create the entry:
 
 ```sh
-uvx tenzir-changelog add \
+uvx tenzir-changelog --root <module>/changelog add \
   --title "<title>" \
   --type <type> \
   --description-file /tmp/changelog-description.md \
-  --co-author claude \
-  --root <module>/changelog  # For module-based projects
+  --co-author claude
 ```
 
-Omit `--description-file` if no description was provided.
+Omit `--root <module>/changelog` for standalone projects or when targeting the parent changelog.
 
-Omit `--root` for standalone projects or when targeting the parent changelog.
+Omit `--description-file` if no description was provided.
 
 ## Verify
 
 After creating the entry, show the result:
 
 ```sh
-uvx tenzir-changelog show --markdown 1
+uvx tenzir-changelog show --json 1
 ```
 
-Confirm the entry looks correct and inform the user where the file was created.
+Confirm the entry data looks correct and inform the user where the file was created.

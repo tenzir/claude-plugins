@@ -32,21 +32,23 @@ Use the `/changelog:add` slash command.
 
 ### Show Entries
 
+Show unreleased entries in table format:
+
 ```bash
-# Show unreleased entries in table format
 uvx tenzir-changelog show
+```
 
-# Show detailed metadata for a specific entry (card view)
-uvx tenzir-changelog show -c 1
+Prefer structured output via the `--json` flag:
 
-# Show as markdown
-uvx tenzir-changelog show --format markdown
+```bash
+# Show detailed metadata for a specific entry.
+uvx tenzir-changelog show --json 1
 
-# Filter by type
-uvx tenzir-changelog show --type feature
+# Export as JSON.
+uvx tenzir-changelog show --json
 
-# Show a specific release
-uvx tenzir-changelog show --version v1.0.0
+# Show a specific release.
+uvx tenzir-changelog show --json v1.0.0
 ```
 
 ### Validate
@@ -62,7 +64,7 @@ Checks entry structure, required fields, and manifest consistency. Reports missi
 Preview release notes without modifying files:
 
 ```bash
-uvx tenzir-changelog release notes v1.0.0
+uvx tenzir-changelog release notes --json v1.0.0
 ```
 
 ## Best Practices
