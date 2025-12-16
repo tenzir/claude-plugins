@@ -327,6 +327,27 @@ for plugin_dir in "$PLUGINS_DIR"/*/; do
   else
     warn "$plugin_name: missing changelog/config.yaml"
   fi
+
+  # ---------------------------------------------------------------------------
+  # Validate version synchronization
+  # ---------------------------------------------------------------------------
+
+  releases_dir="$plugin_dir/changelog/releases"
+  if [ -d "$releases_dir" ]; then
+    # Find the latest released version (highest semver).
+    # Directories are named vX.Y.Z, we strip the 'v' prefix for comparison.
+    latest_release=$(find "$releases_dir" -mindepth 1 -maxdepth 1 -type d -name 'v*' -exec basename {} \; \
+      | sed 's/^v//' \
+      | sort -t. -k1,1n -k2,2n -k3,3n \
+      | tail -1)
+
+    if [ -n "$latest_release" ]; then
+      plugin_version=$(jq -r '.version // empty' "$plugin_json")
+      if [ -n "$plugin_version" ] && [ "$plugin_version" != "$latest_release" ]; then
+        error "$plugin_name: plugin.json version '$plugin_version' doesn't match latest release 'v$latest_release'"
+      fi
+    fi
+  fi
 done
 
 # =============================================================================
