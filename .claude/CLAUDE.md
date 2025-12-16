@@ -69,6 +69,13 @@ When modifying an existing plugin, follow these steps:
    For cross-cutting changes that affect multiple plugins or the marketplace
    itself, add entries to the parent `changelog/unreleased/` directory.
 
+## Version Synchronization
+
+The version in `plugins/<plugin-name>/.claude-plugin/plugin.json` must match
+the latest released version in `plugins/<plugin-name>/changelog/releases/`. When
+releasing a plugin via `/changelog:release`, update `plugin.json` to reflect the
+new version.
+
 ## Marketplace Manifest
 
 The `.claude-plugin/marketplace.json` file defines this marketplace. It must
