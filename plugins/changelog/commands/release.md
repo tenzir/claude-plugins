@@ -51,6 +51,12 @@ Use `AskUserQuestion` to ask what version to release:
 
 ### 3. Stage the release
 
+Determine the release title. The title becomes the H1 heading in the release
+notes. Examine the release notes and synthesize a user-facing title that
+highlights the lead topic—the most important change from a user's perspective.
+For example, "User-Defined Functions" or "Kubernetes Support" would be
+appropriate titles.
+
 Create an intro file (`/tmp/intro.md`) summarizing the release highlights based
 on entries in `changelog/unreleased/`. Example:
 
@@ -60,7 +66,7 @@ on entries in `changelog/unreleased/`. Example:
 Then stage the release:
 
 ```sh
-uvx tenzir-changelog release create vX.Y.Z --intro-file /tmp/intro.md --yes
+uvx tenzir-changelog release create vX.Y.Z --title "Title" --intro-file /tmp/intro.md --yes
 ```
 
 ### 4. Review release notes
