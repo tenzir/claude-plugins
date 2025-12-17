@@ -53,28 +53,22 @@ When modifying an existing plugin, follow these steps:
 
 1. **Make your changes** to the plugin files (e.g., `SKILL.md`, hooks, etc.)
 
-2. **Bump the version** in `plugins/<plugin-name>/.claude-plugin/plugin.json`
-   according to SemVer:
-   - **Patch** (0.1.0 → 0.1.1): Bug fixes, typo corrections, minor wording
-     improvements
-   - **Minor** (0.1.0 → 0.2.0): New features (e.g., new skill, new slash
-     command, new hook), backward-compatible enhancements
-   - **Major** (0.1.0 → 1.0.0): Breaking changes (e.g., renamed skill,
-     changed hook behavior, removed functionality)
-
-3. **Create a changelog entry** in `plugins/<plugin-name>/changelog/unreleased/`
+2. **Create a changelog entry** in `plugins/<plugin-name>/changelog/unreleased/`
    summarizing user-facing changes. Use the `/changelog:add` command for a
    guided workflow.
 
    For cross-cutting changes that affect multiple plugins or the marketplace
    itself, add entries to the parent `changelog/unreleased/` directory.
 
-## Version Synchronization
+Do **not** bump the version during regular updates. Version bumps happen only
+when releasing the plugin via `/changelog:release`.
 
-The version in `plugins/<plugin-name>/.claude-plugin/plugin.json` must match
-the latest released version in `plugins/<plugin-name>/changelog/releases/`. When
-releasing a plugin via `/changelog:release`, update `plugin.json` to reflect the
-new version.
+## Releasing a Plugin
+
+Use `/changelog:release` to release a plugin. After releasing, update
+`plugins/<plugin-name>/.claude-plugin/plugin.json` to match the new version.
+The version in `plugin.json` must always match the latest released version in
+`plugins/<plugin-name>/changelog/releases/`.
 
 ## Marketplace Manifest
 
