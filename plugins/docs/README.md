@@ -30,7 +30,7 @@ Automatically loaded when working with documentation. Provides:
 
 ### Write docs command
 
-Interactive workflow via `/docs:write-docs [topic]`:
+Interactive workflow via `/docs:write [topic]`:
 
 1. Initializes docs repository if needed
 2. Determines what to document (topic, changes, or last commit)
@@ -49,9 +49,8 @@ Create a pull request via `/docs:pr`:
 
 ## 🔧 Configuration
 
-The plugin auto-detects whether you're working directly in the `tenzir/docs`
-repository or in another project. For other projects, it clones
-`github.com/tenzir/docs` to `.docs/` in your project root.
+The plugin clones `github.com/tenzir/docs` to `.docs/` in your project root if
+it doesn't exist yet.
 
 ## Documentation sections
 
