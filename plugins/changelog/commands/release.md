@@ -8,12 +8,28 @@ Make sure you loaded the `changelog:managing-entries` skill.
 
 Guide me through releasing a project that uses `tenzir-changelog`.
 
-## Detect Project Type
+## Detect Release Context
+
+### Project type
 
 Check if `pyproject.toml` exists. If so, the project type is **python**.
 
 Record the detected project type. Apply "Project type:" sub-sections only when
 they match. Skip non-matching sub-sections.
+
+### Module context
+
+Check if this is a **module release**:
+
+1. Look for a parent `changelog/config.yaml` with a `modules` field that
+   references this changelog directory
+2. Check if the current path matches `plugins/*/changelog`
+
+If either condition is true, this is a **module release**:
+
+- Follow steps 1–6 normally
+- **Stop after "Commit release artifacts"**—do not publish or create tags
+- Report the new version; the parent project handles publishing
 
 ## Pre-Release Checks
 
@@ -102,32 +118,25 @@ git add -A && git commit -m "Release vX.Y.Z"
 
 ### 7. Publish the release
 
-Preview the release notes that will be published:
+Preview the release notes:
 
 ```sh
 uvx tenzir-changelog release notes vX.Y.Z
 ```
 
-If the output looks correct, publish the release (this creates the git tag,
-pushes it, and creates the GitHub release):
+Publish (creates git tag, pushes, and creates GitHub release):
 
 ```sh
 uvx tenzir-changelog release publish vX.Y.Z --tag --yes
 ```
 
-### 8. Post-release
+### 8. Verify
 
-Show the release notes summary:
-
-```sh
-uvx tenzir-changelog release notes vX.Y.Z
-```
-
-Then verify:
+Confirm:
 
 1. The GitHub release page shows correct release notes
-2. GitHu Actions workflows triggered by the tag are passing
+2. GitHub Actions workflows triggered by the tag are passing
 
 #### Project type: python
 
-1. The **Publish to PyPI** workflow completed successfully
+Also verify the **Publish to PyPI** workflow completed successfully.
