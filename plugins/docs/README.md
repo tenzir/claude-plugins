@@ -6,8 +6,15 @@ Documentation workflows for Tenzir projects.
 
 - 📝 **Writing Documentation Skill**: Guidance on the Diátaxis framework,
   section selection, and Tenzir docs conventions
-- 🚀 **Write Docs Command**: Interactive workflow for documenting changes
+- 🚀 **Write Command**: Interactive workflow for documenting changes
+- 🔍 **Review Command**: Check completeness and style of documentation changes
 - 🔀 **PR Command**: Create pull requests for documentation changes
+
+## 📚 Documentation
+
+Skills in this plugin follow the [Agent Skills](https://agentskills.io/) open
+standard—a lightweight format for extending AI agent capabilities with
+specialized knowledge and workflows.
 
 ## 📦 Installation
 
@@ -28,7 +35,7 @@ Automatically loaded when working with documentation. Provides:
 - Frontmatter templates
 - Integration with the `writing:technical-writing` skill for style guidance
 
-### Write docs command
+### Write command
 
 Interactive workflow via `/docs:write [topic]`:
 
@@ -37,6 +44,16 @@ Interactive workflow via `/docs:write [topic]`:
 3. Selects the appropriate section using Diátaxis
 4. Writes or updates documentation
 5. Runs linting validation
+
+### Review command
+
+Review documentation changes via `/docs:review`:
+
+1. Identifies changed files in `.docs/`
+2. Starts the local preview server
+3. Checks completeness (reference/guide alignment, cross-section consistency)
+4. Reviews writing style against `writing:technical-writing` skill
+5. Summarizes issues and offers to fix them
 
 ### PR command
 
