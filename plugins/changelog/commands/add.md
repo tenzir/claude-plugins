@@ -2,7 +2,10 @@
 description: Add a changelog entry for recent changes (feature, bugfix, breaking, change).
 ---
 
-Make sure you loaded the `changelog:managing-entries` skill.
+Make sure you loaded these skills:
+
+- `changelog:managing-entries`
+- `writing:technical-writing`
 
 # Add Changelog Entry
 
@@ -34,8 +37,10 @@ Infer the following from the repository context:
 
 ### Writing Style
 
+Follow the `writing:technical-writing` skill. Additional guidance for changelog entries:
+
 - **Write descriptive titles** - Use noun phrases that describe what changed, not imperative commands. Good: "New authentication API with OAuth support", Bad: "Add OAuth authentication"
-- **Avoid PR-centric language** - The body should explain the change directly, not describe a PR. Good: "The `--verbose` flag now shows detailed timing", Bad: "Adds detailed timing to the verbose flag"
+- **Avoid PR-centric language** - The body explains the change directly, not a PR. Good: "The `--verbose` flag now shows detailed timing", Bad: "Adds detailed timing to the verbose flag"
 - **Standalone first sentence** - The first sentence of the body must summarize the entire change, as compact mode only displays this
 - **Write for users** - Explain what changed and why it matters, not implementation details
 - **Use Markdown deliberately** - Frame code and technical terms in backticks (e.g., `--option 42`). Use _emphasis_ and **bold** where it improves clarity
