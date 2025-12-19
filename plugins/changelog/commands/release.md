@@ -82,7 +82,7 @@ If adjustments are needed, edit the intro or entries and re-run `release create`
 ### 5. Bump version
 
 See if there are version files to update (e.g., `package.json`, `Cargo.toml`,
-`plugin.json`). If so, update them now.
+`extension.toml`, `plugin.json`). If so, update them now.
 
 #### Project type: python
 
