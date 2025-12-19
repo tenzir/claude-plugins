@@ -39,11 +39,18 @@ Infer the following from the repository context:
 
 Follow the `prose:technical-writing` skill. Additional guidance for changelog entries:
 
-- **Write descriptive titles** - Use noun phrases that describe what changed, not imperative commands. Good: "New authentication API with OAuth support", Bad: "Add OAuth authentication"
-- **Avoid PR-centric language** - The body explains the change directly, not a PR. Good: "The `--verbose` flag now shows detailed timing", Bad: "Adds detailed timing to the verbose flag"
-- **Standalone first sentence** - The first sentence of the body must summarize the entire change, as compact mode only displays this
+#### Titles
+
+- **Plain text only** - No backticks, no markdown formatting. Titles appear in tables and feeds where markdown isn't rendered.
+- **User-facing language** - Describe the user benefit, not the implementation. Good: "Autonomous documentation workflow", Bad: "New `docs:writer` subagent"
+- **Descriptive noun phrases** - Describe what changed, not imperative commands. Good: "OAuth support for authentication API", Bad: "Add OAuth authentication"
+
+#### Body
+
+- **Standalone first sentence** - The first sentence must summarize the entire change, as compact mode only displays this
 - **Write for users** - Explain what changed and why it matters, not implementation details
 - **Use Markdown deliberately** - Frame code and technical terms in backticks (e.g., `--option 42`). Use _emphasis_ and **bold** where it improves clarity
+- **Avoid PR-centric language** - Explain the change directly. Good: "The `--verbose` flag now shows detailed timing", Bad: "Adds detailed timing to the verbose flag"
 
 ## Create the Entry
 

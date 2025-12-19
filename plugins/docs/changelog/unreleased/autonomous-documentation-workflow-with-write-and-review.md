@@ -1,5 +1,5 @@
 ---
-title: New `docs:writer` subagent for autonomous documentation workflow
+title: Autonomous documentation workflow with write and review
 type: feature
 authors:
   - mavam
