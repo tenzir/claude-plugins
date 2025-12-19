@@ -56,5 +56,5 @@ Load the `writing:technical-writing` skill for detailed style guidance.
 ## Workflow
 
 1. Run `/docs:write` to create or update documentation
-2. Preview locally: `cd .docs && pnpm dev`
+2. Run `/docs:review` to check completeness and style
 3. Run `/docs:pr` to create a pull request
