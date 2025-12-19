@@ -41,19 +41,6 @@ src/content/docs/
 └── integrations/   # Third-party products by vendor
 ```
 
-### Auto-Updated Files
-
-Some files are automatically synced from upstream repositories. **Never edit**:
-
-- `reference/functions/` - synced from tenzir/tenzir
-- `reference/operators/` - synced from tenzir/tenzir
-- `reference/functions.mdx` - auto-generated overview
-- `reference/operators.mdx` - auto-generated overview
-- `changelog/` directories - generated from changelog entries
-
-To update these, make changes in the source repository (tenzir/tenzir or
-tenzir/platform).
-
 ## File Format
 
 - Use `.mdx` for new files
