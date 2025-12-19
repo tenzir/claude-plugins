@@ -7,4 +7,4 @@ authors:
 created: 2025-12-16T13:32:28.406234Z
 ---
 
-The `/changelog:add` command now references the `writing:technical-writing` skill for general style guidance.
+The `/changelog:add` command now references the `prose:technical-writing` skill for general style guidance.

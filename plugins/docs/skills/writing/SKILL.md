@@ -51,7 +51,7 @@ See [format.md](./format.md) for frontmatter and code block details.
 
 ## Writing Style
 
-Load the `writing:technical-writing` skill for detailed style guidance.
+Load the `prose:technical-writing` skill for detailed style guidance.
 
 ## Workflow
 

@@ -33,7 +33,7 @@ Automatically loaded when working with documentation. Provides:
 - Decision tree for choosing the right documentation section
 - File format conventions (`.mdx`)
 - Frontmatter templates
-- Integration with the `writing:technical-writing` skill for style guidance
+- Integration with the `prose:technical-writing` skill for style guidance
 
 ### Write command
 
@@ -52,7 +52,7 @@ Review documentation changes via `/docs:review`:
 1. Identifies changed files in `.docs/`
 2. Starts the local preview server
 3. Checks completeness (reference/guide alignment, cross-section consistency)
-4. Reviews writing style against `writing:technical-writing` skill
+4. Reviews writing style against `prose:technical-writing` skill
 5. Summarizes issues and offers to fix them
 
 ### PR command

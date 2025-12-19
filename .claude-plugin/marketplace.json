@@ -50,9 +50,9 @@
       "source": "./plugins/tql"
     },
     {
-      "name": "writing",
-      "description": "Writing guidelines for documentation, marketing, and more",
-      "source": "./plugins/writing"
+      "name": "prose",
+      "description": "Style guidelines for technical prose",
+      "source": "./plugins/prose"
     }
   ]
 }

@@ -1,6 +1,6 @@
-# Writing
+# Prose
 
-Writing guidelines for documentation, marketing, and more.
+Style guidelines for technical prose.
 
 ## ✨ Features
 
@@ -10,7 +10,7 @@ Writing guidelines for documentation, marketing, and more.
 ## 📦 Installation
 
 ```
-/plugin install writing@tenzir
+/plugin install prose@tenzir
 ```
 
 ## ⚙️ How it works
@@ -20,7 +20,7 @@ documentation, README files, API docs, code comments, and user guides.
 
 ### Skills
 
-**writing:technical-writing**: Automatically loaded when writing documentation. Covers:
+**prose:technical-writing**: Automatically loaded when writing documentation. Covers:
 
 - Voice and tone (second person, active voice)
 - Inclusive language guidelines

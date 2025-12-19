@@ -22,4 +22,4 @@ Affected references across plugins:
 - `docs:writing`
 - `meta:managing-plugins`
 - `python:python-conventions`
-- `writing:technical-writing`
+- `prose:technical-writing`

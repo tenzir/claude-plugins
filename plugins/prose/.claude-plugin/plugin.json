@@ -1,7 +1,7 @@
 {
-  "name": "writing",
+  "name": "prose",
   "version": "1.0.0",
-  "description": "Writing guidelines for documentation, marketing, and more",
+  "description": "Style guidelines for technical prose",
   "author": {
     "name": "Tenzir",
     "email": "engineering@tenzir.com",
