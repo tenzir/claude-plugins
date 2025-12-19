@@ -8,7 +8,7 @@ args:
 
 # Write documentation
 
-Use the `docs:writing-documentation` skill for this sequence of steps.
+Use the `docs:writing` skill for this sequence of steps.
 
 ## 1. Initialize documentation root
 

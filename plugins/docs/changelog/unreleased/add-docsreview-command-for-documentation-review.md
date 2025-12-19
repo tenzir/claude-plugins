@@ -11,7 +11,7 @@ Introduces the `/docs:review` command to review documentation changes for comple
 
 - Identifies changes in the `.docs/` directory
 - Starts the local preview server for live verification
-- Checks completeness using the `docs:writing-documentation` skill
+- Checks completeness using the `docs:writing` skill
 - Reviews writing style using the `writing:technical-writing` skill
 - Summarizes findings and offers to fix identified issues
 

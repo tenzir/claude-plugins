@@ -1,5 +1,5 @@
 ---
-name: writing-documentation
+name: writing
 description: Write documentation for Tenzir projects. Use when adding or updating docs for tutorials, guides, explanations, reference, or integrations.
 ---
 
