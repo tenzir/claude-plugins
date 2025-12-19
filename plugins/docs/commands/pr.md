@@ -6,27 +6,19 @@ description: Create a pull request (PR) for documentation changes
 
 At any step, if there are errors, report them and stop.
 
-## 1. Detect documentation root
+## 1. Check for changes
 
-Run the detection script:
+Check for uncommitted changes in `.docs/`.
 
-```bash
-DOCS_ROOT=$($CLAUDE_PLUGIN_ROOT/scripts/detect-docs-root.sh)
-```
+## 2. Lint
 
-## 2. Check for changes
+Run `pnpm lint:fix` in `.docs/`.
 
-Check for uncommitted changes in `$DOCS_ROOT`.
+## 3. Build
 
-## 3. Lint
+Run `pnpm build:linkcheck` in `.docs/`.
 
-Run `pnpm lint:fix` in `$DOCS_ROOT`.
-
-## 4. Build
-
-Run `pnpm build:linkcheck` in `$DOCS_ROOT`.
-
-## 5. Create PR
+## 4. Create PR
 
 1. Create a topic branch (e.g., `topic/kafka-guide-updates`)
 2. Stage and commit following `git:writing-commit-messages` conventions

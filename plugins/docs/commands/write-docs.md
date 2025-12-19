@@ -10,20 +10,14 @@ args:
 
 Use the `docs:writing-documentation` skill for this sequence of steps.
 
-## 1. Detect and initialize documentation root
+## 1. Initialize documentation root
 
-Run the detection script:
-
-```bash
-DOCS_ROOT=$($CLAUDE_PLUGIN_ROOT/scripts/detect-docs-root.sh)
-```
-
-If `$DOCS_ROOT` is `.docs` and doesn't exist:
+If `.docs/` doesn't exist:
 
 1. Clone `git@github.com:tenzir/docs.git` to `.docs/`
 2. Run `pnpm install` in `.docs/`
 
-If `$DOCS_ROOT/node_modules/` doesn't exist, run `pnpm install` in `$DOCS_ROOT`.
+If `.docs/node_modules/` doesn't exist, run `pnpm install` in `.docs/`.
 
 ## 2. Determine what to document
 
@@ -44,7 +38,7 @@ Apply the decision tree from the skill to select the right section. Use
 
 ## 4. Check for existing documentation
 
-Search `$DOCS_ROOT` for existing documentation on the topic:
+Search `.docs/` for existing documentation on the topic:
 
 - Check if a relevant page already exists
 - If updating existing docs, read the current content first
@@ -52,7 +46,7 @@ Search `$DOCS_ROOT` for existing documentation on the topic:
 
 ## 5. Write the documentation
 
-Create or update documentation files in `$DOCS_ROOT`:
+Create or update documentation files in `.docs/`:
 
 - Add frontmatter with `title`
 - Use `.mdx` format for new files
@@ -63,7 +57,7 @@ Create or update documentation files in `$DOCS_ROOT`:
 Run linting and auto-fix trivial issues:
 
 ```bash
-cd $DOCS_ROOT && pnpm lint:fix
+cd .docs && pnpm lint:fix
 ```
 
 If there are remaining linting errors, show them to the user and ask how to
