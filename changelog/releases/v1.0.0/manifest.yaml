@@ -1,0 +1,21 @@
+created: 2025-12-19
+title: First Stable Release
+intro: >-
+  This is the first stable release of the Tenzir Claude Marketplace, a collection
+  of plugins that extend Claude Code's capabilities for working with the Tenzir ecosystem.
+
+
+  This release introduces fully qualified skill names across all plugins for clarity
+  and consistency. The `writing` plugin has been renamed to `prose` to better reflect
+  its purpose, and the auto-update plugin has been removed in favor of manual updates.
+  The CI now validates all skills using the official Agent Skills specification.
+modules:
+  brand: v1.0.0
+  changelog: v1.2.0
+  docs: v1.1.0
+  formatter: v1.0.0
+  git: v1.0.0
+  meta: v1.1.0
+  prose: v1.0.0
+  python: v1.0.0
+  tql: v1.0.0

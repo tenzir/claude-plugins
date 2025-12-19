@@ -1,5 +1,6 @@
 id: claude-plugins
 name: Tenzir Claude Marketplace
+repository: tenzir/claude-plugins
 description: >-
   A Claude Code plugin marketplace containing plugins that extend Claude's
   capabilities for working with the Tenzir ecosystem.
