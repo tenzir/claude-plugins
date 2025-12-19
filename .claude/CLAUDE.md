@@ -65,8 +65,13 @@ when releasing the plugin via `/changelog:release`.
 
 ## Releasing a Plugin
 
-Use `/changelog:release` to release a plugin. After releasing, update
-`plugins/<plugin-name>/.claude-plugin/plugin.json` to match the new version.
+Use `/changelog:release` to release a plugin. Plugin releases:
+
+- Stage the release and commit locally
+- Do NOT create git tags or GitHub releases (the parent handles publishing)
+- Update `plugins/<plugin-name>/.claude-plugin/plugin.json` to match the new
+  version
+
 The version in `plugin.json` must always match the latest released version in
 `plugins/<plugin-name>/changelog/releases/`.
 
