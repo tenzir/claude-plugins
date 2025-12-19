@@ -9,6 +9,7 @@ Documentation workflows for Tenzir projects.
 - 🚀 **Write Command**: Interactive workflow for documenting changes
 - 🔍 **Review Command**: Check completeness and style of documentation changes
 - 🔀 **PR Command**: Create pull requests for documentation changes
+- 🤖 **Writer Subagent**: Opus-based agent that handles writing and reviewing documentation autonomously
 
 ## 📚 Documentation
 
@@ -63,6 +64,20 @@ Create a pull request via `/docs:pr`:
 2. Runs linting and build checks
 3. Creates a topic branch and commits
 4. Opens a PR with `gh pr create`
+
+### Writer subagent
+
+The `docs:writer` subagent autonomously handles the documentation workflow. It
+executes `/docs:write` followed by `/docs:review`, then halts to let you inspect
+the results before deciding to create a PR. The subagent:
+
+1. Writes documentation (initializes repo, selects section, creates/updates files)
+2. Reviews the changes (completeness, style)
+3. Summarizes what was done and stops
+
+Use this subagent when you want to delegate documentation creation entirely. It
+makes autonomous decisions about section selection, style fixes, and reports any
+completeness gaps.
 
 ## 🔧 Configuration
 
