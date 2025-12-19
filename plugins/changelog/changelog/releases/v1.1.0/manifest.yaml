@@ -1,0 +1,8 @@
+created: 2025-12-19
+title: Changelog Plugin v1.1.0
+intro: >-
+  This release improves documentation and guidance across the changelog plugin. Updates
+  include better CLI usage examples with correct flag positioning, enhanced release
+  title documentation, and clearer guidance on writing plain text titles for changelog
+  entries. All improvements focus on helping users follow best practices when managing
+  changelogs.
