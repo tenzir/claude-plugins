@@ -1,0 +1,7 @@
+created: 2025-12-19
+title: Composability Principle for Subagents
+intro: >-
+  This release introduces autonomous documentation workflows with the new `/docs:review`
+  command and `docs:writer` subagent. The plugin now uses `.docs` as the unconditional
+  documentation root and streamlines command naming by renaming `/docs:write-docs`
+  to `/docs:write`.
