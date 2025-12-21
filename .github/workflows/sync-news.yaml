@@ -27,3 +27,4 @@ jobs:
         with:
           token: ${{ steps.app-token.outputs.token }}
           extra_paths: "plugins/*/changelog"
+          skip_notifications: true
