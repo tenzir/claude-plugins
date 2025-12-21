@@ -67,18 +67,20 @@ Use `AskUserQuestion` to ask what version to release:
 
 ### 3. Stage the release
 
-Determine the release title. Examine the release notes and synthesize a
-user-facing title that highlights the lead topic—the most important change from
-a user's perspective. For example, "User-Defined Functions" or "Kubernetes
-Support" would be appropriate titles.
+Staging the release means reorganizing the changelog/ directory to reflect the
+latest release. This requires two additional inputs:
 
-Create an intro file (`/tmp/intro.md`) summarizing the release highlights based
-on entries in `changelog/unreleased/`. Example:
+1. **Title**: Examine the release notes and synthesize a user-facing title that
+   highlights the lead topic—the most important change from a user's
+   perspective. For example, "User-Defined Functions" or "Kubernetes Support".
 
-> This release adds support for custom templates and improves validation
-> performance. It also fixes several bugs related to YAML parsing.
+2. **Intro**: Create an intro file (`/tmp/intro.md`) summarizing the release
+   highlights based on entries in `changelog/unreleased/`. Example:
 
-Then stage the release:
+   > This release adds support for custom templates and improves validation
+   > performance. It also fixes several bugs related to YAML parsing.
+
+Then execute staging the release:
 
 ```sh
 uvx tenzir-changelog release create vX.Y.Z \
