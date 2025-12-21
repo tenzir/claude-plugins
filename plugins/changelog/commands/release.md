@@ -27,8 +27,9 @@ Check if this is a **module release**:
 
 If either condition is true, this is a **module release**:
 
-- Follow steps 1–6 normally
-- **Stop after "Commit release artifacts"**—do not publish or create tags
+- Follow steps 1–5 normally
+- **Stop after "Bump version"**—do not publish or create tags
+- Commit with `git add -A` followed by `git commit -m "Release $(uvx tenzir-changelog release version)"`
 - Report the new version; the parent project handles publishing
 
 ## Pre-Release Checks
@@ -57,13 +58,15 @@ Run the quality gates (all must pass):
 
 Fix any failures before continuing.
 
-### 2. Determine version
+### 2. Determine version bump
 
-Use `AskUserQuestion` to ask what version to release:
+Use `AskUserQuestion` to ask what type of release this is:
 
 - **patch** (x.y.Z) - Bug fixes, minor changes
 - **minor** (x.Y.0) - New features, backward compatible
 - **major** (X.0.0) - Breaking changes
+
+Record the selected bump type for subsequent steps.
 
 ### 3. Stage the release
 
@@ -83,7 +86,7 @@ latest release. This requires two additional inputs:
 Then execute staging the release:
 
 ```sh
-uvx tenzir-changelog release create vX.Y.Z \
+uvx tenzir-changelog release create --patch|--minor|--major \
   --title "Title" \
   --intro-file /tmp/intro.md \
   --yes
@@ -94,7 +97,7 @@ uvx tenzir-changelog release create vX.Y.Z \
 Display the generated release notes and use `AskUserQuestion` to ask for confirmation:
 
 ```sh
-uvx tenzir-changelog release notes vX.Y.Z
+uvx tenzir-changelog release notes
 ```
 
 If adjustments are needed, edit the intro or entries and re-run `release create`.
@@ -102,11 +105,12 @@ If adjustments are needed, edit the intro or entries and re-run `release create`
 ### 5. Bump version
 
 See if there are version files to update (e.g., `package.json`, `Cargo.toml`,
-`extension.toml`, `plugin.json`). If so, update them now.
+`extension.toml`, `plugin.json`). If so, update them now using the bump type
+from step 2.
 
 #### Project type: python
 
-Run:
+Run with the bump type from step 2:
 
 ```sh
 uv version --bump patch|minor|major
@@ -114,27 +118,23 @@ uv version --bump patch|minor|major
 
 This updates `pyproject.toml` and `uv.lock`.
 
-### 6. Commit release artifacts
-
-```sh
-git add -A && git commit -m "Release vX.Y.Z"
-```
-
-### 7. Publish the release
+### 6. Publish the release
 
 Preview the release notes:
 
 ```sh
-uvx tenzir-changelog release notes vX.Y.Z
+uvx tenzir-changelog release notes
 ```
 
-Publish (creates git tag, pushes, and creates GitHub release):
+Stage all changes, then publish (commits, creates git tag, pushes, and creates
+GitHub release):
 
 ```sh
-uvx tenzir-changelog release publish vX.Y.Z --tag --yes
+git add -A
+uvx tenzir-changelog release publish --commit --tag --yes
 ```
 
-### 8. Verify
+### 7. Verify
 
 Confirm:
 
