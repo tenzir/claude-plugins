@@ -38,6 +38,11 @@ Consult the official [Claude Code plugins
 documentation](https://code.claude.com/docs/en/plugins) for details on plugin
 structure and configuration.
 
+> [!NOTE]
+> Some plugins touch C++ tooling (e.g., clangd, IWYU). These tools are useful,
+> but their configurations should be tailored to the specific repository and
+> kept with the project that uses them.
+
 ## 📜 License
 
 `claude-plugins` is available under the Apache License, Version 2.0. See
