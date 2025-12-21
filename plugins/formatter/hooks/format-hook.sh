@@ -25,6 +25,22 @@ if [[ "$FILE_PATH" =~ \.(cmake|CMakeLists\.txt)$ ]]; then
   fi
 fi
 
+if [[ "$FILE_PATH" =~ \.(md|mdx)$ ]]; then
+  if command -v markdownlint &>/dev/null; then
+    markdownlint "$FILE_PATH" --fix
+  else
+    echo "markdownlint not found, skipping auto-formatting" >&2
+  fi
+fi
+
+if [[ "$FILE_PATH" =~ \.(md|mdx|json)$ ]]; then
+  if command -v prettier &>/dev/null; then
+    prettier --write "$FILE_PATH"
+  else
+    echo "prettier not found, skipping auto-formatting" >&2
+  fi
+fi
+
 # -i 2: indent with 2 spaces
 # -ci: indent switch cases
 # -bn: binary ops may start line
@@ -36,18 +52,10 @@ if [[ "$FILE_PATH" =~ \.(sh|bash)$ ]]; then
   fi
 fi
 
-if [[ "$FILE_PATH" =~ \.(md|mdx)$ ]]; then
-  if command -v markdownlint &>/dev/null; then
-    markdownlint "$FILE_PATH" --fix
+if [[ "$FILE_PATH" =~ \.(yaml|yml)$ ]]; then
+  if command -v yamllint &>/dev/null; then
+    yamllint "$FILE_PATH"
   else
-    echo "markdownlint not found, skipping auto-formatting" >&2
-  fi
-fi
-
-if [[ "$FILE_PATH" =~ \.(md|mdx|json|yaml|yml)$ ]]; then
-  if command -v prettier &>/dev/null; then
-    prettier --write "$FILE_PATH"
-  else
-    echo "prettier not found, skipping auto-formatting" >&2
+    echo "yamllint not found, skipping linting" >&2
   fi
 fi
