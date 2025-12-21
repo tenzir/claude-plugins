@@ -1,0 +1,6 @@
+created: 2025-12-21
+title: Relative Versioning Support
+intro: >-
+  This release improves the release workflow with relative versioning support and
+  clearer staging instructions. The documentation has been updated to align with tenzir-changelog
+  v0.17.2, which no longer duplicates release titles in the notes.
