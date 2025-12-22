@@ -1,0 +1,5 @@
+created: 2025-12-22
+title: Auto-sync documentation repository
+intro: >-
+  This release ensures the `/docs:write` command works with up-to-date documentation
+  by synchronizing the `.docs/` clone with the latest changes from `main` before writing.

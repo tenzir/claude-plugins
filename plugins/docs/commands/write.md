@@ -10,14 +10,10 @@ args:
 
 Use the `docs:writing` skill for this sequence of steps.
 
-## 1. Initialize documentation root
+## 1. Synchronize documentation root
 
-If `.docs/` doesn't exist:
-
-1. Clone `git@github.com:tenzir/docs.git` to `.docs/`
-2. Run `pnpm install` in `.docs/`
-
-If `.docs/node_modules/` doesn't exist, run `pnpm install` in `.docs/`.
+Run `"$CLAUDE_PLUGIN_ROOT/scripts/synchronize-docs.sh"` to ensure the local
+`.docs/` clone is ready to use.
 
 ## 2. Determine what to document
 
@@ -33,8 +29,8 @@ Otherwise, detect what to document:
 
 ## 3. Determine target section
 
-Apply the decision tree from the skill to select the right section. Use
-`AskUserQuestion` if the appropriate section is ambiguous.
+Apply the decision tree from the `docs:writing` skill to select the right
+section. Use `AskUserQuestion` if the appropriate section is ambiguous.
 
 ## 4. Check for existing documentation
 
