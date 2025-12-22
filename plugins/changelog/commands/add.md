@@ -13,9 +13,16 @@ Guide me through adding a changelog entry for recent work.
 
 ## Gather Context
 
-Introspect the local repository to understand what changed. Look at staged
-changes, recent commits, and uncommitted work. Use this context to suggest an
-appropriate entry type and title.
+Review the full scope of changes to suggest an appropriate entry type and title
+that captures the overall user-facing impact.
+
+To this end, introspect the local git repository. A changelog entry typically
+summarizes all changes in a PR and can go beyond a single commit.
+
+If there is no PR, look at uncommitted changes and walk backwards in the git
+history to determine a suitable sequence of commits that would make up a
+coherent changelog entry. Always stop when you find a commit with an existing
+changelog entry.
 
 ## Determine Target Changelog
 
