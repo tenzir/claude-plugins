@@ -24,3 +24,8 @@ jobs:
       - uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Load plugins from this repo
+          plugin_marketplaces: |
+            https://github.com/tenzir/claude-plugins.git
+          plugins: |
+            changelog@tenzir
