@@ -33,29 +33,15 @@ It provides guidance on:
 
 ## 🔄 CI Integration
 
-Use the reusable workflow to enable `/changelog` commands in PRs:
+With the [Claude GitHub App](https://github.com/apps/claude) installed, comment on any PR:
 
-```yaml
-# .github/workflows/claude-changelog.yaml
-name: Claude Changelog Entry
-
-on:
-  issue_comment:
-    types: [created]
-
-jobs:
-  add-changelog-entry:
-    if: |
-      github.event.issue.pull_request &&
-      contains(github.event.comment.body, '/changelog')
-    uses: tenzir/claude-plugins/.github/workflows/changelog-add.yaml@main
-    secrets:
-      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+```
+@claude add a changelog entry
 ```
 
-Then comment on any PR with `/changelog`.
+Claude uses the `changelog:adder` agent to analyze the PR and create an appropriate entry.
 
 ## Requirements
 
 - [tenzir-changelog](https://github.com/tenzir/changelog) - Installable via `uvx` or `pip`
-- `ANTHROPIC_API_KEY` secret (for CI integration)
+- [Claude GitHub App](https://github.com/apps/claude) installed on the repository
