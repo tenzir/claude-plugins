@@ -1,0 +1,6 @@
+created: 2025-12-23
+title: Pyright Language Server Integration
+intro: >-
+  This release adds Pyright language server integration for enhanced Python development
+  capabilities. The LSP configuration provides go-to-definition, find-references,
+  hover information, and diagnostics for Python files.
