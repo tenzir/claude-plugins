@@ -7,6 +7,7 @@ Manage changelogs and release notes with tenzir-changelog.
 - 📋 **Managing Entries Skill**: Auto-triggered assistance for creating and managing changelog entries
 - ➕ **Add Command**: Create changelog entries via `/changelog:add`
 - 🚀 **Release Command**: Generic release workflow via `/changelog:release`
+- 🤖 **Adder Agent**: Non-interactive agent for CI automation via `changelog:adder`
 
 ## 📦 Installation
 
@@ -30,6 +31,17 @@ It provides guidance on:
 - Entry types: `breaking`, `feature`, `bugfix`, `change`
 - Commands: `uvx tenzir-changelog add`, `show`, `validate`
 
+## 🔄 CI Integration
+
+With the [Claude GitHub App](https://github.com/apps/claude) installed, comment on any PR:
+
+```
+@claude add a changelog entry
+```
+
+Claude uses the `changelog:adder` agent to analyze the PR and create an appropriate entry.
+
 ## Requirements
 
-- [tenzir-changelog](https://github.com/tenzir/tenzir-changelog) - Installable via `uvx` or `pip`
+- [tenzir-changelog](https://github.com/tenzir/changelog) - Installable via `uvx` or `pip`
+- [Claude GitHub App](https://github.com/apps/claude) installed on the repository

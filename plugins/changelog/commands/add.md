@@ -70,12 +70,15 @@ uvx tenzir-changelog --root <module>/changelog add \
   --title "<title>" \
   --type <type> \
   --description-file .description.md \
+  --pr <number> \
   --co-author claude
 ```
 
 Omit `--root <module>/changelog` for standalone projects or when targeting the parent changelog.
 
 Omit `--description-file` if no description was provided.
+
+Include `--pr <number>` only when running in GitHub Actions (CI). Extract the PR number from `$GITHUB_EVENT_PATH`. Locally, omit `--pr` as it's auto-inferred from `gh` context.
 
 Remove the temporary file on success.
 
