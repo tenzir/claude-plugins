@@ -2,6 +2,11 @@ name: Add Changelog Entry
 
 on:
   workflow_call:
+    inputs:
+      pr_number:
+        description: PR number to add changelog entry to
+        required: false
+        type: number
     secrets:
       ANTHROPIC_API_KEY:
         description: Anthropic API key for Claude
@@ -21,7 +26,7 @@ jobs:
       - name: Checkout PR branch
         uses: actions/checkout@v4
         with:
-          ref: refs/pull/${{ github.event.issue.number }}/head
+          ref: refs/pull/${{ inputs.pr_number || github.event.issue.number }}/head
           fetch-depth: 0
 
       - name: Run Claude changelog agent
@@ -49,5 +54,5 @@ jobs:
             🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
             Co-Authored-By: Claude <noreply@anthropic.com>"
-            git push origin HEAD:refs/pull/${{ github.event.issue.number }}/head
+            git push origin HEAD:refs/pull/${{ inputs.pr_number || github.event.issue.number }}/head
           fi
