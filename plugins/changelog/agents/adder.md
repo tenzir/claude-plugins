@@ -1,6 +1,6 @@
 ---
 name: adder
-description: Create a changelog entry for PR changes. Use when @mentioned in a PR to add a changelog entry automatically.
+description: Create a changelog entry for PR changes. Use for non-interactive CI automation.
 tools: Read, Glob, Grep, Bash, Write, Skill, SlashCommand
 model: sonnet
 color: blue
