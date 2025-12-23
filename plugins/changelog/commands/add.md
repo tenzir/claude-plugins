@@ -61,7 +61,7 @@ Follow the `prose:technical-writing` skill. Additional guidance for changelog en
 
 ## Create the Entry
 
-First, write the description to a temporary file, e.g., in /tmp.
+First, write the description to a temporary file, e.g., `.description.md`.
 
 Then create the entry:
 
@@ -69,13 +69,15 @@ Then create the entry:
 uvx tenzir-changelog --root <module>/changelog add \
   --title "<title>" \
   --type <type> \
-  --description-file /tmp/changelog-description.md \
+  --description-file .description.md \
   --co-author claude
 ```
 
 Omit `--root <module>/changelog` for standalone projects or when targeting the parent changelog.
 
 Omit `--description-file` if no description was provided.
+
+Remove the temporary file on success.
 
 ## Verify
 

@@ -12,10 +12,15 @@ Guide me through releasing a project that uses `tenzir-changelog`.
 
 ### Project type
 
-Check if `pyproject.toml` exists. If so, the project type is **python**.
+Identify the project type by running
+`${CLAUDE_PLUGIN_ROOT}/scripts/detect-project-type.sh`.
 
-Record the detected project type. Apply "Project type:" sub-sections only when
-they match. Skip non-matching sub-sections.
+Only execute the project-specific sections, e.g., if the project type is
+`python`, only read the instructions fenced within the respective XML tag:
+
+<project type="python">
+Python-specific instructions here.
+</project>
 
 ### Module context
 
@@ -46,7 +51,7 @@ If any check fails, use `AskUserQuestion` to ask how to proceed.
 
 ### 1. Quality gates
 
-#### Project type: python
+<project type="python">
 
 Run the quality gates (all must pass):
 
@@ -57,6 +62,8 @@ Run the quality gates (all must pass):
 - `uv build`
 
 Fix any failures before continuing.
+
+</project>
 
 ### 2. Determine version bump
 
@@ -77,7 +84,7 @@ latest release. This requires two additional inputs:
    highlights the lead topic—the most important change from a user's
    perspective. For example, "User-Defined Functions" or "Kubernetes Support".
 
-2. **Intro**: Create an intro file (`/tmp/intro.md`) summarizing the release
+2. **Intro**: Create an intro file (e.g., `.intro.md`) summarizing the release
    highlights based on entries in `changelog/unreleased/`. Example:
 
    > This release adds support for custom templates and improves validation
@@ -88,9 +95,11 @@ Then execute staging the release:
 ```sh
 uvx tenzir-changelog release create --patch|--minor|--major \
   --title "Title" \
-  --intro-file /tmp/intro.md \
+  --intro-file .intro.md \
   --yes
 ```
+
+Remove the temporary intro file on success.
 
 ### 4. Review release notes
 
@@ -100,15 +109,22 @@ Display the generated release notes and use `AskUserQuestion` to ask for confirm
 uvx tenzir-changelog release notes
 ```
 
-If adjustments are needed, edit the intro or entries and re-run `release create`.
+If adjustments are needed, edit the intro and/or entries, and re-run `release
+create` to update the just created changelog files.
 
 ### 5. Bump version
 
-See if there are version files to update (e.g., `package.json`, `Cargo.toml`,
-`extension.toml`, `plugin.json`). If so, update them now using the bump type
-from step 2.
+If the project contains files that maintain the authoritative project version,
+update them now using the bump type from step 2.
 
-#### Project type: python
+Example files that contain an authoritative version:
+
+- Cargo.toml
+- extension.toml
+- package.json
+- plugin.json
+
+<project type="python">
 
 Run with the bump type from step 2:
 
@@ -117,6 +133,8 @@ uv version --bump patch|minor|major
 ```
 
 This updates `pyproject.toml` and `uv.lock`.
+
+</project>
 
 ### 6. Publish the release
 
@@ -141,6 +159,8 @@ Confirm:
 1. The GitHub release page shows correct release notes
 2. GitHub Actions workflows triggered by the tag are passing
 
-#### Project type: python
+<project type="python">
 
-Also verify the **Publish to PyPI** workflow completed successfully.
+Watch CI until the **Publish to PyPI** workflow completes successfully.
+
+</project>
