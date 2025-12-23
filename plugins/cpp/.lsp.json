@@ -1,0 +1,26 @@
+{
+  "cpp": {
+    "command": "clangd",
+    "args": [
+      "--header-insertion=iwyu",
+      "--clang-tidy",
+      "--all-scopes-completion",
+      "--completion-style=detailed"
+    ],
+    "extensionToLanguage": {
+      ".cpp": "cpp",
+      ".cc": "cpp",
+      ".cxx": "cpp",
+      ".c++": "cpp",
+      ".c": "cpp",
+      ".h": "cpp",
+      ".hpp": "cpp",
+      ".hxx": "cpp",
+      ".h++": "cpp"
+    },
+    "transport": "stdio",
+    "initializationOptions": {},
+    "settings": {},
+    "maxRestarts": 3
+  }
+}
