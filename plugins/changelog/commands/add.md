@@ -13,8 +13,8 @@ Guide me through adding a changelog entry for recent work.
 
 ## Gather Context
 
-Review the full scope of changes to suggest an appropriate entry type and title
-that captures the overall user-facing impact.
+Review the full scope of changes to suggest an appropriate entry *type* and
+*title* that captures the overall user-facing impact.
 
 To this end, introspect the local git repository. A changelog entry typically
 summarizes all changes in a PR and can go beyond a single commit.
@@ -48,7 +48,7 @@ Follow the `prose:technical-writing` skill. Additional guidance for changelog en
 
 #### Titles
 
-- **Plain text only** - No backticks, no markdown formatting. Titles appear in tables and feeds where markdown isn't rendered.
+- **Plain text only** - Sentence case, no backticks, no Markdown formatting. Titles appear in tables and feeds where Markdown isn't rendered.
 - **User-facing language** - Describe the user benefit, not the implementation. Good: "Autonomous documentation workflow", Bad: "New `docs:writer` subagent"
 - **Descriptive noun phrases** - Describe what changed, not imperative commands. Good: "OAuth support for authentication API", Bad: "Add OAuth authentication"
 
