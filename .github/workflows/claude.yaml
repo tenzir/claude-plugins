@@ -32,5 +32,4 @@ jobs:
             docs@tenzir
             formatter@tenzir
             git@tenzir
-            meta@tenzir
             prose@tenzir
