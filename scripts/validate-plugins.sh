@@ -147,6 +147,30 @@ if [ -f "$SETTINGS_JSON" ]; then
 fi
 
 # =============================================================================
+# Validate plugins in CI workflow
+# =============================================================================
+
+CLAUDE_WORKFLOW="$REPO_ROOT/.github/workflows/claude.yaml"
+
+if [ -f "$CLAUDE_WORKFLOW" ]; then
+  info "checking plugins in CI workflow..."
+
+  # Extract plugins from the workflow file (lines with @marketplace suffix).
+  workflow_plugins=$(grep -E "^\s+\w+@$MARKETPLACE_NAME\s*$" "$CLAUDE_WORKFLOW" 2>/dev/null | tr -d ' ')
+
+  while IFS= read -r full_plugin_name; do
+    [ -z "$full_plugin_name" ] && continue
+    # Strip the @marketplace suffix to get the plugin name.
+    plugin_name="${full_plugin_name%@*}"
+
+    # Check if plugin exists in marketplace.json.
+    if ! jq -e ".plugins[] | select(.name == \"$plugin_name\")" "$MARKETPLACE_JSON" >/dev/null 2>&1; then
+      error "claude.yaml: plugin '$full_plugin_name' not found in marketplace"
+    fi
+  done < <(echo "$workflow_plugins")
+fi
+
+# =============================================================================
 # Validate plugins directory sync
 # =============================================================================
 
