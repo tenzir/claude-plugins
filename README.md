@@ -13,13 +13,6 @@ First, add this repository as a plugin marketplace:
 /plugin marketplace add tenzir/claude-plugins
 ```
 
-> [!TIP]
-> If you encounter SSH authentication issues, use the full HTTPS URL instead:
->
-> ```
-> /plugin marketplace add https://github.com/tenzir/claude-plugins.git
-> ```
-
 Then browse and install available plugins:
 
 ```
