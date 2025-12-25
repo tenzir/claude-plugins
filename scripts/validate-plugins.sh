@@ -122,6 +122,31 @@ if [ -n "$marketplace_version" ]; then
 fi
 
 # =============================================================================
+# Validate enabled plugins in settings.json
+# =============================================================================
+
+SETTINGS_JSON="$REPO_ROOT/.claude/settings.json"
+MARKETPLACE_NAME=$(jq -r '.name' "$MARKETPLACE_JSON")
+
+if [ -f "$SETTINGS_JSON" ]; then
+  info "checking enabled plugins in settings.json..."
+
+  # Extract plugins enabled for this marketplace (e.g., "plugin@tenzir").
+  enabled_plugins=$(jq -r ".enabledPlugins // {} | keys[] | select(endswith(\"@$MARKETPLACE_NAME\"))" "$SETTINGS_JSON" 2>/dev/null)
+
+  while IFS= read -r full_plugin_name; do
+    [ -z "$full_plugin_name" ] && continue
+    # Strip the @marketplace suffix to get the plugin name.
+    plugin_name="${full_plugin_name%@*}"
+
+    # Check if plugin exists in marketplace.json.
+    if ! jq -e ".plugins[] | select(.name == \"$plugin_name\")" "$MARKETPLACE_JSON" >/dev/null 2>&1; then
+      error "settings.json: enabled plugin '$full_plugin_name' not found in marketplace"
+    fi
+  done < <(echo "$enabled_plugins")
+fi
+
+# =============================================================================
 # Validate plugins directory sync
 # =============================================================================
 
