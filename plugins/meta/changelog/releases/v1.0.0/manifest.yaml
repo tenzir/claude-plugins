@@ -1,7 +1,0 @@
-created: 2025-12-15
-title: Meta Plugin v1.0.0
-intro: >-
-  This is the first stable release of the meta plugin. It renames the skill from `writing-plugins`
-  to `managing-plugins` to better reflect its scope, restructures the skill with progressive
-  disclosure for better organization, and documents the description duplication requirement
-  in the marketplace manifest.

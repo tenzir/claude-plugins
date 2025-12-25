@@ -2,4 +2,4 @@
 paths: plugins/**/*
 ---
 
-Load the `meta:managing-plugins` skill.
+Load the `managing-plugins` skill.

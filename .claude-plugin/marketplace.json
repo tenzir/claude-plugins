@@ -40,11 +40,6 @@
       "source": "./plugins/git"
     },
     {
-      "name": "meta",
-      "description": "Skills for managing the tenzir plugin marketplace",
-      "source": "./plugins/meta"
-    },
-    {
       "name": "prose",
       "description": "Style guidelines for technical prose",
       "source": "./plugins/prose"
