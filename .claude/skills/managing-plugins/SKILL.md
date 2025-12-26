@@ -18,6 +18,7 @@ Every plugin lives in `plugins/<plugin-name>/` with this structure:
 plugins/<plugin-name>/
 ├── .claude-plugin/
 │   └── plugin.json    # Plugin metadata and configuration
+├── changelog/         # Plugin changelog (managed by tenzir-changelog)
 ├── README.md          # User-facing documentation (required)
 ├── skills/            # See [skills.md](./skills.md)
 ├── commands/          # See [commands.md](./commands.md)
