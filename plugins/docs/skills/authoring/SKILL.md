@@ -1,11 +1,11 @@
 ---
-name: writing
-description: Write documentation for Tenzir projects. Use when adding or updating docs for tutorials, guides, explanations, reference, or integrations.
+name: authoring
+description: Author documentation for Tenzir projects. Use when creating or updating tutorials, guides, explanations, reference, or integrations.
 ---
 
-# Writing Documentation
+# Authoring Documentation
 
-Write documentation for Tenzir projects following the Diátaxis framework.
+Author documentation for Tenzir projects following the Diátaxis framework.
 
 ## Diátaxis Framework
 

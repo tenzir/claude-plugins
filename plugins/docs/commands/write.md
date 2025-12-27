@@ -8,7 +8,7 @@ args:
 
 # Write documentation
 
-Use the `docs:writing` skill for this sequence of steps.
+Use the `docs:authoring` skill for this sequence of steps.
 
 ## 1. Synchronize documentation root
 
@@ -29,7 +29,7 @@ Otherwise, detect what to document:
 
 ## 3. Determine target section
 
-Apply the decision tree from the `docs:writing` skill to select the right
+Apply the decision tree from the `docs:authoring` skill to select the right
 section. Use `AskUserQuestion` if the appropriate section is ambiguous.
 
 ## 4. Check for existing documentation
