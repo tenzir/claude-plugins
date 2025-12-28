@@ -31,7 +31,7 @@ runs:
       env:
         PR_NUMBER: ${{ github.event.pull_request.number }}
       run: |
-        entry_file=$(grep -rl "^pr: $PR_NUMBER$" */changelog/unreleased/*.md 2>/dev/null | head -1)
+        entry_file=$(find . -path "*/changelog/unreleased/*.md" -exec grep -l "^pr: $PR_NUMBER$" {} \; 2>/dev/null | head -1 || true)
         if [ -n "$entry_file" ]; then
           echo "Changelog entry for PR #$PR_NUMBER already exists: $entry_file"
           echo "skipped=true" >> $GITHUB_OUTPUT
