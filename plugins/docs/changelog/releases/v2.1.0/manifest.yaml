@@ -1,0 +1,7 @@
+created: 2025-12-28
+title: Documentation Reader and Autonomous Workflows
+intro: >-
+  This release adds a documentation reader subagent that answers questions about Tenzir
+  by navigating the live documentation at docs.tenzir.com. It also makes the docs:writer
+  subagent fully autonomous by handling PR creation directly from within the .docs/
+  repository.

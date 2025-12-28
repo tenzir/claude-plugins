@@ -1,0 +1,7 @@
+created: 2025-12-28
+title: TQL Program Authoring
+intro: >-
+  This release introduces the `tql:writing-programs` skill, which provides TQL language
+  fundamentals and spawns the `docs:reader` subagent for live documentation lookup.
+  This helps guide you through writing correct TQL programs by providing language
+  foundations upfront and on-demand reference material.

@@ -1,5 +1,10 @@
 ---
-category: feature
+title: Pull Request Command
+type: feature
+authors:
+  - mavam
+  - claude
+created: 2025-12-28T16:33:05Z
 ---
 
 Add `/git:pr` command that creates GitHub pull requests. The command switches to

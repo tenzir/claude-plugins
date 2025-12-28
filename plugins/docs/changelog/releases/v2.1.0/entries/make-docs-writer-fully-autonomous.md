@@ -1,5 +1,10 @@
 ---
-category: breaking
+title: Fully autonomous documentation writer
+type: feature
+authors:
+  - mavam
+  - claude
+created: 2025-12-28T16:27:00Z
 ---
 
 Make `docs:writer` subagent fully autonomous. The subagent now handles the

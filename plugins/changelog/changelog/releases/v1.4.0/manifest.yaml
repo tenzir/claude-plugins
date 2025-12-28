@@ -1,0 +1,7 @@
+created: 2025-12-28
+title: CI Automation Support
+intro: >-
+  This release adds support for non-interactive changelog entry creation, enabling
+  CI automation workflows where Claude can automatically generate changelog entries
+  from PR context. It also improves the release workflow with better project type
+  detection and local temporary file handling.
