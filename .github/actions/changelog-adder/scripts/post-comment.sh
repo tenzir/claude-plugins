@@ -36,7 +36,9 @@ ${MARKER}
 
 🏷️ \`${type}\` · 🔗 #${pr:-$PR_NUMBER} · 👥 ${authors} · 📅 ${created}
 
+\`\`\`markdown
 ${body}
+\`\`\`
 
 ---
 
