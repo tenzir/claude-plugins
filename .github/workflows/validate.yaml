@@ -1,4 +1,4 @@
-name: Validate Plugin Structure
+name: CI
 
 on:
   push:
@@ -10,9 +10,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  validate:
+  structure:
+    name: Check structure
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -20,9 +20,9 @@ jobs:
       - name: Run validation
         run: ./scripts/validate-plugins.sh
 
-  validate-skills:
+  agentskills:
+    name: Check agentskills
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -49,3 +49,25 @@ jobs:
             exit 1
           fi
           echo "All skills validated successfully"
+
+  changelog:
+    name: Add changelog
+    if: github.event_name == 'pull_request'
+    needs: [structure, agentskills]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    concurrency:
+      group: changelog-${{ github.event.pull_request.number }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+
+      - name: Add changelog entry
+        uses: ./.github/actions/changelog-adder
+        with:
+          anthropic_oauth_token: ${{ secrets.ANTHROPIC_CLAUDE_CODE_OAUTH_TOKEN }}
