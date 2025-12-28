@@ -17,19 +17,38 @@ outputs:
   entry_file:
     description: "Path to created changelog entry"
     value: ${{ steps.detect.outputs.file }}
+  skipped:
+    description: "Whether the action was skipped (entry already exists)"
+    value: ${{ steps.check.outputs.skipped }}
 
 runs:
   using: "composite"
   steps:
-    # Step 1: Capture existing changelog files
+    # Step 1: Check if entry for this PR already exists
+    - name: Check for existing entry
+      id: check
+      shell: bash
+      env:
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      run: |
+        if grep -r "^pr: $PR_NUMBER$" */changelog/unreleased/*.md 2>/dev/null; then
+          echo "Changelog entry for PR #$PR_NUMBER already exists, skipping"
+          echo "skipped=true" >> $GITHUB_OUTPUT
+        else
+          echo "skipped=false" >> $GITHUB_OUTPUT
+        fi
+
+    # Step 2: Capture existing changelog files
     - name: Capture existing changelog files
+      if: steps.check.outputs.skipped != 'true'
       id: before
       shell: bash
       run: |
         find . -path "*/changelog/unreleased/*.md" -type f 2>/dev/null | sort > /tmp/changelog-before.txt
 
-    # Step 2: Run Claude with changelog:adder agent
+    # Step 3: Run Claude with changelog:adder agent
     - name: Run Claude changelog:adder
+      if: steps.check.outputs.skipped != 'true'
       uses: anthropics/claude-code-action@v1
       with:
         claude_code_oauth_token: ${{ inputs.anthropic_oauth_token }}
@@ -49,8 +68,9 @@ runs:
           git@tenzir
           prose@tenzir
 
-    # Step 3: Detect new changelog entries
+    # Step 4: Detect new changelog entries
     - name: Detect new entries
+      if: steps.check.outputs.skipped != 'true'
       id: detect
       shell: bash
       run: |
@@ -66,9 +86,9 @@ runs:
         echo "created=true" >> $GITHUB_OUTPUT
         echo "file=$entry_file" >> $GITHUB_OUTPUT
 
-    # Step 4: Post PR comment
+    # Step 5: Post PR comment
     - name: Post PR comment
-      if: steps.detect.outputs.created == 'true'
+      if: steps.check.outputs.skipped != 'true' && steps.detect.outputs.created == 'true'
       shell: bash
       env:
         GH_TOKEN: ${{ inputs.github_token }}
