@@ -55,12 +55,14 @@ jobs:
 2. Runs Claude with the `changelog:adder` agent
 3. Agent analyzes PR and runs `/changelog:add` if user-facing changes exist
 4. Agent commits the entry to the PR branch
-5. Posts a PR comment with:
-   - Metadata table (title, type, authors, created)
+5. Posts or updates a PR comment with:
+   - Status badge (`✓ added` or `✓ exists`)
+   - Color-coded type badge (feature/bugfix/breaking/change)
+   - Entry metadata (PR number, authors, date)
    - Entry content
-   - Instructions to sync local branch (git/jj)
 
 If no user-facing changes are detected, the action exits silently.
+Existing comments are updated in place rather than creating duplicates.
 
 ## Concurrency
 
