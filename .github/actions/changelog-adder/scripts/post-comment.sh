@@ -23,26 +23,25 @@ body=$(awk '/^---$/{if(++n==2){getline;found=1}}found' "$ENTRY_FILE")
 
 # Build comment based on mode
 if [ "$MODE" = "existing" ]; then
-  header="This PR already has a changelog entry."
+  callout_type="NOTE"
+  callout_msg="Found an existing changelog entry for this PR."
 else
-  header="@${PR_AUTHOR} A changelog entry has been added to this PR."
+  callout_type="TIP"
+  callout_msg="@${PR_AUTHOR} Added a changelog entry for this PR."
 fi
 
 cat >/tmp/pr-comment.md <<EOF
 ${MARKER}
-${header}
+> [!${callout_type}]
+> ${callout_msg}
 
-## Metadata
-
-| Field | Value |
-|-------|-------|
-| Title | ${title} |
-| Type | \`${type}\` |
-| PR | #${pr:-$PR_NUMBER} |
-| Authors | ${authors} |
-| Created | ${created} |
-
-## Entry
+| | |
+|---|---|
+| 📝 Title | ${title} |
+| 🏷️ Type | \`${type}\` |
+| 🔗 PR | #${pr:-$PR_NUMBER} |
+| 👥 Authors | ${authors} |
+| 📅 Created | ${created} |
 
 ${body}
 
