@@ -31,9 +31,11 @@ runs:
       env:
         PR_NUMBER: ${{ github.event.pull_request.number }}
       run: |
-        if grep -r "^pr: $PR_NUMBER$" */changelog/unreleased/*.md 2>/dev/null; then
-          echo "Changelog entry for PR #$PR_NUMBER already exists, skipping"
+        entry_file=$(grep -rl "^pr: $PR_NUMBER$" */changelog/unreleased/*.md 2>/dev/null | head -1)
+        if [ -n "$entry_file" ]; then
+          echo "Changelog entry for PR #$PR_NUMBER already exists: $entry_file"
           echo "skipped=true" >> $GITHUB_OUTPUT
+          echo "file=$entry_file" >> $GITHUB_OUTPUT
         else
           echo "skipped=false" >> $GITHUB_OUTPUT
         fi
@@ -88,12 +90,13 @@ runs:
 
     # Step 5: Post PR comment
     - name: Post PR comment
-      if: steps.check.outputs.skipped != 'true' && steps.detect.outputs.created == 'true'
+      if: steps.check.outputs.skipped == 'true' || steps.detect.outputs.created == 'true'
       shell: bash
       env:
         GH_TOKEN: ${{ inputs.github_token }}
-        ENTRY_FILE: ${{ steps.detect.outputs.file }}
+        ENTRY_FILE: ${{ steps.check.outputs.file || steps.detect.outputs.file }}
         PR_AUTHOR: ${{ github.event.pull_request.user.login }}
         PR_NUMBER: ${{ github.event.pull_request.number }}
         BRANCH: ${{ github.head_ref }}
+        MODE: ${{ steps.check.outputs.skipped == 'true' && 'existing' || 'created' }}
       run: ${{ github.action_path }}/scripts/post-comment.sh

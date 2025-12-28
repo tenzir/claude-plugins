@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 set -uo pipefail
 
+MARKER="<!-- changelog-adder-bot -->"
+
+# Check for existing comment to avoid duplicates
+existing=$(gh pr view "$PR_NUMBER" --json comments --jq ".comments[].body | select(contains(\"$MARKER\"))" 2>/dev/null)
+if [ -n "$existing" ]; then
+  echo "Comment already exists, skipping"
+  exit 0
+fi
+
 # Parse YAML frontmatter using sed (returns empty string on no match)
 frontmatter=$(awk '/^---$/{if(++n==2)exit}n==1' "$ENTRY_FILE")
 title=$(echo "$frontmatter" | sed -n 's/^title: *//p')
@@ -12,9 +21,16 @@ authors=$(echo "$frontmatter" | awk '/^authors:/,/^[^ ]/' | sed -n 's/^  - //p' 
 # Extract body (everything after second ---)
 body=$(awk '/^---$/{if(++n==2){getline;found=1}}found' "$ENTRY_FILE")
 
-# Build comment
+# Build comment based on mode
+if [ "$MODE" = "existing" ]; then
+  header="This PR already has a changelog entry."
+else
+  header="@${PR_AUTHOR} A changelog entry has been added to this PR."
+fi
+
 cat >/tmp/pr-comment.md <<EOF
-@${PR_AUTHOR} A changelog entry has been added to this PR.
+${MARKER}
+${header}
 
 ## Metadata
 
