@@ -11,13 +11,11 @@ into Claude Code, enabling direct interaction with TQL pipelines.
 - 📚 **Documentation Lookup**: Query live Tenzir documentation for operators,
   functions, and syntax
 
-## 🎯 Skills
+## 🚀 Usage
 
-### `tql:writing-programs`
+### `tql:writing-programs` Skill
 
-Guidance for writing TQL programs. Loads TQL language fundamentals and spawns
-the `docs:reader` subagent for live documentation lookup when you need to find
-operators, functions, or syntax.
+Invoke this skill when writing or debugging TQL programs. It automatically loads TQL language fundamentals and activates the `docs:reader` subagent for real-time documentation lookups.
 
 ## 🔗 Dependencies
 
@@ -33,13 +31,4 @@ For documentation lookup, install the docs plugin:
 /plugin install tql@tenzir
 ```
 
-## 🔧 Configuration
-
-Requires [uv](https://docs.astral.sh/uv/) to be installed.
-
-## ⚙️ How it works
-
-- **When it triggers**: The MCP server starts when the plugin is loaded
-- **What actions it performs**: Provides tools for building and executing TQL
-  pipelines via the MCP server
-- **Dependencies**: Requires `uv` / `uvx` to be installed
+Requires [uv](https://docs.astral.sh/uv/) to be installed on your system.

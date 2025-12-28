@@ -14,11 +14,11 @@ C++ language support, tooling, and coding conventions for Claude Code.
 /plugin install cpp@tenzir
 ```
 
-## ⚙️ How it works
+## 🚀 Usage
 
-When you open a C++ file, Claude Code starts the clangd language server. This
-provides code intelligence features like go-to-definition, find-references, and
-hover information.
+Open any C++ file to activate clangd language server, giving you instant code
+intelligence—jump to definitions, find references, and view detailed hover information
+as you work.
 
 ## 🔗 Related Plugins
 

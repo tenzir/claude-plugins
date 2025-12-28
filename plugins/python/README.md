@@ -12,18 +12,11 @@ Python coding conventions and workflows for Tenzir projects.
 /plugin install python@tenzir
 ```
 
-## ⚙️ How it works
+## 🚀 Usage
 
 ### Writing Python Code Skill
 
-The `python:following-conventions` skill provides comprehensive guidance on:
-
-- **Quality gates**: Chained checks (ruff, mypy, pytest, uv build) that fail fast
-- **Formatting**: 4-space indentation, double quotes, 88 char lines via Ruff
-- **Type hints**: Strict Mypy enforcement, no untyped public APIs
-- **Naming**: `snake_case` for functions/variables, `PascalCase` for classes, `CONSTANT_CASE` for constants
-- **Testing**: `test_*.py` pattern, ≥80% coverage, `tmp_path` for filesystem tests
-- **Project structure**: `src/` layout, tests mirroring module names
+Invoke the `python:following-conventions` skill when authoring or reviewing Python code to ensure your code meets Tenzir's quality standards. The skill guides you through formatting, type hints, naming conventions, testing practices, and project structure requirements.
 
 ## Requirements
 

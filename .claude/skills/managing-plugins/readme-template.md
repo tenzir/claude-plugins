@@ -21,10 +21,15 @@ the relevant issue and note when it will become obsolete.
 
 Optional section. Document any configuration options if applicable.
 
-## ⚙️ How it works
+## 🚀 Usage
 
-Describe the plugin's behavior in detail. Include:
+Focus on **how to use** the plugin, not implementation details. For each
+component:
 
-- When it triggers (e.g., on edit, on session start)
-- What actions it performs
-- Any side effects or dependencies
+- **Commands**: Show invocation (`/plugin:command`) and describe _what it does
+  for the user_, not internal steps
+- **Skills**: Explain _when_ they activate and _what guidance_ they provide
+- **Subagents**: Describe _when to use them_ and _what they accomplish_
+
+Avoid regurgitating numbered implementation steps. Users care about outcomes,
+not internals.

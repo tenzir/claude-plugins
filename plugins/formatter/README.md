@@ -28,12 +28,6 @@ The plugin uses these formatters (install the ones you need):
 | `.md`, `.mdx`                           | markdownlint | `npm install -g markdownlint-cli` |
 | `.md`, `.mdx`, `.json`, `.yaml`, `.yml` | prettier     | `npm install -g prettier`         |
 
-## ⚙️ How it works
+## 🚀 Usage
 
-The plugin registers a `PostToolUse` hook that triggers on `Write` and `Edit`
-operations. When a file is modified:
-
-1. The hook extracts the file path from the tool output
-2. Checks if the file extension matches a supported formatter
-3. Runs the appropriate formatter in-place
-4. Warns to stderr if a formatter is not installed
+Simply install the required formatters for your project, then the plugin automatically formats files whenever you use the `Write` or `Edit` tools. Your code stays consistently formatted without any additional commands—just work as normal and formatting happens in the background.

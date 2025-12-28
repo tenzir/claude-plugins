@@ -18,20 +18,9 @@ Tenzir brand and style guidelines for frontend development.
 /plugin install brand@tenzir
 ```
 
-## ⚙️ How it works
+## 🚀 Usage
 
-This plugin provides a `brand:styling-tenzir-ui` skill that gives Claude access to
-Tenzir's design system specifications.
-
-When working on frontend code, Claude will:
-
-1. Reference the appropriate design tokens (colors, typography, spacing)
-2. Use correct font families (Inter for UI, JetBrains Mono for code)
-3. Apply proper semantic colors for states (success, warning, error)
-4. Follow the established type scale and color palette
-
-The skill uses a modular structure with a top-level overview and detailed
-reference files that are loaded on demand to minimize context usage.
+Install this plugin and the `brand:styling-tenzir-ui` skill automatically activates when working on frontend code. Claude will automatically reference the correct design tokens, typography, spacing, and semantic colors to ensure consistent Tenzir styling in your UI components.
 
 ## Logo Assets
 

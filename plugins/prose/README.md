@@ -13,21 +13,8 @@ Style guidelines for technical prose.
 /plugin install prose@tenzir
 ```
 
-## ⚙️ How it works
+## 🚀 Usage
 
-This plugin provides a skill that guides Claude when writing technical
-documentation, README files, API docs, code comments, and user guides.
+**prose:technical-writing** activates automatically when writing documentation, README files, API docs, code comments, or user guides. It guides you to follow Google's Developer Documentation Style Guide, ensuring consistent voice, inclusive language, clear formatting, and effective procedures.
 
-### Skills
-
-**prose:technical-writing**: Automatically loaded when writing documentation. Covers:
-
-- Voice and tone (second person, active voice)
-- Inclusive language guidelines
-- Heading and list formatting
-- Code formatting in text
-- Procedures and step-by-step instructions
-- Word choices and terminology
-
-The guidelines are distilled from [Google's Developer Documentation Style
-Guide](https://developers.google.com/style).
+This skill helps you write documentation that's clear, accessible, and aligned with industry best practices—resulting in better user comprehension and professional polish.
