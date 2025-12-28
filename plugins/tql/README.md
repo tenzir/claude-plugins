@@ -8,6 +8,24 @@ This plugin integrates the [Tenzir MCP server](https://github.com/tenzir/mcp)
 into Claude Code, enabling direct interaction with TQL pipelines.
 
 - 🔗 **Pipeline Execution**: Run TQL pipelines and get results directly in Claude
+- 📚 **Documentation Lookup**: Query live Tenzir documentation for operators,
+  functions, and syntax
+
+## 🎯 Skills
+
+### `tql:writing-programs`
+
+Guidance for writing TQL programs. Loads TQL language fundamentals and spawns
+the `docs:reader` subagent for live documentation lookup when you need to find
+operators, functions, or syntax.
+
+## 🔗 Dependencies
+
+For documentation lookup, install the docs plugin:
+
+```
+/plugin install docs@tenzir
+```
 
 ## 📦 Installation
 
