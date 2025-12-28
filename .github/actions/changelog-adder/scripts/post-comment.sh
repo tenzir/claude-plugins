@@ -32,13 +32,9 @@ ${MARKER}
 > [!${callout_type}]
 > ${callout_msg}
 
-| | |
-|---|---|
-| 📝 Title | ${title} |
-| 🏷️ Type | \`${type}\` |
-| 🔗 PR | #${pr:-$PR_NUMBER} |
-| 👥 Authors | ${authors} |
-| 📅 Created | ${created} |
+📝 **${title}**
+
+🏷️ \`${type}\` · 🔗 #${pr:-$PR_NUMBER} · 👥 ${authors} · 📅 ${created}
 
 ${body}
 
