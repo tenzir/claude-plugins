@@ -70,10 +70,3 @@ OCSF organizes event classes into 8 categories:
 ## Version-specific References
 
 Detailed per-class and per-object references: [references/](./references/index.md)
-
-References are generated from schema.ocsf.io and not checked into git.
-**If missing**, run the generator first:
-
-```bash
-python3 plugins/ocsf/scripts/generate-references.py --all
-```

@@ -28,18 +28,13 @@ Activates when introspecting OCSF schema elements. Provides:
 - Object reference with cross-links
 - Profile and extension documentation
 
-## Generating References
+## Reference Generation
 
-Reference documentation is fetched from schema.ocsf.io and not checked into git.
-Run the generator after installation:
+Reference documentation is fetched from schema.ocsf.io and cached locally. A
+`SessionStart` hook generates references automatically on first use.
+
+To regenerate manually:
 
 ```bash
-# Generate for a specific version
-python3 plugins/ocsf/scripts/generate-references.py --version 1.7.0
-
-# Generate for all stable versions (1.0.0 through 1.7.0)
-python3 plugins/ocsf/scripts/generate-references.py --all
+uv run plugins/ocsf/scripts/generate-references.py --all
 ```
-
-References are organized by version: `references/<version>/classes/` and
-`references/<version>/objects/`.

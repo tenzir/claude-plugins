@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.10"
+# ///
 """
 Generate OCSF reference documentation from the official schema.
 
@@ -6,7 +9,7 @@ This script fetches the OCSF schema from schema.ocsf.io and generates
 compact Markdown reference files for each event class and object.
 
 Usage:
-    python generate-references.py [--version 1.7.0] [--all]
+    uv run generate-references.py [--version 1.7.0] [--all]
 
 Options:
     --version   OCSF version to generate (default: latest stable)
