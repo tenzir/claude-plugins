@@ -13,7 +13,7 @@ title=$(echo "$frontmatter" | sed -n 's/^title: *//p')
 type=$(echo "$frontmatter" | sed -n 's/^type: *//p')
 pr=$(echo "$frontmatter" | sed -n 's/^pr: *//p')
 created=$(echo "$frontmatter" | sed -n 's/^created: *//p')
-authors=$(echo "$frontmatter" | awk '/^authors:/,/^[^ ]/' | sed -n 's/^  - //p' | paste -sd, -)
+authors=$(echo "$frontmatter" | awk '/^authors:/{f=1;next} f&&/^[^ ]/{exit} f' | sed -n 's/^  - //p' | paste -sd, -)
 
 # Extract body (everything after second ---)
 body=$(awk '/^---$/{if(++n==2){getline;found=1}}found' "$ENTRY_FILE")
