@@ -27,22 +27,8 @@ separate commits:
 
 If all staged changes form a single logical unit, proceed to the next step.
 
-## 3. Add changelog entry
+## 3. Stage and commit
 
-Check if a `changelog/` directory exists. If it does, use `/changelog:add` for a
-guided workflow.
-
-## 4. Check project requirements
-
-Identify any other project-specific commit requirements:
-
-- **Version bumps**: Check if the project requires version updates for this
-  type of change.
-- **Validation steps**: Run any pre-commit checks the project uses, such as
-  linting, formatting, or type checking.
-
-## 5. Stage and commit
-
-Stage changes and commit following the `git:writing-commit-messages` skill.
+Stage changes and commit. Invoke `git:writing-commit-messages`.
 
 If it's unclear whether to amend the last commit or create a new one, ask the user.

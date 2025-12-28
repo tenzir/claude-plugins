@@ -5,6 +5,7 @@ Git workflows for Tenzir repositories.
 ## ✨ Features
 
 - 📝 **Writing Commit Messages**: Auto-triggered guidance for writing clear, consistent git commit messages
+- 🔀 **PR Command**: Create GitHub pull requests with proper descriptions
 - 🤖 **Committer Subagent**: Lightweight agent (Haiku) that handles the commit workflow autonomously
 
 ## 📦 Installation
@@ -13,25 +14,23 @@ Git workflows for Tenzir repositories.
 /plugin install git@tenzir
 ```
 
-## ⚙️ How it works
+## 🚀 Usage
 
-### Writing Commit Messages Skill
+### `/git:commit`
 
-The `git:writing-commit-messages` skill activates when committing changes. It provides guidance on:
+Commit staged changes with a well-formatted message. Splits orthogonal changes
+into separate commits when needed.
 
-- Commit message format (subject under 50 chars, body wrapped at 72)
-- Writing style focused on user capability, not implementation
-- Best practices for atomic, self-contained commits
+### `/git:pr`
 
-### Committer Subagent
+Create a GitHub pull request for your current changes. Run your project's
+quality gates (linting, formatting, builds) first.
 
-The `git:committer` subagent is a lightweight Haiku-based agent that handles the
-entire commit workflow. It executes the `/git:commit` slash command internally,
-which:
+### `git:committer` subagent
 
-1. Gathers git context (status, diff, recent commits)
-2. Analyzes change cohesion and splits commits if needed
-3. Checks for project requirements (changelogs, version bumps)
-4. Creates commits with properly formatted messages
+Delegate the entire commit workflow. Use when you want hands-off committing
+without step-by-step interaction.
 
-Use this subagent when you want to delegate the commit process entirely.
+### `git:writing-commit-messages` skill
+
+Activates automatically when committing. Guides commit message format and style.

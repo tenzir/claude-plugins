@@ -8,7 +8,7 @@ args:
 
 # Write documentation
 
-Use the `docs:authoring` skill for this sequence of steps.
+Invoke the `docs:authoring` skill for this sequence of steps.
 
 The `.docs/` directory is synchronized automatically via hook before file edits.
 

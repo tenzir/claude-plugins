@@ -4,7 +4,7 @@ description: Review documentation changes for completeness and style
 
 # Review documentation
 
-Use the `docs:authoring` and `prose:technical-writing` skills for this review.
+Invoke `docs:authoring` and `prose:technical-writing`.
 
 ## 1. Identify changes
 

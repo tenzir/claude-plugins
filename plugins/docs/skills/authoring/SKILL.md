@@ -51,10 +51,10 @@ See [format.md](./format.md) for frontmatter and code block details.
 
 ## Writing Style
 
-Load the `prose:technical-writing` skill for detailed style guidance.
+Invoke `prose:technical-writing` for detailed style guidance.
 
 ## Workflow
 
 1. Run `/docs:write` to create or update documentation
 2. Run `/docs:review` to check completeness and style
-3. Run `/docs:pr` to create a pull request
+3. Create a PR using `git -C .docs` and `gh pr create --repo tenzir/docs`
