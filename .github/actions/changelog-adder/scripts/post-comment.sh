@@ -18,28 +18,35 @@ authors=$(echo "$frontmatter" | awk '/^authors:/{f=1;next} f&&/^[^ ]/{exit} f' |
 # Extract body (everything after second ---)
 body=$(awk '/^---$/{if(++n==2){getline;found=1}}found' "$ENTRY_FILE")
 
-# Build comment based on mode
+# Map type to badge color
+case "$type" in
+  feature) badge_color="238636" ;;
+  bugfix) badge_color="d97706" ;;
+  breaking) badge_color="dc2626" ;;
+  change) badge_color="6366f1" ;;
+  *) badge_color="6b7280" ;;
+esac
+
+# Build status badge based on mode
 if [ "$MODE" = "existing" ]; then
-  callout_type="NOTE"
-  callout_msg="Found an existing changelog entry for this PR."
+  status_badge="<kbd>✓ exists</kbd>"
 else
-  callout_type="TIP"
-  callout_msg="@${PR_AUTHOR} Added a changelog entry for this PR."
+  status_badge="<kbd>✓ added</kbd>"
 fi
+
+# Extract just the date part from ISO timestamp
+created_date=${created%%T*}
 
 cat >/tmp/pr-comment.md <<EOF
 ${MARKER}
-> [!${callout_type}]
-> ${callout_msg}
 
-### 📝 ${title}
+## 📋 Changelog Entry &nbsp;${status_badge}
 
-| | |
-|:--|:--|
-| 🏷️ Type | \`${type}\` |
-| 🔗 PR | #${pr:-$PR_NUMBER} |
-| 👥 Authors | ${authors} |
-| 📅 Created | ${created} |
+**${title}**
+
+<img src="https://img.shields.io/badge/${type}-${badge_color}?style=flat-square" alt="${type}" align="absmiddle"> · #${pr:-$PR_NUMBER} · ${authors} · ${created_date}
+
+---
 
 ${body}
 
