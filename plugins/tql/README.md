@@ -1,13 +1,9 @@
 # TQL
 
-Build TQL pipelines with the Tenzir MCP server.
+Build TQL pipelines with expert language guidance.
 
 ## ✨ Features
 
-This plugin integrates the [Tenzir MCP server](https://github.com/tenzir/mcp)
-into Claude Code, enabling direct interaction with TQL pipelines.
-
-- 🔗 **Pipeline Execution**: Run TQL pipelines and get results directly in Claude
 - 📚 **Documentation Lookup**: Query live Tenzir documentation for operators,
   functions, and syntax
 
@@ -30,5 +26,3 @@ For documentation lookup, install the docs plugin:
 ```
 /plugin install tql@tenzir
 ```
-
-Requires [uv](https://docs.astral.sh/uv/) to be installed on your system.

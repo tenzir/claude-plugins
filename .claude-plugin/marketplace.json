@@ -51,7 +51,7 @@
     },
     {
       "name": "tql",
-      "description": "Build TQL pipelines with the Tenzir MCP server",
+      "description": "Build TQL pipelines with expert language guidance",
       "source": "./plugins/tql"
     }
   ]
