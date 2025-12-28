@@ -10,6 +10,7 @@ Documentation workflows for Tenzir projects.
 - 🔍 **Review Command**: Check completeness and style of documentation changes
 - 🔀 **PR Command**: Create pull requests for documentation changes
 - 🤖 **Writer Subagent**: Opus-based agent that handles writing and reviewing documentation autonomously
+- 🔎 **Reader Subagent**: Haiku-based agent that answers questions by navigating the live documentation
 
 ## 📦 Installation
 
@@ -72,6 +73,12 @@ the results before deciding to create a PR. The subagent:
 Use this subagent when you want to delegate documentation creation entirely. It
 makes autonomous decisions about section selection, style fixes, and reports any
 completeness gaps.
+
+### Reader subagent
+
+The `docs:reader` subagent answers questions about Tenzir by navigating the live
+documentation at docs.tenzir.com. Use it when you need authoritative answers
+about TQL operators, functions, platform features, or how to use Tenzir.
 
 ## 🔧 Configuration
 
