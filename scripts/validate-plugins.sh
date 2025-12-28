@@ -368,11 +368,6 @@ for plugin_dir in "$PLUGINS_DIR"/*/; do
     if [ -n "$changelog_id" ] && [ "$changelog_id" != "$plugin_name" ]; then
       error "$plugin_name/changelog: config.yaml id '$changelog_id' doesn't match plugin name"
     fi
-
-    # Check unreleased directory exists
-    if [ ! -d "$plugin_dir/changelog/unreleased" ]; then
-      warn "$plugin_name/changelog: missing unreleased directory"
-    fi
   else
     warn "$plugin_name: missing changelog/config.yaml"
   fi
