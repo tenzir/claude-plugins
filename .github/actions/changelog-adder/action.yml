@@ -1,0 +1,79 @@
+name: "Changelog Adder"
+description: "Add changelog entries to PRs using Claude Code"
+
+inputs:
+  anthropic_oauth_token:
+    description: "Claude Code OAuth token"
+    required: true
+  github_token:
+    description: "GitHub token for PR operations"
+    required: false
+    default: ${{ github.token }}
+
+outputs:
+  entry_created:
+    description: "Whether a changelog entry was created"
+    value: ${{ steps.detect.outputs.created }}
+  entry_file:
+    description: "Path to created changelog entry"
+    value: ${{ steps.detect.outputs.file }}
+
+runs:
+  using: "composite"
+  steps:
+    # Step 1: Capture existing changelog files
+    - name: Capture existing changelog files
+      id: before
+      shell: bash
+      run: |
+        find . -path "*/changelog/unreleased/*.md" -type f 2>/dev/null | sort > /tmp/changelog-before.txt
+
+    # Step 2: Run Claude with changelog:adder agent
+    - name: Run Claude changelog:adder
+      uses: anthropics/claude-code-action@v1
+      with:
+        claude_code_oauth_token: ${{ inputs.anthropic_oauth_token }}
+        github_token: ${{ inputs.github_token }}
+        prompt: |
+          REPO: ${{ github.repository }}
+          PR NUMBER: ${{ github.event.pull_request.number }}
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+
+          Analyze this PR and run /changelog:add if there are user-facing changes.
+          If you create an entry, commit it to this PR branch.
+          If there are no user-facing changes, do nothing.
+        claude_args: "--agent changelog:adder"
+        plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
+        plugins: |
+          changelog@tenzir
+          git@tenzir
+          prose@tenzir
+
+    # Step 3: Detect new changelog entries
+    - name: Detect new entries
+      id: detect
+      shell: bash
+      run: |
+        find . -path "*/changelog/unreleased/*.md" -type f 2>/dev/null | sort > /tmp/changelog-after.txt
+        new_files=$(comm -13 /tmp/changelog-before.txt /tmp/changelog-after.txt)
+
+        if [ -z "$new_files" ]; then
+          echo "created=false" >> $GITHUB_OUTPUT
+          exit 0
+        fi
+
+        entry_file=$(echo "$new_files" | head -1)
+        echo "created=true" >> $GITHUB_OUTPUT
+        echo "file=$entry_file" >> $GITHUB_OUTPUT
+
+    # Step 4: Post PR comment
+    - name: Post PR comment
+      if: steps.detect.outputs.created == 'true'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github_token }}
+        ENTRY_FILE: ${{ steps.detect.outputs.file }}
+        PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        BRANCH: ${{ github.head_ref }}
+      run: ${{ github.action_path }}/scripts/post-comment.sh
