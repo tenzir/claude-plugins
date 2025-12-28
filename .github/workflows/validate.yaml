@@ -1,4 +1,4 @@
-name: Validate Plugin Structure
+name: CI
 
 on:
   push:
@@ -11,7 +11,7 @@ on:
 
 jobs:
   structure:
-    name: Validate structure
+    name: Check structure
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -21,7 +21,7 @@ jobs:
         run: ./scripts/validate-plugins.sh
 
   agentskills:
-    name: Validate agentskills
+    name: Check agentskills
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -51,7 +51,7 @@ jobs:
           echo "All skills validated successfully"
 
   changelog:
-    name: Add changelog entry
+    name: Add changelog
     if: github.event_name == 'pull_request'
     needs: [structure, agentskills]
     runs-on: ubuntu-latest
