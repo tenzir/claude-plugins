@@ -3,11 +3,11 @@ set -euo pipefail
 
 # Parse YAML frontmatter
 frontmatter=$(awk '/^---$/{if(++n==2)exit}n==1' "$ENTRY_FILE")
-title=$(echo "$frontmatter" | grep "^title:" | sed 's/^title: *//')
-type=$(echo "$frontmatter" | grep "^type:" | sed 's/^type: *//')
-pr=$(echo "$frontmatter" | grep "^pr:" | sed 's/^pr: *//')
-created=$(echo "$frontmatter" | grep "^created:" | sed 's/^created: *//')
-authors=$(echo "$frontmatter" | awk '/^authors:/,/^[^ ]/' | grep "^  - " | sed 's/^  - //' | paste -sd, -)
+title=$(echo "$frontmatter" | grep "^title:" | sed 's/^title: *//' || echo "")
+type=$(echo "$frontmatter" | grep "^type:" | sed 's/^type: *//' || echo "")
+pr=$(echo "$frontmatter" | grep "^pr:" | sed 's/^pr: *//' || echo "")
+created=$(echo "$frontmatter" | grep "^created:" | sed 's/^created: *//' || echo "")
+authors=$(echo "$frontmatter" | awk '/^authors:/,/^[^ ]/' | grep "^  - " | sed 's/^  - //' | paste -sd, - || echo "")
 
 # Extract body (everything after second ---)
 body=$(awk '/^---$/{if(++n==2){getline;found=1}}found' "$ENTRY_FILE")
