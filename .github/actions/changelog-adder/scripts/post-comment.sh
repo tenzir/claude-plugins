@@ -4,7 +4,8 @@ set -uo pipefail
 MARKER="<!-- changelog-adder-bot -->"
 
 # Check for existing comment to update instead of duplicate
-comment_id=$(gh pr view "$PR_NUMBER" --json comments --jq ".comments[] | select(.body | contains(\"$MARKER\")) | .id" 2>/dev/null | head -1)
+comment_url=$(gh pr view "$PR_NUMBER" --json comments --jq ".comments[] | select(.body | contains(\"$MARKER\")) | .url" 2>/dev/null | head -1)
+comment_id=${comment_url##*-} # Extract numeric ID from URL (e.g., #issuecomment-123 -> 123)
 
 # Parse YAML frontmatter using sed (returns empty string on no match)
 frontmatter=$(awk '/^---$/{if(++n==2)exit}n==1' "$ENTRY_FILE")
