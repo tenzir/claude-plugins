@@ -1,2 +1,5 @@
 # Cloned documentation repository
 .docs/
+
+# Generated OCSF reference documentation
+plugins/ocsf/skills/understanding-ocsf/references/

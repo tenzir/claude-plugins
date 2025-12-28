@@ -40,6 +40,11 @@
       "source": "./plugins/git"
     },
     {
+      "name": "ocsf",
+      "description": "Understand the OCSF schema structure",
+      "source": "./plugins/ocsf"
+    },
+    {
       "name": "prose",
       "description": "Style guidelines for technical prose",
       "source": "./plugins/prose"
