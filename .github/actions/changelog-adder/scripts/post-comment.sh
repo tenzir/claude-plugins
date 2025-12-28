@@ -49,22 +49,6 @@ ${MARKER}
 ---
 
 ${body}
-
----
-
-<details>
-<summary>Sync your local branch</summary>
-
-**Git:**
-\`\`\`bash
-git fetch origin && git reset --hard origin/${BRANCH}
-\`\`\`
-
-**Jujutsu:**
-\`\`\`bash
-jj git fetch && jj bookmark set ${BRANCH} -B
-\`\`\`
-</details>
 EOF
 
 # Update existing comment or create new one
