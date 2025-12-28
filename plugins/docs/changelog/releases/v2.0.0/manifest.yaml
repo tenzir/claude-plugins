@@ -1,0 +1,7 @@
+created: 2025-12-28
+title: Intelligent Documentation Sync
+intro: >-
+  This major release renames the `docs:writing` skill to `docs:authoring` to better
+  reflect its comprehensive scope beyond prose writing. It also introduces an intelligent
+  documentation sync hook that automatically keeps the `.docs/` repository synchronized
+  while preventing conflicts.
