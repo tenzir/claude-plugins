@@ -16,6 +16,7 @@ jobs:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
 
-      - uses: ./.github/actions/changelog-adder
+      - name: Add changelog entry
+        uses: ./.github/actions/changelog-adder
         with:
           anthropic_oauth_token: ${{ secrets.ANTHROPIC_CLAUDE_CODE_OAUTH_TOKEN }}
