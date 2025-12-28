@@ -3,12 +3,8 @@ set -uo pipefail
 
 MARKER="<!-- changelog-adder-bot -->"
 
-# Check for existing comment to avoid duplicates
-existing=$(gh pr view "$PR_NUMBER" --json comments --jq ".comments[].body | select(contains(\"$MARKER\"))" 2>/dev/null)
-if [ -n "$existing" ]; then
-  echo "Comment already exists, skipping"
-  exit 0
-fi
+# Check for existing comment to update instead of duplicate
+comment_id=$(gh pr view "$PR_NUMBER" --json comments --jq ".comments[] | select(.body | contains(\"$MARKER\")) | .id" 2>/dev/null | head -1)
 
 # Parse YAML frontmatter using sed (returns empty string on no match)
 frontmatter=$(awk '/^---$/{if(++n==2)exit}n==1' "$ENTRY_FILE")
@@ -62,7 +58,17 @@ jj git fetch && jj bookmark set ${BRANCH} -B
 </details>
 EOF
 
-if ! gh pr comment "$PR_NUMBER" --body-file /tmp/pr-comment.md; then
-  echo "Failed to post PR comment" >&2
-  exit 1
+# Update existing comment or create new one
+if [ -n "$comment_id" ]; then
+  echo "Updating existing comment $comment_id"
+  if ! gh api "repos/{owner}/{repo}/issues/comments/$comment_id" -X PATCH -F body=@/tmp/pr-comment.md; then
+    echo "Failed to update PR comment" >&2
+    exit 1
+  fi
+else
+  echo "Creating new comment"
+  if ! gh pr comment "$PR_NUMBER" --body-file /tmp/pr-comment.md; then
+    echo "Failed to post PR comment" >&2
+    exit 1
+  fi
 fi
