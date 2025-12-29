@@ -39,6 +39,7 @@ gh api graphql -f query='
               body
               path
               line
+              startLine
             }
           }
         }
@@ -47,6 +48,10 @@ gh api graphql -f query='
   }
 }'
 ```
+
+When `startLine` is present (not null), the comment applies to a range from
+`startLine` to `line` (inclusive). This typically indicates the reviewer
+selected multiple lines when adding the comment.
 
 Extract owner and repo from `gh repo view --json owner,name`.
 
