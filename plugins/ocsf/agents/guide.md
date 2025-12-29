@@ -1,7 +1,7 @@
 ---
 name: guide
 description: Answer questions about the OCSF (Open Cyber Security Schema Framework). Use when the user asks about OCSF classes, objects, attributes, profiles, or event normalization.
-tools: Read, Glob, Grep, Bash, Skill
+tools: Read, Glob, Grep, Bash, Skill, WebFetch
 model: haiku
 color: cyan
 args:

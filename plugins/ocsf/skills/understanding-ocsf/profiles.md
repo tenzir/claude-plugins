@@ -1,101 +1,76 @@
 # Profiles
 
-Profiles are dynamic mix-ins that augment event classes with cross-cutting
-attributes. They add optional context without modifying the base class.
+Profiles overlay additional related attributes into event classes and objects,
+allowing for cross-category event class augmentation and filtering. Think of
+them as mixins that add optional context without modifying the base class.
 
 ## How Profiles Work
 
-- Each class lists supported profiles in its `profiles` array
+When a profile is applied to an event, the event gains additional attributes
+from that profile while keeping its base class identity. This enables flexible
+querying—you can find events either by their class name or by the profiles
+applied to them. For example, all events with the `security_control` profile
+share common attributes like `disposition` and `action`, regardless of whether
+they're `network_activity` or `file_activity` events.
+
+- Event classes register for profiles they support in their `profiles` array
+- Producers and mappers can optionally apply profiles to events
+- Applied profiles are listed in `metadata.profiles`
 - Multiple profiles can be applied to a single event
-- Profiles add attributes with their own requirement levels
-- Profile attributes are optional - only include when data is available
+- Profile attributes have their own requirement levels
+- Not all profile attributes must be used together—a profile defining
+  attributes A, B, and C could have A in one class while B and C appear
+  elsewhere
 
-## Available Profiles
+## Profile Categories
 
-| Profile               | Purpose                                      |
-| --------------------- | -------------------------------------------- |
-| `cloud`               | Cloud provider context (account, region, AZ) |
-| `container`           | Container runtime context (image, pod, k8s)  |
-| `data_classification` | Data sensitivity and classification          |
-| `datetime`            | Extended datetime fields beyond `time`       |
-| `host`                | Host/device context for the event source     |
-| `incident`            | Incident response context                    |
-| `linux/linux_users`   | Linux-specific user attributes               |
-| `load_balancer`       | Load balancer context                        |
-| `network_proxy`       | Network proxy context                        |
-| `osint`               | Open source intelligence enrichment          |
-| `security_control`    | Security control context                     |
-| `trace`               | Distributed tracing context (trace_id, span) |
+OCSF profiles fall into several categories:
 
-## Profile Details
+### Infrastructure Context
 
-### cloud
+Profiles that add environmental context about where events occur:
 
-Adds cloud infrastructure context:
+- **Cloud**: Cloud provider details (account, region, availability zone)
+- **Container**: Container runtime context (image, pod, orchestrator)
+- **Host**: Host/device attributes for the event source
+- **Load Balancer**: Load balancer routing context
+- **Network Proxy**: Proxy connection details (endpoints, TLS, traffic)
 
-- `cloud.provider` - Cloud provider name (AWS, Azure, GCP)
-- `cloud.account.uid` - Account/subscription identifier
-- `cloud.region` - Geographic region
-- `cloud.zone` - Availability zone
-- `cloud.org` - Organization structure
+### Security Context
 
-### container
+Profiles that add security-relevant information:
 
-Adds container runtime context:
+- **Security Control**: Outcomes of security controls (disposition, action,
+  malware detection, policy violations)
+- **Incident**: Incident handling semantics (priority, impact, verdict)
+- **OSINT**: Open Source Intelligence enrichment with indicators
+- **Data Classification**: Data sensitivity levels and classification results
 
-- `container.name` - Container name
-- `container.image` - Container image details
-- `container.runtime` - Container runtime (Docker, containerd)
-- `container.orchestrator` - Orchestration platform (Kubernetes)
-- `container.pod_uuid` - Kubernetes pod identifier
+### Observability Context
 
-### host
+Profiles that enhance monitoring and tracing:
 
-Adds host/device context:
+- **Datetime**: Extended timestamp fields in RFC-3339 format
+- **Trace**: Distributed tracing context (trace_id, span relationships)
 
-- `device.hostname` - Device hostname
-- `device.ip` - Device IP address
-- `device.os` - Operating system details
-- `device.type` - Device type (server, workstation, mobile)
+### Platform-Specific
 
-### security_control
+Profiles for specific operating systems or platforms:
 
-Adds security control context:
-
-- `attacks` - MITRE ATT&CK tactics and techniques
-- `firewall_rule` - Applied firewall rules
-- `policy` - Security policy information
-
-### datetime
-
-Adds extended datetime fields:
-
-- `start_time`, `start_time_dt` - Event start time
-- `end_time`, `end_time_dt` - Event end time
-- `duration` - Event duration
-
-### osint
-
-Adds threat intelligence context:
-
-- `osint` - OSINT indicators and enrichment
-- Related threat actor, campaign, malware information
-
-### trace
-
-Adds distributed tracing context:
-
-- `trace_id` - Distributed trace identifier
-- `span_id` - Span identifier within trace
-- `parent_span_id` - Parent span for hierarchy
+- **Linux Users**: Linux-specific user attributes (auid, egid, euid)
 
 ## Applying Profiles
 
 When creating OCSF events, include profile attributes based on:
 
-1. **Data availability** - Only include if you have the data
-2. **Class support** - Check if the class supports the profile
-3. **Consumer needs** - Consider what downstream systems need
+1. **Data availability**: Only include if you have the data
+2. **Class support**: Check if the class supports the profile
+3. **Consumer needs**: Consider what downstream systems need
 
 A single event can include attributes from multiple profiles. For example,
 a `process_activity` event might include both `host` and `container` context.
+
+## Version-Specific Details
+
+For the complete list of profiles and their attributes in each OCSF version,
+see the versioned reference documentation under `references/<version>/profiles/`.

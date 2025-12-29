@@ -82,3 +82,24 @@ To generate docs for a specific version:
 ```sh
 uv run scripts/generate-references.py --version 1.3.0
 ```
+
+## External Resources
+
+Deep-dives and FAQs are available from the OCSF docs repository. Fetch the
+raw content when relevant. Base URL: `https://raw.githubusercontent.com/ocsf/ocsf-docs/main/`
+
+### Articles
+
+| File                                         | Fetch When                                                        |
+| -------------------------------------------- | ----------------------------------------------------------------- |
+| `articles/profiles-are-powerful.md`          | Profile modeling approaches (augmentation, native, hybrid)        |
+| `articles/defining-and-using-observables.md` | Enriching events with observables for querying                    |
+| `articles/representing-process-parentage.md` | Process parent/creator relationships in endpoint events           |
+| `articles/patching-core-using-extensions.md` | Adding attributes to core schema without new classes              |
+| `articles/modeling-alerts.md`                | Using `is_alert` attribute, Detection Finding vs Security Control |
+
+### FAQs
+
+| File                 | Fetch When                                                                                                |
+| -------------------- | --------------------------------------------------------------------------------------------------------- |
+| `faqs/schema-faq.md` | Creating events, required attributes, profiles, Actor object, observables, naming conventions, versioning |

@@ -73,6 +73,17 @@ def fetch_schema(version: str | None = None) -> dict:
         return json.loads(response.read().decode())
 
 
+def fetch_profiles(version: str | None = None) -> dict:
+    """Fetch OCSF profiles from the API (separate from schema export)."""
+    if version:
+        url = f"{OCSF_BASE_URL}/api/{version}/profiles"
+    else:
+        url = f"{OCSF_BASE_URL}/api/profiles"
+    print(f"Fetching profiles from {url}...")
+    with urllib.request.urlopen(url, timeout=30) as response:
+        return json.loads(response.read().decode())
+
+
 def generate_class_doc(class_name: str, class_data: dict, all_objects: dict) -> str:
     """Generate Markdown documentation for an event class."""
     lines = []
@@ -273,16 +284,29 @@ def build_class_usage(classes: dict, objects: dict) -> dict[str, list[str]]:
     return usage
 
 
-def generate_version_index(version_dir: Path, classes: dict, objects: dict) -> None:
+def generate_version_index(
+    version_dir: Path, classes: dict, objects: dict, profiles: dict
+) -> None:
     """Generate index.md for a specific version."""
     lines = [
         f"# OCSF {version_dir.name}",
         "",
         f"Schema reference for OCSF version {version_dir.name}.",
         "",
-        f"## Classes ({len(classes)})",
+        f"## Profiles ({len(profiles)})",
         "",
     ]
+
+    # List profiles
+    for profile_name in sorted(profiles.keys()):
+        profile_data = profiles[profile_name]
+        caption = profile_data.get("caption", profile_name)
+        filename = profile_name.replace("/", "_")
+        lines.append(f"- [{caption}](./profiles/{filename}.md) (`{profile_name}`)")
+
+    lines.append("")
+    lines.append(f"## Classes ({len(classes)})")
+    lines.append("")
 
     # Group classes by category
     by_category: dict[str, list[tuple[str, int]]] = {}
@@ -311,14 +335,60 @@ def generate_version_index(version_dir: Path, classes: dict, objects: dict) -> N
     (version_dir / "index.md").write_text("\n".join(lines))
 
 
+def generate_profile_doc(profile_name: str, profile_data: dict) -> str:
+    """Generate Markdown documentation for a profile."""
+    lines = []
+
+    # Header
+    caption = profile_data.get("caption", profile_name)
+    lines.append(f"# {caption}")
+    lines.append("")
+
+    # Description
+    description = profile_data.get("description", "")
+    if description:
+        description = description.replace("<code>", "`").replace("</code>", "`")
+        description = description.replace("<br>", " ").replace("<br/>", " ")
+        lines.append(description)
+        lines.append("")
+
+    # Extension info
+    extension = profile_data.get("extension")
+    if extension:
+        lines.append(f"**Extension**: {extension}")
+        lines.append("")
+
+    # Attributes
+    attributes = profile_data.get("attributes", {})
+    if attributes:
+        lines.append("## Attributes")
+        lines.append("")
+        lines.append("| Attribute | Type | Requirement | Description |")
+        lines.append("|-----------|------|-------------|-------------|")
+
+        for attr_name, attr_data in sorted(attributes.items()):
+            attr_type = attr_data.get("type", "")
+            obj_type = attr_data.get("object_type", "")
+            if obj_type:
+                attr_type = f"object ({obj_type})"
+            req = attr_data.get("requirement", "optional")
+            desc = attr_data.get("caption", "")
+            lines.append(f"| `{attr_name}` | {attr_type} | {req} | {desc} |")
+
+        lines.append("")
+
+    return "\n".join(lines)
+
+
 def generate_version(version: str) -> int:
     """Generate documentation for a specific OCSF version. Returns size in bytes."""
-    # Fetch schema
+    # Fetch schema and profiles (profiles are in a separate API endpoint)
     schema = fetch_schema(version)
+    profiles = fetch_profiles(version)
     classes = schema.get("classes", {})
     objects = schema.get("objects", {})
 
-    print(f"  Found {len(classes)} classes and {len(objects)} objects")
+    print(f"  Found {len(classes)} classes, {len(objects)} objects, {len(profiles)} profiles")
 
     # Build class usage map
     class_usage = build_class_usage(classes, objects)
@@ -327,8 +397,10 @@ def generate_version(version: str) -> int:
     version_dir = REFS_DIR / version
     classes_dir = version_dir / "classes"
     objects_dir = version_dir / "objects"
+    profiles_dir = version_dir / "profiles"
     classes_dir.mkdir(parents=True, exist_ok=True)
     objects_dir.mkdir(parents=True, exist_ok=True)
+    profiles_dir.mkdir(parents=True, exist_ok=True)
 
     # Generate class docs
     for class_name, class_data in classes.items():
@@ -344,12 +416,20 @@ def generate_version(version: str) -> int:
         doc = generate_object_doc(obj_name, obj_data, class_usage)
         (objects_dir / filename).write_text(doc)
 
+    # Generate profile docs
+    for profile_name, profile_data in profiles.items():
+        # Sanitize filename (handle linux/ prefix)
+        filename = profile_name.replace("/", "_") + ".md"
+        doc = generate_profile_doc(profile_name, profile_data)
+        (profiles_dir / filename).write_text(doc)
+
     # Generate version index
-    generate_version_index(version_dir, classes, objects)
+    generate_version_index(version_dir, classes, objects, profiles)
 
     # Calculate total size
     total_size = sum(f.stat().st_size for f in classes_dir.glob("*.md"))
     total_size += sum(f.stat().st_size for f in objects_dir.glob("*.md"))
+    total_size += sum(f.stat().st_size for f in profiles_dir.glob("*.md"))
     total_size += (version_dir / "index.md").stat().st_size
     return total_size
 
