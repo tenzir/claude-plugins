@@ -14,11 +14,9 @@
 | Member variables | `name_`      | `buffer_`, `state_`          |
 | Namespaces       | `snake_case` | `namespace project`          |
 
-## Types and Variables
+## General Naming
 
-### Classes, Structs, Functions, Variables
-
-All use lowercase with underscores:
+All types, functions, and variables use lowercase with underscores:
 
 ```cpp
 class table_slice {
@@ -128,18 +126,6 @@ auto compute_hash(const data& d) -> size_t {
   auto result = size_t{0};
   // ... computation ...
   return result;
-}
-```
-
-### Counter Variables
-
-Prefix with `num_`:
-
-```cpp
-auto num_rows = slice.rows();
-auto num_events = 0;
-for (auto& event : events) {
-  ++num_events;
 }
 ```
 
