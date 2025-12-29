@@ -1,8 +1,5 @@
 # Naming Conventions
 
-C++ naming conventions. These are style conventions—not typically enforced by
-clang-tidy (since `readability-identifier-naming` is often disabled).
-
 ## Summary Table
 
 | Element          | Convention   | Example                      |
