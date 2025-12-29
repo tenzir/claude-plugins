@@ -20,31 +20,11 @@ commands, agents, hooks, skills, and MCP servers tailored for working with
 | `python`    | Python coding conventions for Tenzir projects              |
 | `tql`       | Build TQL pipelines with expert language guidance          |
 
-## Installation
-
-First, add this repository as a plugin marketplace:
-
-```
-/plugin marketplace add tenzir/claude-plugins
-```
-
-Then browse and install available plugins:
-
-```
-/plugin
-```
-
-Or install a specific plugin directly:
-
-```
-/plugin install <plugin-name>@tenzir
-```
-
 ## 📚 Documentation
 
-Consult the official [Claude Code plugins
-documentation](https://code.claude.com/docs/en/plugins) for details on plugin
-structure and configuration.
+See our [Claude marketplace
+documentation](https://docs.tenzir.com/reference/claude-plugins) for
+installation and usage.
 
 ## 📜 License
 
