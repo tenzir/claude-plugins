@@ -18,7 +18,6 @@ Options:
 
 import argparse
 import json
-import re
 import urllib.request
 from pathlib import Path
 
@@ -29,18 +28,27 @@ SKILL_DIR = PLUGIN_DIR / "skills" / "understanding-ocsf"
 REFS_DIR = SKILL_DIR / "references"
 
 OCSF_BASE_URL = "https://schema.ocsf.io"
-OCSF_SCHEMA_URL = OCSF_BASE_URL + "/{version}/export/schema"
+
+
+def fetch_current_version() -> str:
+    """Fetch the current/latest OCSF version."""
+    url = f"{OCSF_BASE_URL}/api/version"
+    print(f"Fetching current version from {url}...")
+    with urllib.request.urlopen(url, timeout=30) as response:
+        data = json.loads(response.read().decode())
+    version = data["version"]
+    print(f"  Current version: {version}")
+    return version
 
 
 def fetch_available_versions() -> list[str]:
-    """Fetch list of available OCSF versions from schema.ocsf.io."""
-    print("Fetching available versions from schema.ocsf.io...")
-    with urllib.request.urlopen(OCSF_BASE_URL, timeout=30) as response:
-        html = response.read().decode()
+    """Fetch list of available OCSF versions from the API."""
+    url = f"{OCSF_BASE_URL}/api/versions"
+    print(f"Fetching available versions from {url}...")
+    with urllib.request.urlopen(url, timeout=30) as response:
+        data = json.loads(response.read().decode())
 
-    # Parse version options from HTML (format: <option value="...">vX.Y.Z</option>)
-    pattern = r'<option[^>]*>v([^<]+)</option>'
-    versions = re.findall(pattern, html)
+    versions = data.get("versions", [])
 
     # Filter to stable versions only (no dev, alpha, beta, rc)
     stable = [v for v in versions if not any(
@@ -54,9 +62,12 @@ def fetch_available_versions() -> list[str]:
     return stable
 
 
-def fetch_schema(version: str) -> dict:
+def fetch_schema(version: str | None = None) -> dict:
     """Fetch OCSF schema from schema.ocsf.io."""
-    url = OCSF_SCHEMA_URL.format(version=version)
+    if version:
+        url = f"{OCSF_BASE_URL}/{version}/export/schema"
+    else:
+        url = f"{OCSF_BASE_URL}/export/schema"
     print(f"Fetching schema from {url}...")
     with urllib.request.urlopen(url, timeout=120) as response:
         return json.loads(response.read().decode())
@@ -380,9 +391,8 @@ def main():
     elif args.version:
         versions = [args.version]
     else:
-        # Default to latest stable
-        all_versions = fetch_available_versions()
-        versions = [all_versions[-1]]
+        # Default to current/latest version
+        versions = [fetch_current_version()]
 
     total_size = 0
     generated_versions = []

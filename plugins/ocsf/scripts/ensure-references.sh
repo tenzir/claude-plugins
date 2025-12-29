@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Ensures OCSF reference documentation is generated.
-# Runs on session start; skips if references already exist.
+# Skips if references already exist.
 
 set -euo pipefail
 
@@ -26,5 +26,5 @@ else
 fi
 
 echo "Generating OCSF reference documentation..." >&2
-$PYTHON_CMD "$GENERATOR" --all >&2
+$PYTHON_CMD "$GENERATOR" >&2
 echo "OCSF references generated successfully." >&2

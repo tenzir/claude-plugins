@@ -69,4 +69,16 @@ OCSF organizes event classes into 8 categories:
 
 ## Version-specific References
 
-Detailed per-class and per-object references: [references/](./references/index.md)
+Detailed per-class and per-object references: [references/](./references/)
+
+If `references/index.md` is missing, run the generator script:
+
+```sh
+uv run scripts/generate-references.py
+```
+
+To generate docs for a specific version:
+
+```sh
+uv run scripts/generate-references.py --version 1.3.0
+```
