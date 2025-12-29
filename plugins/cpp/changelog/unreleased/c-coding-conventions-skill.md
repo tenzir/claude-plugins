@@ -4,6 +4,7 @@ type: feature
 pr: 3
 authors:
   - mavam
+  - jachris
   - claude
 created: 2025-12-29T07:08:42.002661Z
 ---
