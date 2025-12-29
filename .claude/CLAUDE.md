@@ -13,12 +13,19 @@ metadata, and components. It loads automatically when working in `plugins/`.
 
 1. Create `plugins/<plugin-name>/` with required structure (see skill for details)
 2. Register in `.claude-plugin/marketplace.json`
-3. Run validation: `scripts/validate-plugins.sh`
+3. Update the plugin table in `README.md`
+4. Run validation: `scripts/validate-plugins.sh`
 
 ### Updating a Plugin
 
 1. Make your changes
 2. Add changelog entry: `/changelog:add`
+
+### Renaming or Removing a Plugin
+
+1. Update or remove the entry in `.claude-plugin/marketplace.json`
+2. Update the plugin table in `README.md`
+3. Rename or remove the `plugins/<plugin-name>/` directory
 
 ### Releasing a Plugin
 

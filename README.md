@@ -5,7 +5,22 @@ Code](https://code.claude.com) that extend its capabilities with custom
 commands, agents, hooks, skills, and MCP servers tailored for working with
 [Tenzir](https://tenzir.com).
 
-## 📦 Installation
+## Plugins
+
+| Plugin      | Description                                                |
+| ----------- | ---------------------------------------------------------- |
+| `brand`     | Tenzir brand and style guidelines for frontend development |
+| `changelog` | Manage changelogs and release notes with tenzir-changelog  |
+| `cpp`       | C++ language support, tooling, and coding conventions      |
+| `docs`      | Documentation workflows for Tenzir projects                |
+| `formatter` | Auto-format files after Claude edits                       |
+| `git`       | Git workflows for Tenzir repositories                      |
+| `ocsf`      | Understand the OCSF schema structure                       |
+| `prose`     | Style guidelines for technical prose                       |
+| `python`    | Python coding conventions for Tenzir projects              |
+| `tql`       | Build TQL pipelines with expert language guidance          |
+
+## Installation
 
 First, add this repository as a plugin marketplace:
 
@@ -30,11 +45,6 @@ Or install a specific plugin directly:
 Consult the official [Claude Code plugins
 documentation](https://code.claude.com/docs/en/plugins) for details on plugin
 structure and configuration.
-
-> [!NOTE]
-> Some plugins touch C++ tooling (e.g., clangd, IWYU). These tools are useful,
-> but their configurations should be tailored to the specific repository and
-> kept with the project that uses them.
 
 ## 📜 License
 
