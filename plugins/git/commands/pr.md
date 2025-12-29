@@ -32,9 +32,10 @@ Execute `/git:commit` to stage and commit the changes.
 
 ## 4. Create PR
 
-Create the PR with `gh` (pushes automatically):
+Push the branch to origin, then create the PR:
 
 ```sh
+git push -u origin HEAD
 gh pr create --title "..." --body "..."
 ```
 
