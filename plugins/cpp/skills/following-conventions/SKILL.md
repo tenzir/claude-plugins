@@ -40,7 +40,7 @@ These are not enforced by tooling:
 - Use `explicit(false)` when implicit conversion is intentional
 - Follow the rule of zero or rule of five
 - Declare move operations `noexcept`
-- Use `struct` for state-less types or when the API is the struct's state
+- Use `struct` for simple data aggregates where the public members are the API
 
 ## Template Metaprogramming
 
@@ -51,4 +51,4 @@ These are not enforced by tooling:
 ## Comments
 
 - `FIXME:` for bugs, `TODO:` for improvements (colon required)
-- Doxygen: `///` with Markdown, `@param`, `@returns`, `@pre`, `@post`
+- Doxygen: `///` with Markdown—do not use `@param`, `@returns`, `@pre`, `@post`
