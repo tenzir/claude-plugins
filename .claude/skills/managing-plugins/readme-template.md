@@ -1,6 +1,8 @@
 # Plugin Name
 
-Brief one-liner description of what the plugin does.
+Two to three sentences describing what the plugin does and why it exists. This
+introductory paragraph appears in the documentation, so keep it informative and
+up to date whenever the plugin changes.
 
 ## ✨ Features
 
@@ -10,12 +12,6 @@ the relevant issue and note when it will become obsolete.
 - 🦄 **Highlight 1**: Describe the highlight here
 - 🖤 **Highlight 2**: Describe the highlight here
 - 🏆 **Highlight 3**: Describe the highlight here
-
-## 📦 Installation
-
-```
-/plugin install <plugin-name>@tenzir
-```
 
 ## 🔧 Configuration
 

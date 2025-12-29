@@ -1,15 +1,18 @@
 # Docs
 
-Documentation workflows for Tenzir projects.
+Documentation workflows for Tenzir projects. Guides you through the Diátaxis
+framework for structuring content, and provides commands and agents for writing,
+reviewing, and publishing documentation.
 
 ## ✨ Features
 
-- 📝 **Writing Documentation Skill**: Guidance on the Diátaxis framework,
-  section selection, and Tenzir docs conventions
-- 🚀 **Write Command**: Interactive workflow for documenting changes
-- 🔍 **Review Command**: Check completeness and style of documentation changes
-- 🤖 **Writer Subagent**: Autonomous agent that writes, reviews, and publishes documentation
-- 🔎 **Reader Subagent**: Answers questions by navigating the live documentation
+- 📚 **Authoring Skill**: Guidance on the Diátaxis framework, section selection,
+  and Tenzir docs conventions
+- ✍️ **Write Command**: Interactive workflow for documenting changes
+- 👀 **Review Command**: Check completeness and style of documentation changes
+- 🤖 **Writer Subagent**: Autonomous agent that writes, reviews, and publishes
+  documentation
+- 🔍 **Reader Subagent**: Answers questions by navigating the live documentation
 
 ## 📦 Installation
 
@@ -19,30 +22,56 @@ Documentation workflows for Tenzir projects.
 
 ## 🚀 Usage
 
-### `/docs:write [topic]`
+### Writing documentation
 
-Write or update documentation. Optionally specify a topic, or let it infer from
-recent changes.
+Document your recent changes:
 
-### `/docs:review`
+```
+/docs:write
+```
 
-Review documentation changes for completeness and style issues.
+The command analyzes uncommitted changes (or the last commit) and creates
+documentation in the appropriate Diataxis section.
 
-### `docs:writer` subagent
+Document a specific topic:
 
-Fully autonomous documentation workflow. Writes docs, reviews them, and creates
-a PR for `tenzir/docs`. Operates from within `.docs/` to handle the nested
-repository context.
+```
+/docs:write the new batch operator
+```
 
-### `docs:reader` subagent
+### Reviewing documentation
 
-Ask questions about Tenzir. Navigates live documentation at docs.tenzir.com to
-find authoritative answers.
+Check your documentation changes for completeness and style:
 
-### `docs:authoring` skill
+```
+/docs:review
+```
 
-Activates when working in `.docs/`. Provides Diátaxis framework guidance and
-Tenzir documentation conventions.
+This starts a preview server at `localhost:4321`, checks if related sections
+need updates (e.g., a new operator may need both reference and guide content),
+and reports style issues.
+
+### Autonomous documentation workflow
+
+For hands-off documentation, delegate to the writer subagent:
+
+```
+Document the latest changes @docs:writer
+```
+
+The subagent writes docs, reviews them, runs linting, and creates a PR against
+`tenzir/docs`--all without further input.
+
+### Looking up documentation
+
+Ask questions about Tenzir without leaving your editor:
+
+```
+How does the batch operator work? @docs:reader
+```
+
+The reader subagent navigates docs.tenzir.com and returns authoritative answers
+with TQL examples quoted directly from the documentation.
 
 ## 🔧 Configuration
 

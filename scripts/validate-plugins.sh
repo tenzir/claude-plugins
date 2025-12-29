@@ -274,6 +274,46 @@ for plugin_dir in "$PLUGINS_DIR"/*/; do
 
   if [ ! -f "$readme" ]; then
     error "$plugin_name: missing README.md"
+  else
+    # -------------------------------------------------------------------------
+    # Validate README structure (for docs script extraction)
+    # -------------------------------------------------------------------------
+
+    # Check for title (first # heading)
+    if ! grep -qm1 "^# " "$readme"; then
+      error "$plugin_name/README.md: missing title (first # heading)"
+    fi
+
+    # Check for description paragraph after title
+    # Extract content between first # heading and first ## heading
+    intro_content=$(awk '/^# /{found=1; next} /^## /{exit} found' "$readme" | sed '/^$/d')
+    if [ -z "$intro_content" ]; then
+      error "$plugin_name/README.md: missing description paragraph after title"
+    else
+      # Check that description ends with sentence-ending punctuation
+      last_char=$(echo "$intro_content" | tail -1 | sed 's/.*\(.\)$/\1/')
+      if ! echo "$last_char" | grep -qE '[.!?]'; then
+        error "$plugin_name/README.md: description must end with '.', '!', or '?'"
+      fi
+    fi
+
+    # Check for required Features section with exact heading style
+    if ! grep -q "^## ✨ Features" "$readme"; then
+      if grep -q "^## Features" "$readme"; then
+        error "$plugin_name/README.md: use '## ✨ Features' (not '## Features')"
+      else
+        error "$plugin_name/README.md: missing required '## ✨ Features' section"
+      fi
+    fi
+
+    # Check for required Usage section with exact heading style
+    if ! grep -q "^## 🚀 Usage" "$readme"; then
+      if grep -q "^## Usage" "$readme"; then
+        error "$plugin_name/README.md: use '## 🚀 Usage' (not '## Usage')"
+      else
+        error "$plugin_name/README.md: missing required '## 🚀 Usage' section"
+      fi
+    fi
   fi
 
   # ---------------------------------------------------------------------------

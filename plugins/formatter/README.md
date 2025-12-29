@@ -1,6 +1,8 @@
 # Formatter
 
-Auto-formats files after Claude edits using language-specific formatters.
+Auto-formats files after Claude edits using language-specific formatters and
+linters. Runs silently after every Write or Edit operation, supporting C++,
+CMake, Shell, Markdown, JSON, and YAML.
 
 ## ✨ Features
 
@@ -18,16 +20,52 @@ Keeps your code consistently formatted without manual intervention.
 
 ## 🔧 Configuration
 
-The plugin uses these formatters (install the ones you need):
+The plugin uses these formatters and linters (install the ones you need):
 
-| File Type                               | Formatter    | Install                           |
-| --------------------------------------- | ------------ | --------------------------------- |
-| `.cpp`, `.hpp`                          | clang-format | `brew install clang-format`       |
-| `.cmake`, `CMakeLists.txt`              | cmake-format | `pip install cmake-format`        |
-| `.sh`, `.bash`                          | shfmt        | `brew install shfmt`              |
-| `.md`, `.mdx`                           | markdownlint | `npm install -g markdownlint-cli` |
-| `.md`, `.mdx`, `.json`, `.yaml`, `.yml` | prettier     | `npm install -g prettier`         |
+| File Type                  | Tool         | Install                           |
+| -------------------------- | ------------ | --------------------------------- |
+| `.cpp`, `.hpp`, `.*pp.in`  | clang-format | `brew install clang-format`       |
+| `.cmake`, `CMakeLists.txt` | cmake-format | `pip install cmake-format`        |
+| `.sh`, `.bash`             | shfmt        | `brew install shfmt`              |
+| `.md`, `.mdx`              | markdownlint | `npm install -g markdownlint-cli` |
+| `.md`, `.mdx`, `.json`     | prettier     | `npm install -g prettier`         |
+| `.yaml`, `.yml`            | yamllint     | `pip install yamllint`            |
+
+Shell formatting uses `.editorconfig` settings when available, otherwise falls
+back to sensible defaults (2-space indent, switch case indentation, binary ops
+may start lines).
 
 ## 🚀 Usage
 
-Simply install the required formatters for your project, then the plugin automatically formats files whenever you use the `Write` or `Edit` tools. Your code stays consistently formatted without any additional commands—just work as normal and formatting happens in the background.
+The plugin runs automatically after every `Write` or `Edit` operation. No
+commands to remember.
+
+When you ask Claude to edit a C++ file:
+
+```
+You: Add a debug log statement to process_data()
+Claude: [Edit tool runs]
+Formatter: [clang-format runs silently in background]
+```
+
+The file ends up formatted according to your `.clang-format` config, even if
+Claude's edit had inconsistent spacing.
+
+Different file types trigger their respective formatters:
+
+| You edit...      | Formatter runs                            |
+| ---------------- | ----------------------------------------- |
+| `parser.cpp`     | clang-format                              |
+| `CMakeLists.txt` | cmake-format                              |
+| `deploy.sh`      | shfmt (uses `.editorconfig` if available) |
+| `README.md`      | markdownlint, then prettier               |
+| `config.json`    | prettier                                  |
+| `pipeline.yaml`  | yamllint (linting only)                   |
+
+If a formatter is missing, you get a warning but the edit still completes:
+
+```
+cmake-format not found, skipping auto-formatting
+```
+
+Install the formatters you need and ignore the rest.

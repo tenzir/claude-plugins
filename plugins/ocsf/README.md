@@ -1,40 +1,50 @@
 # OCSF
 
-Understand the OCSF schema structure.
+Reference documentation for the Open Cybersecurity Schema Framework (OCSF).
+Provides hierarchical navigation of event classes, objects, attributes, and
+profiles across OCSF versions.
 
 ## ✨ Features
 
-- 📚 **Schema Navigation**: Hierarchical reference to event classes, objects,
+- 🗂️ **Schema Navigation**: Hierarchical reference to event classes, objects,
   and profiles across OCSF versions
-- 🧩 **Core Concepts**: Learn attributes, objects, classes, profiles, and
+- 📚 **Core Concepts**: Learn attributes, objects, classes, profiles, and
   extensions
-- 🔄 **Versioned References**: Auto-generated documentation for each OCSF
-  release
+- 📖 **Versioned References**: Auto-generated documentation for each OCSF release
 - 🤖 **Guide Subagent**: Fast answers to OCSF schema questions
-
-## 📦 Installation
-
-```
-/plugin install ocsf@tenzir
-```
 
 ## 🚀 Usage
 
 ### `ocsf:guide` subagent
 
-Ask questions about OCSF classes, objects, attributes, or profiles. Uses the
-skill to provide accurate, version-aware answers.
+Delegate OCSF questions to the guide for fast, accurate answers:
+
+```
+@ocsf:guide What class should I use for SSH login events?
+
+@ocsf:guide What's the difference between actor and user objects?
+
+@ocsf:guide Which profile adds container context to events?
+```
 
 ### `ocsf:understanding-ocsf` skill
 
-Activates when working with OCSF schema elements. Provides:
+Activates automatically when you work with OCSF. Example prompts:
 
-- Attribute types and naming conventions
-- Class reference organized by category
-- Object reference with cross-links
-- Profile and extension documentation
+```
+Normalize this Sysmon process creation event to OCSF
 
-## 🔧 Reference Generation
+What attributes are required for Authentication (3002)?
+
+Map this firewall log to the appropriate OCSF class
+
+How do I represent a failed MFA attempt in OCSF?
+```
+
+The skill loads class references, object definitions, and profile documentation
+to help you build spec-compliant events.
+
+## Reference Generation
 
 Reference documentation is fetched from schema.ocsf.io. To regenerate:
 
