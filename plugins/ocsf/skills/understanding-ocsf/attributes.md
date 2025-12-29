@@ -3,6 +3,9 @@
 Attributes are the foundation of OCSF - named data types (scalar or complex)
 that can be validated and processed consistently.
 
+> The attribute type system and naming conventions documented here are stable
+> across OCSF versions.
+
 ## Attribute Types
 
 OCSF defines 24 primitive types:

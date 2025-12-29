@@ -3,6 +3,9 @@
 Extensions allow vendors and organizations to expand OCSF without modifying the
 core schema. They enable customization while maintaining compatibility.
 
+> The extension mechanism documented here is stable across OCSF versions.
+> Specific extension classes and their UIDs may vary between versions.
+
 ## What Extensions Can Add
 
 Extensions can introduce:

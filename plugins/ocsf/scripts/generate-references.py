@@ -293,6 +293,11 @@ def generate_version_index(
         "",
         f"Schema reference for OCSF version {version_dir.name}.",
         "",
+        "## Overviews",
+        "",
+        f"- [Classes Overview](./classes-overview.md) - All {len(classes)} event classes by category",
+        f"- [Objects Overview](./objects-overview.md) - All {len(objects)} objects by category",
+        "",
         f"## Profiles ({len(profiles)})",
         "",
     ]
@@ -380,6 +385,109 @@ def generate_profile_doc(profile_name: str, profile_data: dict) -> str:
     return "\n".join(lines)
 
 
+def generate_classes_overview(version: str, classes: dict) -> str:
+    """Generate classes overview with category tables."""
+    lines = [
+        f"# Event Classes (OCSF {version})",
+        "",
+        "Complete listing of event classes by category.",
+        "",
+    ]
+
+    # Group by category
+    by_category: dict[str, list[tuple[str, int, str]]] = {}
+    for class_name, class_data in classes.items():
+        cat = class_data.get("category_name", "Other")
+        uid = class_data.get("uid", 0)
+        desc = class_data.get("caption", class_name)
+        if cat not in by_category:
+            by_category[cat] = []
+        by_category[cat].append((class_name, uid, desc))
+
+    # Sort categories by their lowest UID (approximates category order)
+    sorted_cats = sorted(by_category.keys(), key=lambda c: min(x[1] for x in by_category[c]))
+
+    for category in sorted_cats:
+        lines.append(f"## {category}")
+        lines.append("")
+        lines.append("| UID | Class | Description |")
+        lines.append("|-----|-------|-------------|")
+        for class_name, uid, desc in sorted(by_category[category], key=lambda x: x[1]):
+            filename = class_name.replace("/", "_")
+            lines.append(f"| {uid} | [`{class_name}`](./classes/{filename}.md) | {desc} |")
+        lines.append("")
+
+    return "\n".join(lines)
+
+
+def generate_objects_overview(version: str, objects: dict) -> str:
+    """Generate objects overview by category."""
+    lines = [
+        f"# Objects (OCSF {version})",
+        "",
+        "Complete listing of objects by category.",
+        "",
+    ]
+
+    # Categorize objects based on naming patterns and common groupings
+    categories: dict[str, list[tuple[str, str]]] = {
+        "Identity & Access": [],
+        "Process & System": [],
+        "Network": [],
+        "File & Data": [],
+        "Security & Compliance": [],
+        "Cloud & Infrastructure": [],
+        "Observability": [],
+        "Windows": [],
+        "Other": [],
+    }
+
+    # Keywords for categorization
+    identity_kw = {"account", "actor", "auth", "user", "group", "idp", "ldap", "org", "policy", "session", "sso", "ticket", "trait"}
+    process_kw = {"agent", "application", "container", "device", "display", "environment", "image", "kernel", "keyboard", "module", "os", "peripheral", "process", "service", "startup"}
+    network_kw = {"autonomous", "dns", "endpoint", "firewall", "http", "load_balancer", "network", "proxy", "tls", "tunnel"}
+    file_kw = {"data_class", "data_security", "database", "databucket", "digital_signature", "encryption", "file", "fingerprint", "hassh", "ja4", "package", "sbom", "script", "software"}
+    security_kw = {"analytic", "anomaly", "assessment", "attack", "baseline", "campaign", "check", "cis", "compliance", "cve", "cvss", "cwe", "d3f", "finding", "kill_chain", "malware", "mitigation", "osint", "rule", "vulnerability"}
+    cloud_kw = {"api", "cloud", "function", "job", "managed", "product", "reporter", "request", "resource", "response", "web_resource"}
+    observability_kw = {"enrichment", "evidence", "graph", "logger", "metric", "node", "observable", "observation", "occurrence", "span", "trace", "transformation"}
+
+    for obj_name, obj_data in objects.items():
+        desc = obj_data.get("caption", obj_name)
+        entry = (obj_name, desc)
+        name_lower = obj_name.lower()
+
+        if obj_name.startswith("win/"):
+            categories["Windows"].append(entry)
+        elif any(kw in name_lower for kw in identity_kw):
+            categories["Identity & Access"].append(entry)
+        elif any(kw in name_lower for kw in process_kw):
+            categories["Process & System"].append(entry)
+        elif any(kw in name_lower for kw in network_kw):
+            categories["Network"].append(entry)
+        elif any(kw in name_lower for kw in file_kw):
+            categories["File & Data"].append(entry)
+        elif any(kw in name_lower for kw in security_kw):
+            categories["Security & Compliance"].append(entry)
+        elif any(kw in name_lower for kw in cloud_kw):
+            categories["Cloud & Infrastructure"].append(entry)
+        elif any(kw in name_lower for kw in observability_kw):
+            categories["Observability"].append(entry)
+        else:
+            categories["Other"].append(entry)
+
+    for category, items in categories.items():
+        if not items:
+            continue
+        lines.append(f"## {category} ({len(items)} objects)")
+        lines.append("")
+        for obj_name, desc in sorted(items):
+            filename = obj_name.replace("/", "_")
+            lines.append(f"- [`{obj_name}`](./objects/{filename}.md) - {desc}")
+        lines.append("")
+
+    return "\n".join(lines)
+
+
 def generate_version(version: str) -> int:
     """Generate documentation for a specific OCSF version. Returns size in bytes."""
     # Fetch schema and profiles (profiles are in a separate API endpoint)
@@ -423,6 +531,13 @@ def generate_version(version: str) -> int:
         doc = generate_profile_doc(profile_name, profile_data)
         (profiles_dir / filename).write_text(doc)
 
+    # Generate overview files
+    classes_overview = generate_classes_overview(version, classes)
+    (version_dir / "classes-overview.md").write_text(classes_overview)
+
+    objects_overview = generate_objects_overview(version, objects)
+    (version_dir / "objects-overview.md").write_text(objects_overview)
+
     # Generate version index
     generate_version_index(version_dir, classes, objects, profiles)
 
@@ -431,6 +546,8 @@ def generate_version(version: str) -> int:
     total_size += sum(f.stat().st_size for f in objects_dir.glob("*.md"))
     total_size += sum(f.stat().st_size for f in profiles_dir.glob("*.md"))
     total_size += (version_dir / "index.md").stat().st_size
+    total_size += (version_dir / "classes-overview.md").stat().st_size
+    total_size += (version_dir / "objects-overview.md").stat().st_size
     return total_size
 
 
