@@ -41,12 +41,29 @@ if [[ "$FILE_PATH" =~ \.(md|mdx|json)$ ]]; then
   fi
 fi
 
-# -i 2: indent with 2 spaces
-# -ci: indent switch cases
-# -bn: binary ops may start line
 if [[ "$FILE_PATH" =~ \.(sh|bash)$ ]]; then
   if command -v shfmt &>/dev/null; then
-    shfmt -i 2 -ci -bn -w "$FILE_PATH"
+    # Find .editorconfig by walking up from the file's directory to cwd
+    dir=$(dirname "$FILE_PATH")
+    cwd=$(pwd)
+    has_editorconfig=false
+    while [[ "$dir" == "$cwd"/* || "$dir" == "$cwd" ]]; do
+      if [[ -f "$dir/.editorconfig" ]]; then
+        has_editorconfig=true
+        break
+      fi
+      dir=$(dirname "$dir")
+    done
+    if $has_editorconfig; then
+      # Let shfmt use .editorconfig settings
+      shfmt -w "$FILE_PATH"
+    else
+      # Fallback defaults:
+      # -i 2: indent with 2 spaces
+      # -ci: indent switch cases
+      # -bn: binary ops may start a line
+      shfmt -i 2 -ci -bn -w "$FILE_PATH"
+    fi
   else
     echo "shfmt not found, skipping auto-formatting" >&2
   fi
