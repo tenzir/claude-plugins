@@ -5,8 +5,6 @@ description: C++ coding conventions. Use when editing .cpp/.hpp files or asking 
 
 # C++ Coding Conventions
 
-General C++ coding standards based on STL and modern C++ best practices.
-
 ## Tooling
 
 Use clang-format for formatting and clang-tidy for linting. The `.clang-format`
