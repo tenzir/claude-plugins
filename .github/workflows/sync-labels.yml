@@ -1,0 +1,49 @@
+name: Sync Labels
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .claude-plugin/marketplace.json
+      - .github/workflows/sync-labels.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate app token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.TENZIR_GITHUB_APP_ID }}
+          private-key: ${{ secrets.TENZIR_GITHUB_APP_PRIVATE_KEY }}
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Generate labeler config
+        run: ./scripts/generate-labeler-config.sh
+
+      - name: Commit labeler config if changed
+        run: |
+          if git diff --quiet .github/labeler.yml; then
+            echo "No changes to labeler.yml"
+          else
+            git config user.name "tenzir-bot[bot]"
+            git config user.email "tenzir-bot[bot]@users.noreply.github.com"
+            git add .github/labeler.yml
+            git commit -m "Sync labeler config from marketplace.json"
+            git push
+          fi
+
+      - name: Sync plugin labels
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: ./scripts/sync-labels.sh

@@ -1,0 +1,43 @@
+# Auto-generated from marketplace.json by sync-labels workflow
+# Do not edit manually
+
+plugin:brand:
+  - changed-files:
+      - any-glob-to-any-file: plugins/brand/**
+
+plugin:changelog:
+  - changed-files:
+      - any-glob-to-any-file: plugins/changelog/**
+
+plugin:cpp:
+  - changed-files:
+      - any-glob-to-any-file: plugins/cpp/**
+
+plugin:docs:
+  - changed-files:
+      - any-glob-to-any-file: plugins/docs/**
+
+plugin:formatter:
+  - changed-files:
+      - any-glob-to-any-file: plugins/formatter/**
+
+plugin:git:
+  - changed-files:
+      - any-glob-to-any-file: plugins/git/**
+
+plugin:ocsf:
+  - changed-files:
+      - any-glob-to-any-file: plugins/ocsf/**
+
+plugin:prose:
+  - changed-files:
+      - any-glob-to-any-file: plugins/prose/**
+
+plugin:python:
+  - changed-files:
+      - any-glob-to-any-file: plugins/python/**
+
+plugin:tql:
+  - changed-files:
+      - any-glob-to-any-file: plugins/tql/**
+
