@@ -6,6 +6,7 @@ Git workflows for Tenzir repositories.
 
 - 📝 **Writing Commit Messages**: Auto-triggered guidance for writing clear, consistent git commit messages
 - 🔀 **PR Command**: Create GitHub pull requests with proper descriptions
+- 💬 **Address PR Comments**: Work through review comments with commits and thread resolution
 - 🤖 **Committer Subagent**: Lightweight agent (Haiku) that handles the commit workflow autonomously
 
 ## 📦 Installation
@@ -25,6 +26,11 @@ into separate commits when needed.
 
 Create a GitHub pull request for your current changes. Run your project's
 quality gates (linting, formatting, builds) first.
+
+### `/git:address-pr-comments`
+
+Work through PR review comments systematically. Creates one commit per comment
+(or group of related comments), replies with the commit SHA, and resolves threads.
 
 ### `git:committer` subagent
 
