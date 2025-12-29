@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 #
 # Pre-tool hook to ensure .docs/ is synchronized before editing.
-#
-# See the plugin README.md for detailed logic.
 
 set -euo pipefail
 
 DOCS_DIR=".docs"
+DOCS_REPO="git@github.com:tenzir/docs.git"
 SYNC_STATE_FILE="$DOCS_DIR/.git/claude-last-sync"
 STALE_SECONDS=$((24 * 60 * 60)) # 24 hours
 
@@ -29,8 +28,11 @@ if [[ "$FILE_PATH" != */.docs/* ]] && [[ "$FILE_PATH" != .docs/* ]]; then
   exit 0
 fi
 
-# If .docs/ doesn't exist, nothing to sync
-[[ ! -d "$DOCS_DIR/.git" ]] && exit 0
+# If .docs/ doesn't exist, clone it
+if [[ ! -d "$DOCS_DIR/.git" ]]; then
+  echo "Cloning docs repository to $DOCS_DIR..." >&2
+  git clone "$DOCS_REPO" "$DOCS_DIR"
+fi
 
 # --- Staleness Check ---
 
