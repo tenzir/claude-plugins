@@ -5,11 +5,33 @@ on:
     types: [created]
   pull_request_review_comment:
     types: [created]
+  workflow_call:
+    inputs:
+      plugins:
+        description: 'Plugins to enable (newline-separated)'
+        required: false
+        type: string
+        default: |
+          brand@tenzir
+          changelog@tenzir
+          cpp@tenzir
+          docs@tenzir
+          formatter@tenzir
+          git@tenzir
+          ocsf@tenzir
+          prose@tenzir
+          python@tenzir
+          tql@tenzir
+    secrets:
+      anthropic_api_key:
+        required: false
+      claude_code_oauth_token:
+        required: false
 
 jobs:
   claude:
     if: |
-      contains(github.event.comment.body, '@claude')
+      github.event_name == 'workflow_call' || contains(github.event.comment.body, '@claude')
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -23,13 +45,18 @@ jobs:
 
       - uses: anthropics/claude-code-action@v1
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Prefer OAuth token, fall back to API key
+          anthropic_api_key: ${{ secrets.claude_code_oauth_token || secrets.anthropic_api_key || secrets.ANTHROPIC_API_KEY }}
           # Keep in sync with .claude/settings.json
           plugin_marketplaces: |
             https://github.com/tenzir/claude-plugins.git
-          plugins: |
+          plugins: ${{ inputs.plugins || 'brand@tenzir
             changelog@tenzir
+            cpp@tenzir
             docs@tenzir
             formatter@tenzir
             git@tenzir
+            ocsf@tenzir
             prose@tenzir
+            python@tenzir
+            tql@tenzir' }}

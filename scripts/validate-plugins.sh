@@ -168,6 +168,15 @@ if [ -f "$CLAUDE_WORKFLOW" ]; then
       error "claude.yaml: plugin '$full_plugin_name' not found in marketplace"
     fi
   done < <(echo "$workflow_plugins")
+
+  # Check that all marketplace plugins are in the workflow.
+  while IFS= read -r plugin_name; do
+    [ -z "$plugin_name" ] && continue
+    full_plugin_name="${plugin_name}@${MARKETPLACE_NAME}"
+    if ! echo "$workflow_plugins" | grep -qx "$full_plugin_name"; then
+      error "claude.yaml: marketplace plugin '$full_plugin_name' not listed in workflow"
+    fi
+  done < <(jq -r '.plugins[].name' "$MARKETPLACE_JSON")
 fi
 
 # =============================================================================
