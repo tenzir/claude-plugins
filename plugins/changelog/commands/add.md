@@ -2,7 +2,7 @@
 description: Add a changelog entry for recent changes (feature, bugfix, breaking, change).
 ---
 
-Make sure you loaded these skills:
+Make sure you invoked these skills:
 
 - `changelog:managing-entries`
 - `prose:technical-writing`
@@ -26,7 +26,8 @@ changelog entry.
 
 ## Determine Target Changelog
 
-For module-based projects (those with `modules:` in the parent `config.yaml`):
+For module-based projects (those with `modules:` in the project's
+`changelog/config.yaml`):
 
 1. Identify which module the change affects
 2. Use `--root <module>/changelog` to target that module's changelog
