@@ -2,39 +2,46 @@
 
 Understand the OCSF schema structure.
 
-## Features
+## ✨ Features
 
-- **Schema Navigation**: Hierarchical reference to 83 event classes and 170
-  object types
-- **Core Concepts**: Learn attributes, objects, classes, profiles, and
+- 📚 **Schema Navigation**: Hierarchical reference to event classes, objects,
+  and profiles across OCSF versions
+- 🧩 **Core Concepts**: Learn attributes, objects, classes, profiles, and
   extensions
-- **Category Organization**: Classes organized by 8 OCSF categories
+- 🔄 **Versioned References**: Auto-generated documentation for each OCSF
+  release
+- 🤖 **Guide Subagent**: Fast answers to OCSF schema questions
 
-## Installation
+## 📦 Installation
 
 ```
 /plugin install ocsf@tenzir
 ```
 
-## Usage
+## 🚀 Usage
+
+### `ocsf:guide` subagent
+
+Ask questions about OCSF classes, objects, attributes, or profiles. Uses the
+skill to provide accurate, version-aware answers.
 
 ### `ocsf:understanding-ocsf` skill
 
-Activates when introspecting OCSF schema elements. Provides:
+Activates when working with OCSF schema elements. Provides:
 
-- Overview of 5 core OCSF concepts
 - Attribute types and naming conventions
 - Class reference organized by category
 - Object reference with cross-links
 - Profile and extension documentation
 
-## Reference Generation
+## 🔧 Reference Generation
 
-Reference documentation is fetched from schema.ocsf.io and cached locally. A
-`SessionStart` hook generates references automatically on first use.
-
-To regenerate manually:
+Reference documentation is fetched from schema.ocsf.io. To regenerate:
 
 ```bash
+# Generate for latest version
+uv run plugins/ocsf/scripts/generate-references.py
+
+# Generate for all stable versions
 uv run plugins/ocsf/scripts/generate-references.py --all
 ```
