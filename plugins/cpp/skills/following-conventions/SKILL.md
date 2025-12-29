@@ -16,7 +16,7 @@ and trust the output.
 These are not enforced by tooling:
 
 - **West const**: `const T&` not `T const&`
-- **Prefer `auto`**: Unless you need a type conversion
+- **Prefer `auto`**: Use almost-always-auto, make conversions explicit (e.g., `auto x = int64_t{0}`)
 - **Vertical whitespace**: Avoid blank lines within functions. Use comments
   to separate logical blocks instead.
 - **Naming**: See [naming.md](./naming.md)
@@ -24,9 +24,8 @@ These are not enforced by tooling:
 ## File Organization
 
 - Headers: `.hpp`, implementation: `.cpp`
-- Forward declarations: `<module>/fwd.h`
+- Forward declarations: `<module>/fwd.hpp`
 - Use `#pragma once`—no manual include guards
-- Function parameters: inputs first, then outputs
 
 ## Classes
 
@@ -34,7 +33,6 @@ These are not enforced by tooling:
 
 1. `public`, then `protected`, then `private`
 2. Within each: constructors, operators, mutating members, accessors
-3. Friends immediately after opening the class
 
 **Rules:**
 
