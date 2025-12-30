@@ -2,7 +2,7 @@
 description: Add a changelog entry for recent changes (feature, bugfix, breaking, change).
 ---
 
-Make sure you invoked these skills:
+Begin with invoking these skills:
 
 - `changelog:managing-entries`
 - `prose:technical-writing`
@@ -63,8 +63,7 @@ Follow the `prose:technical-writing` skill. Additional guidance for changelog en
 ## Create the Entry
 
 First, write the description to a temporary file, e.g., `.description.md`.
-
-Then create the entry:
+Thereafter create the entry:
 
 ```sh
 uvx tenzir-changelog --root <module>/changelog add \
@@ -83,12 +82,6 @@ Include `--pr <number>` only when running in GitHub Actions (CI). Extract the PR
 
 Remove the temporary file on success.
 
-## Verify
+## Summarize
 
-After creating the entry, show the result:
-
-```sh
-uvx tenzir-changelog show --json 1
-```
-
-Confirm the entry data looks correct and inform the user where the file was created.
+After creating the entry, provide a summary to the user.
