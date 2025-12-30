@@ -11,12 +11,6 @@ function lookups.
 - 📚 **Documentation Lookup**: Query live Tenzir documentation for operators,
   functions, and syntax via the `docs:reader` subagent
 
-## 📦 Installation
-
-```
-/plugin install tql@tenzir
-```
-
 ## 🚀 Usage
 
 ### `tql:writing-programs` skill

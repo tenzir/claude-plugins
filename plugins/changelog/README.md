@@ -12,12 +12,6 @@ workflows through CI.
 - 🤖 **Adder Agent**: Automate changelog entry creation from PR comments in CI
 - 📦 **Releaser Agent**: Automate release workflows in CI with a specified version bump
 
-## 📦 Installation
-
-```
-/plugin install changelog@tenzir
-```
-
 ## 🚀 Usage
 
 ### Adding Entries

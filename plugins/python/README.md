@@ -8,12 +8,6 @@ tooling, Ruff formatting, strict Mypy type checking, and naming conventions.
 - 🐍 **Coding Conventions**: uv-based tooling, Ruff formatting, strict Mypy, naming conventions
 - 🔍 **Pyright LSP Integration**: Pre-configured language server for enhanced type checking and IDE support
 
-## 📦 Installation
-
-```
-/plugin install python@tenzir
-```
-
 ## 🚀 Usage
 
 ### Skill: `python:following-conventions`

@@ -9,12 +9,6 @@ inclusive language, and effective formatting.
 - 📝 **Technical Writing Skill**: Guidelines for writing clear, consistent
   documentation following industry best practices
 
-## 📦 Installation
-
-```
-/plugin install prose@tenzir
-```
-
 ## 🚀 Usage
 
 ### `prose:technical-writing` skill

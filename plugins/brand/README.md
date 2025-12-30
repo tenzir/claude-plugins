@@ -14,12 +14,6 @@ UI styling across Tenzir products.
 - 🏷️ **Logo Assets** - Official SVG logos and logomarks in standard and white
   variants
 
-## 📦 Installation
-
-```
-/plugin install brand@tenzir
-```
-
 ## 🚀 Usage
 
 The `brand:styling-tenzir-ui` skill activates automatically when you work on

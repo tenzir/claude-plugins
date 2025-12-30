@@ -14,12 +14,6 @@ reviewing, and publishing documentation.
   documentation
 - 🔍 **Reader Subagent**: Answers questions by navigating the live documentation
 
-## 📦 Installation
-
-```
-/plugin install docs@tenzir
-```
-
 ## 🚀 Usage
 
 ### Writing documentation

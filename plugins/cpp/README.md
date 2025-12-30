@@ -10,12 +10,6 @@ covering naming, class structure, templates, and documentation.
   find-references, hover, diagnostics)
 - 📝 **Coding Conventions**: Style guidelines and clang tooling configuration
 
-## 📦 Installation
-
-```
-/plugin install cpp@tenzir
-```
-
 ## 🚀 Usage
 
 ### LSP

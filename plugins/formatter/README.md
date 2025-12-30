@@ -12,12 +12,6 @@ Keeps your code consistently formatted without manual intervention.
 - 🌐 **Multi-language**: Supports C++, CMake, Shell, Markdown, JSON, and YAML
 - 🤫 **Silent**: Only warns when a formatter is missing
 
-## 📦 Installation
-
-```
-/plugin install formatter@tenzir
-```
-
 ## 🔧 Configuration
 
 The plugin uses these formatters and linters (install the ones you need):

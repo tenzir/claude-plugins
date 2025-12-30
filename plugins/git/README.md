@@ -12,12 +12,6 @@ systematically.
 - 🤖 **Committer Subagent**: Lightweight agent (Haiku) that handles the commit workflow autonomously
 - 📖 **Writing Commit Messages Skill**: Guides commit message format and style when committing
 
-## 📦 Installation
-
-```
-/plugin install git@tenzir
-```
-
 ## 🚀 Usage
 
 ### Committing changes
