@@ -32,26 +32,7 @@ Execute `/docs:review`.
 
 ### Step 3: Create Pull Request
 
-All commands run from `.docs/`:
-
-```bash
-cd .docs
-
-# Run linting and build checks
-pnpm lint:fix && pnpm build:linkcheck
-
-# Create topic branch
-git switch -c topic/<brief-description>
-
-# Stage and commit (follow git:writing-commit-messages conventions)
-git add <files>
-git commit -m "<message>"
-
-# Create PR (pushes automatically)
-gh pr create --title "..." --body "..."
-```
-
-If linting or build fails, fix the issues before proceeding.
+Execute `/docs:pr`.
 
 ### Step 4: Report Results
 
@@ -59,4 +40,6 @@ Summarize what was done:
 
 1. **Files created/modified**: List each file with its path in `.docs/`
 2. **Sections updated**: Which Diátaxis sections were touched
-3. **PR URL**: Link to the created pull request
+3. **Docs PR**: Link to the created pull request
+4. **Cross-referenced**: If a parent project PR exists, confirm both PRs now link
+   to each other

@@ -10,6 +10,8 @@ reviewing, and publishing documentation.
   and Tenzir docs conventions
 - ✍️ **Write Command**: Interactive workflow for documenting changes
 - 👀 **Review Command**: Check completeness and style of documentation changes
+- 🔀 **PR Command**: Create documentation PRs with cross-referencing to parent
+  project PRs
 - 🤖 **Writer Subagent**: Autonomous agent that writes, reviews, and publishes
   documentation
 - 🔍 **Reader Subagent**: Answers questions by navigating the live documentation
@@ -44,6 +46,17 @@ Check your documentation changes for completeness and style:
 This starts a preview server at `localhost:4321`, checks if related sections
 need updates (e.g., a new operator may need both reference and guide content),
 and reports style issues.
+
+### Creating a documentation PR
+
+After writing documentation, create a PR with cross-references:
+
+```
+/docs:pr
+```
+
+This runs linting, creates a PR in `tenzir/docs`, and if the parent project has
+an open PR, links both PRs to each other.
 
 ### Autonomous documentation workflow
 
