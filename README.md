@@ -20,6 +20,17 @@ commands, agents, hooks, skills, and MCP servers tailored for working with
 | `python`    | Python coding conventions for Tenzir projects              |
 | `tql`       | Build TQL pipelines with expert language guidance          |
 
+## 🛠️ Development
+
+To develop plugins locally, load them directly from source:
+
+```bash
+claude --plugin-dir plugins/*
+```
+
+This bypasses the plugin cache, so edits take effect on restart without
+reinstallation.
+
 ## 📚 Documentation
 
 See our [Claude marketplace
