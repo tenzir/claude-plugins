@@ -33,7 +33,7 @@ The `plugin.json` file defines the plugin:
 ```json
 {
   "name": "plugin-name",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "Brief description of what this plugin does",
   "author": {
     "name": "Tenzir",
@@ -84,8 +84,12 @@ Keep plugins sorted alphabetically by name.
 
 ## Versioning
 
+Plugins **must start at version `0.0.0`**. This allows the first release to use
+standard bump flags (`--patch`, `--minor`, `--major`) to produce typical initial
+versions like `0.0.1`, `0.1.0`, or `1.0.0`.
+
 Follow SemVer when updating plugins:
 
-- **Patch** (0.1.0 → 0.1.1): Bug fixes, typo corrections
-- **Minor** (0.1.0 → 0.2.0): New features, backward-compatible enhancements
-- **Major** (0.1.0 → 1.0.0): Breaking changes
+- **Patch** (0.0.0 → 0.0.1): Bug fixes, typo corrections
+- **Minor** (0.0.0 → 0.1.0): New features, backward-compatible enhancements
+- **Major** (0.0.0 → 1.0.0): Breaking changes, production-ready
