@@ -1,6 +1,6 @@
-created: 2025-12-28
-title: clangd Language Server Integration
+created: 2026-01-04
+title: C++ Coding Conventions
 intro: >-
-  This release introduces a new C++ plugin with clangd language server integration,
-  providing go-to-definition, find-references, hover information, and diagnostics
-  for C++ development.
+  This release adds a comprehensive C++ coding conventions skill that provides guidance
+  on naming conventions, class structure, template metaprogramming style, and documentation
+  comments.

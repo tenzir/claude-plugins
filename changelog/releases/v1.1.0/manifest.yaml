@@ -16,7 +16,7 @@ intro: >-
 modules:
   brand: v1.0.0
   changelog: v1.4.1
-  cpp: v0.3.0
+  cpp: v0.2.0
   docs: v2.2.0
   excalidraw: v0.1.0
   formatter: v1.1.1

@@ -1,9 +1,9 @@
-This release introduces a new C++ plugin with clangd language server integration, providing go-to-definition, find-references, hover information, and diagnostics for C++ development.
+This release adds a comprehensive C++ coding conventions skill that provides guidance on naming conventions, class structure, template metaprogramming style, and documentation comments.
 
 ## 🚀 Features
 
-### C++ plugin with clangd language server integration
+### C++ coding conventions skill
 
-Adds a new plugin for C++ development with clangd as the language server. The plugin provides go-to-definition, find-references, hover information, and diagnostics.
+Adds a `following-conventions` skill that encodes general C++ coding conventions: naming, class structure, template metaprogramming style, and documentation comments.
 
-*By @mavam and @claude.*
+*By @mavam, @jachris, and @claude in #3.*
