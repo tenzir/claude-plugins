@@ -16,6 +16,7 @@ on:
           changelog@tenzir
           cpp@tenzir
           docs@tenzir
+          excalidraw@tenzir
           formatter@tenzir
           git@tenzir
           ocsf@tenzir
@@ -54,6 +55,7 @@ jobs:
             changelog@tenzir
             cpp@tenzir
             docs@tenzir
+            excalidraw@tenzir
             formatter@tenzir
             git@tenzir
             ocsf@tenzir

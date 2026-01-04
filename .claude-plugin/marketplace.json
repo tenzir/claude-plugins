@@ -30,6 +30,11 @@
       "source": "./plugins/docs"
     },
     {
+      "name": "excalidraw",
+      "description": "Create Excalidraw diagrams with proper JSON structure",
+      "source": "./plugins/excalidraw"
+    },
+    {
       "name": "formatter",
       "description": "Auto-format files after Claude edits",
       "source": "./plugins/formatter"
