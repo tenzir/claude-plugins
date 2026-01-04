@@ -34,7 +34,13 @@ If either condition is true, this is a **module release**:
 
 - Follow steps 1–5 normally
 - **Stop after "Bump version"**—do not publish or create tags
-- Commit with `git add -A` followed by `git commit -m "Release $(uvx tenzir-changelog release version)"`
+- Stage only this module's files: `git add <module-root>/` where `<module-root>`
+  is the parent directory of module's `changelog/` (e.g., if changelog is at
+  `plugins/cpp/changelog/`, stage `plugins/cpp/`)
+- Commit with message format: `git commit -m "Release <module-name> <version>"`
+  - `<module-name>` is the module directory name (e.g., `cpp`, `mylib`)
+  - `<version>` is the direct output from `uvx tenzir-changelog release version`
+    that includes a `v` prefix
 - Report the new version; the parent project handles publishing
 
 ## Pre-Release Checks
