@@ -1,0 +1,27 @@
+created: 2026-01-04
+title: OCSF and Excalidraw Plugins
+intro: >-
+  This release introduces the OCSF plugin for navigating the Open Cybersecurity
+
+  Schema Framework with versioned reference documentation, and the Excalidraw
+
+  plugin for generating valid diagrams. It also adds a reusable GitHub Action for
+
+  automated changelog entries in CI.
+
+
+  Breaking changes include removing the meta and auto-update plugins from the
+
+  marketplace.
+modules:
+  brand: v1.0.0
+  changelog: v1.4.1
+  cpp: v0.3.0
+  docs: v2.2.0
+  excalidraw: v0.1.0
+  formatter: v1.1.1
+  git: v1.2.0
+  ocsf: v0.1.0
+  prose: v1.0.0
+  python: v1.1.0
+  tql: v1.1.1
