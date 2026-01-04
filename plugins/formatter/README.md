@@ -2,28 +2,29 @@
 
 Auto-formats files after Claude edits using language-specific formatters and
 linters. Runs silently after every Write or Edit operation, supporting C++,
-CMake, Shell, Markdown, JSON, and YAML.
+CMake, Shell, Markdown, JSON, YAML, and JavaScript/TypeScript.
 
 ## ✨ Features
 
 Keeps your code consistently formatted without manual intervention.
 
 - 🔧 **Automatic**: Runs after every `Write` or `Edit` operation
-- 🌐 **Multi-language**: Supports C++, CMake, Shell, Markdown, JSON, and YAML
+- 🌐 **Multi-language**: Supports C++, CMake, Shell, Markdown, JSON, YAML, and JS/TS
 - 🤫 **Silent**: Only warns when a formatter is missing
 
 ## 🔧 Configuration
 
 The plugin uses these formatters and linters (install the ones you need):
 
-| File Type                  | Tool         | Install                           |
-| -------------------------- | ------------ | --------------------------------- |
-| `.cpp`, `.hpp`, `.*pp.in`  | clang-format | `brew install clang-format`       |
-| `.cmake`, `CMakeLists.txt` | cmake-format | `pip install cmake-format`        |
-| `.sh`, `.bash`             | shfmt        | `brew install shfmt`              |
-| `.md`, `.mdx`              | markdownlint | `npm install -g markdownlint-cli` |
-| `.md`, `.mdx`, `.json`     | prettier     | `npm install -g prettier`         |
-| `.yaml`, `.yml`            | yamllint     | `pip install yamllint`            |
+| File Type                                    | Tool         | Install                           |
+| -------------------------------------------- | ------------ | --------------------------------- |
+| `.cpp`, `.hpp`, `.*pp.in`                    | clang-format | `brew install clang-format`       |
+| `.cmake`, `CMakeLists.txt`                   | cmake-format | `pip install cmake-format`        |
+| `.sh`, `.bash`                               | shfmt        | `brew install shfmt`              |
+| `.md`, `.mdx`                                | markdownlint | `npm install -g markdownlint-cli` |
+| `.md`, `.mdx`, `.json`                       | prettier     | `npm install -g prettier`         |
+| `.yaml`, `.yml`                              | yamllint     | `pip install yamllint`            |
+| `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs`, `.cjs` | eslint       | `npm install -g eslint`           |
 
 Shell formatting uses `.editorconfig` settings when available, otherwise falls
 back to sensible defaults (2-space indent, switch case indentation, binary ops
@@ -55,6 +56,7 @@ Different file types trigger their respective formatters:
 | `README.md`      | markdownlint, then prettier               |
 | `config.json`    | prettier                                  |
 | `pipeline.yaml`  | yamllint (linting only)                   |
+| `app.tsx`        | eslint                                    |
 
 If a formatter is missing, you get a warning but the edit still completes:
 

@@ -76,3 +76,11 @@ if [[ "$FILE_PATH" =~ \.(yaml|yml)$ ]]; then
     echo "yamllint not found, skipping linting" >&2
   fi
 fi
+
+if [[ "$FILE_PATH" =~ \.(js|jsx|ts|tsx|mjs|cjs)$ ]]; then
+  if command -v eslint &>/dev/null; then
+    eslint --fix "$FILE_PATH"
+  else
+    echo "eslint not found, skipping auto-formatting" >&2
+  fi
+fi
