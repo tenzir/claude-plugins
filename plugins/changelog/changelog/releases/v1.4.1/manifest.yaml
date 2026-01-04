@@ -1,0 +1,5 @@
+created: 2026-01-04
+title: Documentation Accuracy Improvements
+intro: >-
+  This release improves the accuracy of the `/changelog:add` command documentation
+  by using correct terminology and clarifying configuration file locations.

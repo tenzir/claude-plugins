@@ -1,6 +1,6 @@
 {
   "name": "excalidraw",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Generate Excalidraw diagrams with proper JSON structure",
   "author": {
     "name": "Tenzir",

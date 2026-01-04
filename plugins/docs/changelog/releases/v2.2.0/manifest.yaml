@@ -1,0 +1,7 @@
+created: 2026-01-04
+title: Enhanced Documentation PR Workflow
+intro: >-
+  This release restores the `/docs:pr` command with enhanced cross-referencing capabilities
+  that automatically link documentation PRs with parent project PRs. It also improves
+  the synchronization workflow by automatically cloning the documentation repository
+  when needed, eliminating manual setup steps.

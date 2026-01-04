@@ -1,6 +1,6 @@
 {
   "name": "changelog",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Manage changelogs and release notes with tenzir-changelog",
   "author": {
     "name": "Tenzir",

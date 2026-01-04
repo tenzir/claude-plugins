@@ -1,0 +1,6 @@
+created: 2026-01-04
+title: Initial release
+intro: >-
+  Initial release of the Excalidraw plugin for generating valid diagram files.
+  The plugin supports flowcharts, ER diagrams, sequence diagrams, and architecture
+  diagrams with proper element bindings and Excalidraw-native styling.

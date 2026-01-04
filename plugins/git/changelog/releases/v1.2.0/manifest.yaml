@@ -1,0 +1,7 @@
+created: 2026-01-04
+title: PR Review Comment Addressing
+intro: >-
+  This release introduces the `/git:address-pr-comments` command for systematically
+  working through GitHub PR review comments. The command creates one commit per comment,
+  replies with the commit SHA, and resolves threads automatically. It also includes
+  fixes for branch pushing before PR creation and multi-line review comment support.

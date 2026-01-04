@@ -1,0 +1,5 @@
+created: 2026-01-04
+title: Streamlined Documentation Lookup
+intro: >-
+  This release removes the bundled MCP server to streamline documentation lookup through
+  the docs plugin dependency.
