@@ -96,6 +96,8 @@ Use `\n` for line breaks:
 
 Text can be bound inside shapes (rectangles, diamonds, ellipses, arrows).
 
+**Important**: The `label` property is for Excalidraw's JavaScript API only. In raw JSON files, you must create two separate elements with `containerId` and `boundElements` referencing each other.
+
 ### Shape with bound text
 
 ```json
@@ -131,13 +133,19 @@ Text can be bound inside shapes (rectangles, diamonds, ellipses, arrows).
 
 ## Text Positioning in Containers
 
-When text is bound:
+Excalidraw auto-positions bound text based on alignment settings. For centered text in a rectangle:
 
 ```
-text.x = container.x + 5
-text.y = container.y + (container.height - text.height) / 2
-text.width = container.width - 10
+text.x = container.x + 5 + (maxWidth - text.width) / 2
+text.y = container.y + 5 + (maxHeight - text.height) / 2
+maxWidth = container.width - 10
+maxHeight = container.height - 10
 ```
+
+For ellipses and diamonds, additional offsets account for shape geometry:
+
+- Ellipse: extra offset of `(dimension / 2) * (1 - √2 / 2)`
+- Diamond: extra offset of `dimension / 4`
 
 ## Text Containers
 
