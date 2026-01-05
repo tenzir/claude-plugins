@@ -1,6 +1,6 @@
 {
   "name": "tql",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Build TQL pipelines with expert language guidance",
   "author": {
     "name": "Tenzir",

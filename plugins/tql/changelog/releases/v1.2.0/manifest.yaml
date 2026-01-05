@@ -1,0 +1,10 @@
+created: 2026-01-05
+title: Parser and OCSF Mapping Workflows
+intro: >-
+  This release introduces two new slash commands for creating Tenzir packages:
+
+  `/tql:make_parser` for building parsing pipelines from sample log data, and
+
+  `/tql:make_ocsf_mapping` for adding OCSF mappings to existing parsers. Both
+
+  commands provide guided, multi-phase workflows with iterative testing support.
