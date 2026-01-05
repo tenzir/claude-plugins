@@ -18,7 +18,7 @@ Lines and arrows with bindings and routing.
   "startBinding": null,
   "endBinding": null,
   "startArrowhead": null,
-  "endArrowhead": "arrow",
+  "endArrowhead": "triangle",
   "elbowed": false,
   "roughness": 0,
   "roundness": null
@@ -63,20 +63,20 @@ Absolute positions: (100, 200), (150, 230), (200, 200)
 
 12 types for `startArrowhead` and `endArrowhead` (plus `null` for none):
 
-| Type                   | Description      | Use Case            |
-| ---------------------- | ---------------- | ------------------- |
-| `arrow`                | Standard arrow   | General connections |
-| `bar`                  | Flat bar         | Termination point   |
-| `dot`                  | Dot (legacy)     | -                   |
-| `circle`               | Filled circle    | Entity markers      |
-| `circle_outline`       | Hollow circle    | Optional entities   |
-| `triangle`             | Filled triangle  | Strong direction    |
-| `triangle_outline`     | Hollow triangle  | Weak direction      |
-| `diamond`              | Filled diamond   | Composition (UML)   |
-| `diamond_outline`      | Hollow diamond   | Aggregation (UML)   |
-| `crowfoot_one`         | One (ER)         | Exactly one         |
-| `crowfoot_many`        | Many (ER)        | Zero or more        |
-| `crowfoot_one_or_many` | One or many (ER) | One or more         |
+| Type                   | Description      | Use Case                   |
+| ---------------------- | ---------------- | -------------------------- |
+| `arrow`                | Standard arrow   | General connections        |
+| `bar`                  | Flat bar         | Termination point          |
+| `dot`                  | Dot (legacy)     | -                          |
+| `circle`               | Filled circle    | Entity markers             |
+| `circle_outline`       | Hollow circle    | Optional entities          |
+| `triangle`             | Filled triangle  | Strong direction (default) |
+| `triangle_outline`     | Hollow triangle  | Weak direction             |
+| `diamond`              | Filled diamond   | Composition (UML)          |
+| `diamond_outline`      | Hollow diamond   | Aggregation (UML)          |
+| `crowfoot_one`         | One (ER)         | Exactly one                |
+| `crowfoot_many`        | Many (ER)        | Zero or more               |
+| `crowfoot_one_or_many` | One or many (ER) | One or more                |
 
 ### Bidirectional Arrows
 
