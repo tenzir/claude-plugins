@@ -13,13 +13,14 @@ Set `polygon: true` on a line element:
     [0, 0],
     [100, 0],
     [100, 100],
-    [0, 100]
+    [0, 100],
+    [0, 0]
   ],
   "polygon": true
 }
 ```
 
-The path automatically closes from the last point to the first.
+Include the first point again at the end to close the path.
 
 ## Custom Shapes
 
@@ -31,7 +32,8 @@ The path automatically closes from the last point to the first.
   "points": [
     [50, 0],
     [100, 86],
-    [0, 86]
+    [0, 86],
+    [50, 0]
   ],
   "polygon": true,
   "backgroundColor": "#a5d8ff",
@@ -49,7 +51,8 @@ The path automatically closes from the last point to the first.
     [97, 34],
     [79, 90],
     [21, 90],
-    [3, 34]
+    [3, 34],
+    [50, 0]
   ],
   "polygon": true
 }
@@ -66,7 +69,8 @@ The path automatically closes from the last point to the first.
     [100, 43],
     [75, 86],
     [25, 86],
-    [0, 43]
+    [0, 43],
+    [25, 0]
   ],
   "polygon": true
 }
@@ -89,7 +93,8 @@ Alternating outer and inner vertices:
     [21, 91],
     [32, 57],
     [2, 35],
-    [39, 35]
+    [39, 35],
+    [50, 0]
   ],
   "polygon": true
 }
@@ -107,7 +112,8 @@ Alternating outer and inner vertices:
     [100, 50],
     [60, 100],
     [60, 70],
-    [0, 70]
+    [0, 70],
+    [0, 30]
   ],
   "polygon": true
 }
@@ -181,7 +187,7 @@ For shapes with holes, layer a smaller shape on top with background color.
 
 ### Minimum Points
 
-Polygons require at least 3 points.
+Polygons require at least 4 points (3 vertices + closing point).
 
 ### Point Format
 
@@ -195,11 +201,11 @@ Avoid self-intersecting paths for predictable fill behavior.
 
 | Shape     | Points | Formula                       |
 | --------- | ------ | ----------------------------- |
-| Triangle  | 3      | 60° angles                    |
-| Square    | 4      | 90° angles                    |
-| Pentagon  | 5      | 72° angles                    |
-| Hexagon   | 6      | 60° angles                    |
-| Octagon   | 8      | 45° angles                    |
-| 5-pt Star | 10     | Alternating R/r vertices      |
-| 6-pt Star | 12     | Alternating R/r vertices      |
-| Arrow     | 7      | Chevron with rectangular tail |
+| Triangle  | 4      | 60° angles                    |
+| Square    | 5      | 90° angles                    |
+| Pentagon  | 6      | 72° angles                    |
+| Hexagon   | 7      | 60° angles                    |
+| Octagon   | 9      | 45° angles                    |
+| 5-pt Star | 11     | Alternating R/r vertices      |
+| 6-pt Star | 13     | Alternating R/r vertices      |
+| Arrow     | 8      | Chevron with rectangular tail |
