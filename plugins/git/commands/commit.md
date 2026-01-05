@@ -27,7 +27,11 @@ separate commits:
 
 If all staged changes form a single logical unit, proceed to the next step.
 
-## 3. Stage and commit
+## 3. Lint
+
+If the project has a linter configured, run it before committing.
+
+## 4. Stage and commit
 
 Stage changes and commit. Invoke `git:writing-commit-messages`.
 
