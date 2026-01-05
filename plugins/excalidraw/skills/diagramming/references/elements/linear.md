@@ -39,7 +39,7 @@ Lines and arrows with bindings and routing.
 }
 ```
 
-Set `polygon: true` for closed shapes (auto-closes from last to first point).
+Set `polygon: true` for closed shapes. Include the first point again at the end to close the path.
 
 ## Points Array
 
@@ -180,31 +180,98 @@ Arrows can bind to:
 
 Add half the shape's strokeWidth to binding gap.
 
-## Shape boundElements
+## Bidirectional Binding
 
-When binding, update the shape's `boundElements`:
+Bindings require references on **both** the arrow and the shape. If either side is missing, elements won't move together when dragged.
+
+### Complete Example
+
+Two rectangles connected by an arrow:
 
 ```json
-{
-  "id": "my-shape",
-  "type": "rectangle",
-  "boundElements": [
-    { "type": "text", "id": "my-shape-text" },
-    { "type": "arrow", "id": "arrow-to-shape" }
-  ]
-}
+[
+  {
+    "id": "rect-a",
+    "type": "rectangle",
+    "x": 100,
+    "y": 100,
+    "width": 120,
+    "height": 60,
+    "boundElements": [{ "type": "arrow", "id": "connector" }]
+  },
+  {
+    "id": "rect-b",
+    "type": "rectangle",
+    "x": 400,
+    "y": 100,
+    "width": 120,
+    "height": 60,
+    "boundElements": [{ "type": "arrow", "id": "connector" }]
+  },
+  {
+    "id": "connector",
+    "type": "arrow",
+    "x": 220,
+    "y": 130,
+    "points": [
+      [0, 0],
+      [180, 0]
+    ],
+    "startBinding": {
+      "elementId": "rect-a",
+      "fixedPoint": [1, 0.5],
+      "mode": "orbit"
+    },
+    "endBinding": {
+      "elementId": "rect-b",
+      "fixedPoint": [0, 0.5],
+      "mode": "orbit"
+    },
+    "endArrowhead": "triangle"
+  }
+]
 ```
 
-## Edge Calculation
+### Binding Checklist
 
-Without bindings, calculate arrow position from shape edges:
+For arrows to stay attached when shapes move:
 
-| Edge   | X             | Y              |
-| ------ | ------------- | -------------- |
-| Top    | `x + width/2` | `y`            |
-| Bottom | `x + width/2` | `y + height`   |
-| Left   | `x`           | `y + height/2` |
-| Right  | `x + width`   | `y + height/2` |
+1. Arrow's `startBinding.elementId` → source shape's `id`
+2. Arrow's `endBinding.elementId` → target shape's `id`
+3. Source shape's `boundElements` → includes `{ "type": "arrow", "id": "<arrow-id>" }`
+4. Target shape's `boundElements` → includes `{ "type": "arrow", "id": "<arrow-id>" }`
+
+## Arrow Position and Points
+
+Arrow `x`, `y` is the global position of the starting point. The `points` array uses local coordinates where **the first point must always be `[0, 0]`**. Excalidraw enforces this invariant and normalizes elements that violate it.
+
+For an arrow from point A to point B:
+
+- `x` = A's global x coordinate
+- `y` = A's global y coordinate
+- `points[0]` = `[0, 0]` (always)
+- `points[1]` = `[B.x - A.x, B.y - A.y]` (offset from start)
+
+## Edge Position Formula
+
+Calculate attachment points on shape edges using `fixedPoint` ratios:
+
+```
+global_x = shape.x + shape.width * fixedPoint[0]
+global_y = shape.y + shape.height * fixedPoint[1]
+```
+
+Common edge positions:
+
+| Edge   | fixedPoint   | X             | Y              |
+| ------ | ------------ | ------------- | -------------- |
+| Top    | `[0.5, 0]`   | `x + width/2` | `y`            |
+| Bottom | `[0.5, 1]`   | `x + width/2` | `y + height`   |
+| Left   | `[0, 0.5]`   | `x`           | `y + height/2` |
+| Right  | `[1, 0.5]`   | `x + width`   | `y + height/2` |
+| Center | `[0.5, 0.5]` | `x + width/2` | `y + height/2` |
+
+For rotated shapes, apply rotation around the shape's center point.
 
 ## Width and Height
 
