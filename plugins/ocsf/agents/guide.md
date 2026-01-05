@@ -4,6 +4,7 @@ description: Answer questions about the OCSF (Open Cyber Security Schema Framewo
 tools: Read, Glob, Grep, Bash, Skill, WebFetch
 model: haiku
 color: cyan
+skills: ocsf:understanding-ocsf
 args:
   question:
     description: The OCSF question to answer

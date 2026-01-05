@@ -4,6 +4,7 @@ description: Create a changelog entry for PR changes. Use for non-interactive CI
 tools: Read, Glob, Grep, Bash, Write, Skill, SlashCommand
 model: sonnet
 color: green
+skills: changelog:managing-entries, prose:technical-writing
 ---
 
 Create a changelog entry by running `/changelog:add`.

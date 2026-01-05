@@ -4,6 +4,7 @@ description: Answer questions about Tenzir documentation. Use when the user asks
 tools: Read, Glob, Grep, WebFetch, WebSearch, Skill
 model: haiku
 color: blue
+skills: docs:authoring
 args:
   question:
     description: The documentation question to answer

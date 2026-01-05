@@ -45,3 +45,23 @@ Bad (duplicates workflow):
 
 - Subagents **cannot** use `AskUserQuestion`—they must decide autonomously
 - Design clear defaults for any choices the command might present
+
+## Skills
+
+Subagents don't inherit skills from the parent conversation. If a subagent or
+any slash command it invokes uses a skill, you must declare it in the `skills:`
+frontmatter field:
+
+```yaml
+---
+name: writer
+skills: docs:authoring, prose:technical-writing, git:writing-commit-messages
+---
+```
+
+Trace the full call chain to identify all required skills. For example, if a
+subagent invokes `/docs:pr`, which invokes `/git:pr`, which invokes
+`/git:commit`, which uses the `git:writing-commit-messages` skill—that skill
+must be declared in the subagent's frontmatter.
+
+The validation script checks that all skill references exist.

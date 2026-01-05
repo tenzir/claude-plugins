@@ -368,6 +368,54 @@ for plugin_dir in "$PLUGINS_DIR"/*/; do
   fi
 
   # ---------------------------------------------------------------------------
+  # Validate agents
+  # ---------------------------------------------------------------------------
+
+  agents_dir="$plugin_dir/agents"
+  if [ -d "$agents_dir" ]; then
+    for agent_file in "$agents_dir"/*.md; do
+      [ -f "$agent_file" ] || continue
+      agent_filename=$(basename "$agent_file" .md)
+
+      validate_frontmatter "$agent_file" "name description"
+
+      # Check agent name in frontmatter matches filename.
+      frontmatter_name=$(awk '/^---$/{if(++n==2)exit}n==1' "$agent_file" | grep "^name:" | sed 's/^name: *//')
+      if [ -n "$frontmatter_name" ] && [ "$frontmatter_name" != "$agent_filename" ]; then
+        error "$plugin_name/agents/$agent_filename: name '$frontmatter_name' doesn't match filename"
+      fi
+
+      # Validate skills field references existing skills.
+      skills_field=$(awk '/^---$/{if(++n==2)exit}n==1' "$agent_file" | grep "^skills:" | sed 's/^skills: *//')
+      if [ -n "$skills_field" ]; then
+        # Parse comma-separated skills list.
+        IFS=',' read -ra skill_refs <<<"$skills_field"
+        for skill_ref in "${skill_refs[@]}"; do
+          # Trim whitespace.
+          skill_ref=$(echo "$skill_ref" | xargs)
+          [ -z "$skill_ref" ] && continue
+
+          # Parse plugin:skill format.
+          if [[ "$skill_ref" == *:* ]]; then
+            skill_plugin="${skill_ref%%:*}"
+            skill_name="${skill_ref#*:}"
+          else
+            # Unqualified skill name - assume same plugin.
+            skill_plugin="$plugin_name"
+            skill_name="$skill_ref"
+          fi
+
+          # Check that the skill exists.
+          skill_path="$PLUGINS_DIR/$skill_plugin/skills/$skill_name/SKILL.md"
+          if [ ! -f "$skill_path" ]; then
+            error "$plugin_name/agents/$agent_filename: skill '$skill_ref' not found (expected $skill_path)"
+          fi
+        done
+      fi
+    done
+  fi
+
+  # ---------------------------------------------------------------------------
   # Validate commands
   # ---------------------------------------------------------------------------
 

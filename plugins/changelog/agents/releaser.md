@@ -4,6 +4,7 @@ description: Release a project using tenzir-changelog. Use when the user wants t
 tools: Read, Glob, Grep, Bash, Edit, Write, Skill, SlashCommand
 model: sonnet
 color: green
+skills: changelog:managing-entries
 args:
   release_type:
     description: The release type (major, minor, or patch)

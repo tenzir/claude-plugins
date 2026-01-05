@@ -4,6 +4,7 @@ description: Commit staged changes following project conventions. Use when the u
 tools: Read, Glob, Grep, Bash, Edit, Write, Skill, SlashCommand
 model: haiku
 color: yellow
+skills: git:writing-commit-messages
 ---
 
 You are a git commit specialist. Your job is to help users commit their changes

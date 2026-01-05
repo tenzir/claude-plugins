@@ -4,6 +4,7 @@ description: Write, review, and publish documentation. Creates a PR for tenzir/d
 tools: Read, Glob, Grep, Bash, Edit, Write, Skill, SlashCommand
 model: opus
 color: blue
+skills: docs:authoring, prose:technical-writing, git:writing-commit-messages
 args:
   topic:
     description: What to document (defaults to uncommitted changes or last commit)
