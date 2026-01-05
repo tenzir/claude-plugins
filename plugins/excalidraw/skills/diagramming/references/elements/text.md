@@ -35,6 +35,19 @@ Standalone text and labels bound to containers.
 
 Note: ID 4 is reserved/unused. Default: `DEFAULT_FONT_FAMILY = 5` (Excalifont).
 
+## Font Selection Guide
+
+Use these fonts by default:
+
+| Context                    | Font         | ID  |
+| -------------------------- | ------------ | --- |
+| General text, labels       | Excalifont   | 5   |
+| Code, monospace, technical | Comic Shanns | 8   |
+| Clean, formal text         | Nunito       | 6   |
+
+Always prefer Excalifont unless the content calls for monospace (code snippets,
+technical identifiers) or a cleaner sans-serif look (formal documentation).
+
 ## Font Sizes
 
 Built-in size constants:
@@ -57,12 +70,14 @@ Defaults: `DEFAULT_FONT_SIZE = 20`, `MIN_FONT_SIZE = 1`
 
 ## Line Height
 
-| Font ID        | Default lineHeight |
-| -------------- | ------------------ |
-| 1 (Virgil)     | 1.25               |
-| 2 (Helvetica)  | 1.15               |
-| 3 (Cascadia)   | 1.2                |
-| 5 (Excalifont) | 1.25               |
+| Font ID          | Default lineHeight |
+| ---------------- | ------------------ |
+| 1 (Virgil)       | 1.25               |
+| 2 (Helvetica)    | 1.15               |
+| 3 (Cascadia)     | 1.2                |
+| 5 (Excalifont)   | 1.25               |
+| 6 (Nunito)       | 1.15               |
+| 8 (Comic Shanns) | 1.2                |
 
 Multiply by fontSize for pixel height: `lineHeightPx = lineHeight * fontSize`
 
