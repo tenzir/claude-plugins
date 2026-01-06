@@ -97,8 +97,7 @@ jobs:
           commit-message: "Sync OCSF documentation"
           title: "Sync OCSF documentation"
           body: |
-            Automated sync of OCSF articles and FAQs from
-            [ocsf/ocsf-docs](https://github.com/ocsf/ocsf-docs).
+            🔄 Automated sync of OCSF articles and FAQs from [ocsf/ocsf-docs](https://github.com/ocsf/ocsf-docs).
 
-            Upstream commit: ${{ needs.check.outputs.sha }}
+            📌 Upstream commit: https://github.com/ocsf/ocsf-docs/commit/${{ needs.check.outputs.sha }}
           branch: ocsf-docs-sync

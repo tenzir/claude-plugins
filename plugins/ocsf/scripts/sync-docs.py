@@ -172,16 +172,14 @@ def generate_articles_section(articles_dir: Path) -> str:
         f"**{a['filename']}**\n{a['content']}" for a in article_data
     )
 
-    prompt = f"""Generate a markdown "Articles" section for OCSF documentation.
+    prompt = f"""Generate article entries for OCSF documentation.
 
 For each article, write a 3-4 sentence paragraph that:
 1. Explains what the article covers
 2. Lists specific scenarios/use cases when to read it
 3. Includes key terms and trigger words that help match user queries
 
-Output format (markdown):
-## Articles
-
+Output format (markdown, do NOT include an "Articles" heading):
 ### [Title](./references/docs/articles/filename.md)
 
 3-4 sentences with trigger words like "profiles", "mix-in", "augmentation", etc.
@@ -212,7 +210,7 @@ Articles to summarize:
 
 def generate_simple_articles_section(article_data: list[dict]) -> str:
     """Generate a simple articles section without Claude descriptions."""
-    lines = ["## Articles", ""]
+    lines = []
     for a in article_data:
         link = f"[{a['title']}](./references/docs/articles/{a['filename']})"
         lines.append(f"### {link}")
@@ -235,11 +233,12 @@ def update_skill_articles_index(articles_dir: Path) -> None:
         print("Could not find Articles section in SKILL.md, skipping update")
         return
 
-    # Generate new section
-    new_section = generate_articles_section(articles_dir)
+    # Generate new entries (without heading)
+    new_entries = generate_articles_section(articles_dir)
 
-    # Replace from start_marker to end of file
-    new_content = content[:start_idx] + new_section
+    # Keep "## Articles\n\n" and replace content after it
+    heading_end = start_idx + len(start_marker)
+    new_content = content[:heading_end] + "\n\n" + new_entries
     skill_path.write_text(new_content)
     print(f"Updated SKILL.md articles section")
 
@@ -274,37 +273,6 @@ def update_skill_faq_index(questions: list[str]) -> None:
     print(f"Updated SKILL.md with {len(questions)} FAQ questions")
 
 
-def generate_index() -> None:
-    """Generate an index.md listing all synced docs."""
-    index_path = DOCS_DIR / "index.md"
-
-    lines = [
-        "# OCSF Documentation",
-        "",
-        "Synced from [ocsf/ocsf-docs](https://github.com/ocsf/ocsf-docs).",
-        "",
-    ]
-
-    for dirname in SYNC_DIRS:
-        local_dir = DOCS_DIR / dirname
-        if not local_dir.exists():
-            continue
-
-        lines.append(f"## {dirname.title()}")
-        lines.append("")
-
-        for md_file in sorted(local_dir.glob("*.md")):
-            content = md_file.read_text()
-            fallback_title = md_file.stem.replace("-", " ").replace("_", " ").title()
-            title = extract_title(content, fallback_title)
-            lines.append(f"- [{title}](./{dirname}/{md_file.name})")
-
-        lines.append("")
-
-    index_path.write_text("\n".join(lines))
-    print("Generated docs/index.md")
-
-
 def main():
     print("Syncing OCSF documentation...")
 
@@ -319,8 +287,6 @@ def main():
     if total == 0:
         print("No files synced (network errors or empty directories)")
         sys.exit(1)
-
-    generate_index()
 
     # Update FAQ index in SKILL.md
     faq_path = DOCS_DIR / "faqs" / "schema-faq.md"
