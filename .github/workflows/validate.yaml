@@ -52,7 +52,8 @@ jobs:
 
   changelog:
     name: Add changelog
-    if: github.event_name == 'pull_request'
+    # Skip bot PRs (automated syncs) - they don't represent human-authored changes
+    if: github.event_name == 'pull_request' && github.event.pull_request.user.type != 'Bot'
     needs: [structure, agentskills]
     runs-on: ubuntu-latest
     permissions:
