@@ -31,7 +31,7 @@ Invoke the `docs:authoring` skill to understand Tenzir's documentation structure
 
 ### Step 2: Fetch Documentation Map
 
-Fetch the sitemap: https://docs.tenzir.com/sitemap.md.
+Fetch the sitemap: `https://docs.tenzir.com/sitemap.md`
 
 This provides a hierarchical index of all documentation with headings.
 
@@ -42,22 +42,13 @@ Fetch specific pages by following the `.md` links.
 
 ### Step 4: Answer the Question
 
-Provide a clear, concise answer based on the documentation content.
-Include relevant TQL examples when helpful.
-
-## URL Patterns
-
-| Section      | URL Pattern                                     |
-| ------------ | ----------------------------------------------- |
-| Operators    | `docs.tenzir.com/reference/operators/<name>.md` |
-| Functions    | `docs.tenzir.com/reference/functions/<name>.md` |
-| Guides       | `docs.tenzir.com/guides/<path>.md`              |
-| Tutorials    | `docs.tenzir.com/tutorials/<path>.md`           |
-| Explanations | `docs.tenzir.com/explanations/<path>.md`        |
-| Integrations | `docs.tenzir.com/integrations/<path>.md`        |
+Provide a clear, concise answer drawing from all relevant documentation sections.
 
 ## Response Format
 
 1. Direct answer to the question
-2. Examples quoted verbatim (with source URL)
-3. Links to relevant documentation pages
+2. _All_ examples quoted verbatim from each relevant page (with source URL)
+3. Related content, grouped by Diátaxis section. Lead with Integratins.
+4. Links to all relevant documentation pages
+
+Include every example from the documentation pages.
