@@ -69,37 +69,63 @@ OCSF organizes event classes into 8 categories:
 
 ## Version-specific References
 
-Detailed per-class and per-object references: [references/](./references/)
+For detailed class/object/profiles/extensions schemas, read
+[references/index.md](./references/index.md).
 
-If `references/index.md` is missing, run the generator script:
-
-```sh
-uv run scripts/generate-references.py
-```
-
-To generate docs for a specific version:
+To generate references for a specific OCSF version not yet available locally
+(including non-stable versions like `1.8.0-dev`):
 
 ```sh
-uv run scripts/generate-references.py --version 1.3.0
+uv run scripts/generate-references.py --version X.Y.Z
 ```
 
-## External Resources
+## FAQs
 
-Deep-dives and FAQs are available from the OCSF docs repository. Fetch the
-raw content when relevant. Base URL: `https://raw.githubusercontent.com/ocsf/ocsf-docs/main/`
+Read [schema-faq.md](./references/docs/faqs/schema-faq.md) for questions like:
 
-### Articles
+- How do I create a typical OCSF event?
+- How would I populate the `observables` array?
+- When should I use a Finding event class?
+- When should I use metadata.correlation_uid?
+- Can Finding events be correlated with each other too?
+- How do I use the Actor object?
+- When should I use the session attribute?
+- When should I use the unmapped attribute?
+- unmapped is of Object type. What does that mean and is it different from JSON or a String type?
+- When should I use Authorize Session from Identity and Access Management vs. Web Resource Access Activity from the Application category?
+- When should I use HTTP Activity vs. Web Resource Access Activity?
+- Can you explain Profiles to me?
+- Is there a similarity between OCSF and LDAP (and X.500)?
+- How should the attribute suffixes `_uid` and `_id` be used and what are "siblings?"
+- How is backwards compatibility managed?
+- What changes are not backwards compatible?
+- When should I use `status` and when should I use `state` when adding to the schema?
+- When should I use a `Module Activity: Load` event and when should I use a `Process Activity: Inject` event
 
-| File                                         | Fetch When                                                        |
-| -------------------------------------------- | ----------------------------------------------------------------- |
-| `articles/profiles-are-powerful.md`          | Profile modeling approaches (augmentation, native, hybrid)        |
-| `articles/defining-and-using-observables.md` | Enriching events with observables for querying                    |
-| `articles/representing-process-parentage.md` | Process parent/creator relationships in endpoint events           |
-| `articles/patching-core-using-extensions.md` | Adding attributes to core schema without new classes              |
-| `articles/modeling-alerts.md`                | Using `is_alert` attribute, Detection Finding vs Security Control |
+## Articles
 
-### FAQs
+### [Defining and Using Observables](./references/docs/articles/defining-and-using-observables.md)
 
-| File                 | Fetch When                                                                                                |
-| -------------------- | --------------------------------------------------------------------------------------------------------- |
-| `faqs/schema-faq.md` | Creating events, required attributes, profiles, Actor object, observables, naming conventions, versioning |
+Covers how to define and populate the `observables` array in OCSF events. Read
+this when enriching events with queryable indicators like IP addresses, hashes,
+or domain names.
+
+### [How to Model Alerts with OCSF](./references/docs/articles/modeling-alerts.md)
+
+Explains when to use the `is_alert` attribute vs. Detection Finding vs. Security
+Control event classes. Read this when mapping security alerts or detections.
+
+### [Patching the Core Schema With Extensions](./references/docs/articles/patching-core-using-extensions.md)
+
+Shows how to add attributes to core schema objects without creating new event
+classes. Read this when you need to extend OCSF for vendor-specific fields.
+
+### [Profiles are Powerful](./references/docs/articles/profiles-are-powerful.md)
+
+Covers profile modeling approaches: augmentation, native, and hybrid. Read this
+when deciding how to apply Cloud, Container, or Host profiles to events.
+
+### [Representing Process Parentage](./references/docs/articles/representing-process-parentage.md)
+
+Explains process parent/creator relationships in endpoint events. Read this when
+mapping process trees or parent-child relationships in security telemetry.

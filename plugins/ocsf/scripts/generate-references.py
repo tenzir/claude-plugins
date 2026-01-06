@@ -170,10 +170,8 @@ def generate_class_doc(class_name: str, class_data: dict, all_objects: dict) -> 
             lines.append("")
             lines.append("| Attribute | Type |")
             lines.append("|-----------|------|")
-            for name, atype in optional[:30]:  # Limit to first 30 for brevity
+            for name, atype in optional:
                 lines.append(f"| `{name}` | {atype} |")
-            if len(optional) > 30:
-                lines.append(f"| ... | ({len(optional) - 30} more) |")
             lines.append("")
 
     # Object references
