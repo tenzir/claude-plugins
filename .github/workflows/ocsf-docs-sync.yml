@@ -1,0 +1,104 @@
+name: Sync OCSF Documentation
+
+on:
+  schedule:
+    # Daily at 7 AM UTC. Runs after ocsf-schema-update (6 AM) to avoid
+    # concurrent PRs modifying the same references/ directory.
+    - cron: "0 7 * * *"
+  workflow_dispatch: # Manual trigger
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.upstream.outputs.changed }}
+      sha: ${{ steps.upstream.outputs.sha }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check upstream for changes
+        id: upstream
+        run: |
+          # Get latest commit SHA from ocsf-docs repo
+          UPSTREAM_SHA=$(curl -sf https://api.github.com/repos/ocsf/ocsf-docs/commits/main | jq -r '.sha')
+          if [ -z "$UPSTREAM_SHA" ] || [ "$UPSTREAM_SHA" = "null" ]; then
+            echo "Failed to fetch upstream commit SHA"
+            exit 1
+          fi
+          echo "sha=$UPSTREAM_SHA" >> $GITHUB_OUTPUT
+
+          # Check if we have a marker file with the last synced SHA
+          MARKER_FILE="plugins/ocsf/skills/understanding-ocsf/references/docs/.upstream-sha"
+          if [ -f "$MARKER_FILE" ]; then
+            LOCAL_SHA=$(cat "$MARKER_FILE")
+            if [ "$LOCAL_SHA" = "$UPSTREAM_SHA" ]; then
+              echo "changed=false" >> $GITHUB_OUTPUT
+              echo "No changes in upstream (SHA: $UPSTREAM_SHA)"
+            else
+              echo "changed=true" >> $GITHUB_OUTPUT
+              echo "Upstream changed: $LOCAL_SHA -> $UPSTREAM_SHA"
+            fi
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "No marker file found, will sync"
+          fi
+
+  sync:
+    needs: check
+    if: needs.check.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate app token
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ vars.TENZIR_GITHUB_APP_ID }}
+          private-key: ${{ secrets.TENZIR_GITHUB_APP_PRIVATE_KEY }}
+
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v4
+
+      - name: Sync OCSF docs
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          cd plugins/ocsf
+          uv run scripts/sync-docs.py
+
+      - name: Update upstream SHA marker
+        run: |
+          echo "${{ needs.check.outputs.sha }}" > plugins/ocsf/skills/understanding-ocsf/references/docs/.upstream-sha
+
+      - name: Check for changes
+        id: changes
+        run: |
+          git add -f plugins/ocsf/skills/understanding-ocsf/references/docs/
+          git add plugins/ocsf/skills/understanding-ocsf/SKILL.md
+          if git diff --cached --quiet; then
+            echo "update=false" >> $GITHUB_OUTPUT
+            echo "No docs changes after sync"
+          else
+            echo "update=true" >> $GITHUB_OUTPUT
+            echo "Docs updated"
+          fi
+
+      - name: Create Pull Request
+        if: steps.changes.outputs.update == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          commit-message: "Sync OCSF documentation"
+          title: "Sync OCSF documentation"
+          body: |
+            Automated sync of OCSF articles and FAQs from
+            [ocsf/ocsf-docs](https://github.com/ocsf/ocsf-docs).
+
+            Upstream commit: ${{ needs.check.outputs.sha }}
+          branch: ocsf-docs-sync
