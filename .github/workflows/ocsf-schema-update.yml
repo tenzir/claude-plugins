@@ -1,4 +1,4 @@
-name: Update OCSF Schema References
+name: "OCSF: Update Schema References"
 
 on:
   schedule:

@@ -1,4 +1,4 @@
-name: Sync OCSF Documentation
+name: "OCSF: Sync Documentation"
 
 on:
   schedule:
