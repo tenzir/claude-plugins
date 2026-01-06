@@ -36,6 +36,11 @@ When selecting a grouped element:
 1. First click selects the entire group
 2. Double-click to select individual elements within
 
+### Polygon Labels
+
+Polygons can't use `containerId` for text binding. Put both polygon and label
+in the same group so they move together when dragged.
+
 ## Z-Ordering
 
 Element order is controlled by position in the `elements` array.

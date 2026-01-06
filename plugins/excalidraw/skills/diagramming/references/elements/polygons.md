@@ -162,22 +162,40 @@ All fill and stroke styles work with polygons:
 }
 ```
 
+## Labeling Polygons
+
+Unlike rectangles and ellipses, polygons don't support text binding with
+`containerId`. To add a label that moves with a polygon, put both elements
+in the same group using `groupIds`.
+
+```json
+[
+  {
+    "id": "hexagon-1",
+    "type": "line",
+    "polygon": true,
+    "groupIds": ["hexagon-1-group"],
+    ...
+  },
+  {
+    "id": "hexagon-1-text",
+    "type": "text",
+    "text": "Label",
+    "containerId": null,
+    "groupIds": ["hexagon-1-group"],
+    ...
+  }
+]
+```
+
+Position the text manually at the polygon's center. Estimate the text size
+(see text.md) and offset accordingly.
+
 ## Composition Patterns
 
 ### Layered Shapes
 
 Stack shapes with decreasing size for depth effect.
-
-### Badges and Labels
-
-Hexagon or custom shape behind text:
-
-```json
-[
-  { "type": "line", "points": [...], "polygon": true, "backgroundColor": "#e03131" },
-  { "type": "text", "text": "NEW", "x": 25, "y": 35 }
-]
-```
 
 ### Complex Outlines
 

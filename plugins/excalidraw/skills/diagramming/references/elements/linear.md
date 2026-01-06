@@ -241,6 +241,27 @@ For arrows to stay attached when shapes move:
 3. Source shape's `boundElements` → includes `{ "type": "arrow", "id": "<arrow-id>" }`
 4. Target shape's `boundElements` → includes `{ "type": "arrow", "id": "<arrow-id>" }`
 
+### Common Mistakes
+
+**Floating arrows**: If an arrow connects to a shape, set both `startBinding`
+and `endBinding`. An arrow with `startBinding: null` will float disconnected
+when you move the source shape.
+
+**Position mismatch**: The arrow's `x,y` must sit at the source shape's edge.
+Calculate it from the `fixedPoint`:
+
+```
+arrow.x = source.x + source.width * fixedPoint[0]
+arrow.y = source.y + source.height * fixedPoint[1]
+```
+
+**One-way binding**: Both shapes must list the arrow in their `boundElements`
+array. If only the arrow knows about the shapes but not vice versa, dragging
+won't work properly.
+
+**Binding to polygons**: Arrows can't bind to polygon elements (lines with
+`polygon: true`). Position these arrows manually and leave the binding null.
+
 ## Arrow Position and Points
 
 Arrow `x`, `y` is the global position of the starting point. The `points` array uses local coordinates where **the first point must always be `[0, 0]`**. Excalidraw enforces this invariant and normalizes elements that violate it.

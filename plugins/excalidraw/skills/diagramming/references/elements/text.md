@@ -81,6 +81,18 @@ Defaults: `DEFAULT_FONT_SIZE = 20`, `MIN_FONT_SIZE = 1`
 
 Multiply by fontSize for pixel height: `lineHeightPx = lineHeight * fontSize`
 
+## Estimating Text Size
+
+To position text without browser font APIs, approximate dimensions:
+
+```
+height = fontSize * lineHeight * numberOfLines
+width  ≈ characterCount * fontSize * 0.6
+```
+
+The 0.6 factor works for Excalifont. Narrow characters (i, l, 1) are closer
+to 0.3, wide ones (M, W, m, w) closer to 0.9.
+
 ## Multi-line Text
 
 Use `\n` for line breaks:
@@ -133,19 +145,21 @@ Text can be bound inside shapes (rectangles, diamonds, ellipses, arrows).
 
 ## Text Positioning in Containers
 
-Excalidraw auto-positions bound text based on alignment settings. For centered text in a rectangle:
+Bound text is centered with 5px padding. The available text area depends on
+container shape:
+
+| Shape     | Text area offset        | Available size          |
+| --------- | ----------------------- | ----------------------- |
+| Rectangle | 5px padding             | width - 10, height - 10 |
+| Ellipse   | 0.146 × dimension + 5px | 0.707 × dimension - 10  |
+| Diamond   | dimension / 4 + 5px     | dimension / 2 - 10      |
+
+Center the text within that area:
 
 ```
-text.x = container.x + 5 + (maxWidth - text.width) / 2
-text.y = container.y + 5 + (maxHeight - text.height) / 2
-maxWidth = container.width - 10
-maxHeight = container.height - 10
+text.x = container.x + offset + (availableWidth - textWidth) / 2
+text.y = container.y + offset + (availableHeight - textHeight) / 2
 ```
-
-For ellipses and diamonds, additional offsets account for shape geometry:
-
-- Ellipse: extra offset of `(dimension / 2) * (1 - √2 / 2)`
-- Diamond: extra offset of `dimension / 4`
 
 ## Text Containers
 

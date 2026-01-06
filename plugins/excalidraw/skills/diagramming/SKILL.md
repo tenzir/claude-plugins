@@ -37,6 +37,29 @@ Generate valid `.excalidraw` JSON files.
 2. **Generate** - Create elements with proper structure
 3. **Validate** - Check bindings and structure before writing
 
+## Validation Checklist
+
+Before writing a diagram, verify:
+
+### Bindings
+
+- Arrows connecting shapes have both `startBinding` and `endBinding` set
+- Arrow `x,y` sits at the source shape's edge, not floating in space
+- Shapes list connected arrows in their `boundElements` (bidirectional)
+- Text labels have `containerId` pointing to their container
+- Containers have `boundElements` referencing their text
+
+### Polygons
+
+- Polygon labels use `groupIds` (not `containerId`)
+- Text positioned manually at polygon center
+
+### Layout
+
+- Elements don't overlap unexpectedly
+- Arrows route around shapes, not through them
+- All IDs are unique
+
 ## Reference Index
 
 Load references progressively based on need:

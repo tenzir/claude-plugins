@@ -63,3 +63,10 @@ Example 2x4 grid starting at (100, 100) with 200px horizontal and 130px vertical
 100  [A]    [B]    [C]    [D]
 230  [E]    [F]    [G]    [H]
 ```
+
+## Layout Tips
+
+- Pick a consistent flow direction (left-to-right or top-to-bottom)
+- Space elements 150-200px apart horizontally, 100-150px vertically
+- Reorder elements to avoid crossing arrows when possible
+- Leave 40-60px margin inside frames
