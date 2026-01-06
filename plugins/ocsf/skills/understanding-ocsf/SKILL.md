@@ -102,30 +102,24 @@ Read [schema-faq.md](./references/docs/faqs/schema-faq.md) for questions like:
 - When should I use `status` and when should I use `state` when adding to the schema?
 - When should I use a `Module Activity: Load` event and when should I use a `Process Activity: Inject` event
 
-## Articles
+# Articles
 
 ### [Defining and Using Observables](./references/docs/articles/defining-and-using-observables.md)
 
-Covers how to define and populate the `observables` array in OCSF events. Read
-this when enriching events with queryable indicators like IP addresses, hashes,
-or domain names.
+This article explains how observables enrich OCSF events by providing optimized query paths to important data without requiring deep navigation through nested event structures. **Read this when** you need to extract specific data types (like IP addresses or file hashes) from events, want to avoid scanning multiple fields, or are designing query optimization strategies. **Useful for** understanding **observable type_id**, **dictionary types**, **event class attributes**, **object attributes**, and **query optimization** in OCSF schemas.
 
 ### [How to Model Alerts with OCSF](./references/docs/articles/modeling-alerts.md)
 
-Explains when to use the `is_alert` attribute vs. Detection Finding vs. Security
-Control event classes. Read this when mapping security alerts or detections.
+This article covers the explicit alertable signal mechanism introduced in OCSF 1.4, including the `is_alert` attribute and how it distinguishes alerts from regular events, along with the distinction between Detection Findings, Data Security Findings, and Security Control profile augmented events. **Read this when** you need to flag events requiring immediate attention, design alert processing pipelines, or want to understand how to model **Detection Findings**, **Data Security Findings**, and **Security Control profiles**. **Useful for** SIEM integration, alert routing, **severity_id** interpretation, and understanding **alertable signals** and event prioritization.
 
 ### [Patching the Core Schema With Extensions](./references/docs/articles/patching-core-using-extensions.md)
 
-Shows how to add attributes to core schema objects without creating new event
-classes. Read this when you need to extend OCSF for vendor-specific fields.
+This article demonstrates how extensions can add attributes and objects to existing core classes and objects without creating new extension classes, enabling schema customization while maintaining compatibility with the core schema. **Read this when** you want to extend core event classes with custom attributes, create proprietary enrichment fields, or avoid the complexity of full extension development. **Useful for** understanding **extension mechanism**, **schema patching**, **custom attributes**, **data types**, and how to augment **existing classes and objects** without structural changes.
 
 ### [Profiles are Powerful](./references/docs/articles/profiles-are-powerful.md)
 
-Covers profile modeling approaches: augmentation, native, and hybrid. Read this
-when deciding how to apply Cloud, Container, or Host profiles to events.
+This article explores the four modeling approaches using OCSF Profiles (augmentation, native, partially native, and hybrid profiles) and how they function as elegant mix-in attribute sets that cut across event categories and classes. **Read this when** you need to apply focused attribute sets across multiple event classes, want to understand **mix-in** semantics, or are designing flexible event schemas that avoid class explosion. **Useful for** querying events by **profile membership**, understanding **augmentation profiles**, metadata filtering with `profiles[]` arrays, and implementing cross-cutting concerns like Host or Security Control attributes.
 
 ### [Representing Process Parentage](./references/docs/articles/representing-process-parentage.md)
 
-Explains process parent/creator relationships in endpoint events. Read this when
-mapping process trees or parent-child relationships in security telemetry.
+This article provides prescriptive guidance on correctly modeling process parentage in endpoint events using OCSF fields like `actor.process`, `process.parent_process`, `process.lineage`, and `process.ancestry`, with particular attention to the creator vs. parent distinction on Windows platforms. **Read this when** you're mapping endpoint detection and response (EDR) process telemetry, need to distinguish between process creators and parents, or are handling **Process Activity: Launch** events. **Useful for** understanding **process hierarchy**, **endpoint security**, **parent_process vs. creator_process** semantics, and correctly populating **actor.process** and **process.parent_process** fields.

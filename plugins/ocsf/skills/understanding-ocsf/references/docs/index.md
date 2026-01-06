@@ -4,7 +4,6 @@ Synced from [ocsf/ocsf-docs](https://github.com/ocsf/ocsf-docs).
 
 ## Articles
 
-- [OCSF Technical Articles](./articles/README.md)
 - [Defining and Using Observables](./articles/defining-and-using-observables.md)
 - [How to Model Alerts with OCSF](./articles/modeling-alerts.md)
 - [Patching the Core Schema With Extensions](./articles/patching-core-using-extensions.md)
@@ -13,5 +12,4 @@ Synced from [ocsf/ocsf-docs](https://github.com/ocsf/ocsf-docs).
 
 ## Faqs
 
-- [Frequently Asked Questions](./faqs/README.md)
 - [Schema FAQ](./faqs/schema-faq.md)
