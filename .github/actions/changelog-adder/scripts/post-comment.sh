@@ -5,27 +5,7 @@ MARKER="<!-- changelog-adder-bot -->"
 
 # Check for existing comment to update instead of duplicate
 comment_url=$(gh pr view "$PR_NUMBER" --json comments --jq ".comments[] | select(.body | contains(\"$MARKER\")) | .url" 2>/dev/null | head -1)
-comment_id=${comment_url##*-} # Extract numeric ID from URL (e.g., #issuecomment-123 -> 123)
-
-# Parse YAML frontmatter using sed (returns empty string on no match)
-frontmatter=$(awk '/^---$/{if(++n==2)exit}n==1' "$ENTRY_FILE")
-title=$(echo "$frontmatter" | sed -n 's/^title: *//p')
-type=$(echo "$frontmatter" | sed -n 's/^type: *//p')
-pr=$(echo "$frontmatter" | sed -n 's/^pr: *//p')
-created=$(echo "$frontmatter" | sed -n 's/^created: *//p')
-authors=$(echo "$frontmatter" | awk '/^authors:/{f=1;next} f&&/^[^ ]/{exit} f' | sed -n 's/^  - /@/p' | paste -sd', ' -)
-
-# Extract body (everything after second ---)
-body=$(awk '/^---$/{if(++n==2){getline;found=1}}found' "$ENTRY_FILE")
-
-# Map type to badge color
-case "$type" in
-  feature) badge_color="238636" ;;
-  bugfix) badge_color="d97706" ;;
-  breaking) badge_color="dc2626" ;;
-  change) badge_color="6366f1" ;;
-  *) badge_color="6b7280" ;;
-esac
+comment_id=${comment_url##*-}
 
 # Build status badge based on mode
 if [ "$MODE" = "existing" ]; then
@@ -34,22 +14,43 @@ else
   status_badge="<kbd>✓ added</kbd>"
 fi
 
-# Extract just the date part from ISO timestamp
-created_date=${created%%T*}
+# Count entries
+entry_count=$(echo "$ENTRY_FILES" | grep -c .)
+if [ "$entry_count" -eq 1 ]; then
+  entry_word="Entry"
+else
+  entry_word="Entries"
+fi
 
+# Start building comment
 cat >/tmp/pr-comment.md <<EOF
 ${MARKER}
 
-## 📋 Changelog Entry &nbsp;${status_badge}
+## 📋 Changelog ${entry_word} &nbsp;${status_badge}
 
-**${title}**
-
-<img src="https://img.shields.io/badge/${type}-${badge_color}?style=flat-square" alt="${type}" align="absmiddle"> · #${pr:-$PR_NUMBER} · ${authors} · ${created_date}
-
----
-
-${body}
 EOF
+
+# Process each entry file
+echo "$ENTRY_FILES" | while read -r entry_file; do
+  [ -z "$entry_file" ] && continue
+
+  # Derive module root and entry ID from file path
+  module_root="${entry_file%/changelog/*}"
+  entry_id="$(basename "$entry_file" .md)"
+
+  # Get rendered markdown from tenzir-changelog
+  entry_md=$(uvx tenzir-changelog --root "$module_root" show "$entry_id" --markdown --explicit-links 2>/dev/null)
+
+  if [ -n "$entry_md" ]; then
+    # Remove the "## 🔧 Changes" header and following blank line
+    entry_md=$(echo "$entry_md" | sed '1{/^## /d;}' | sed '1{/^$/d;}')
+    echo "$entry_md" >> /tmp/pr-comment.md
+    echo "" >> /tmp/pr-comment.md
+  else
+    # Fallback: just show the entry file path if tenzir-changelog fails
+    echo "- \`$entry_file\`" >> /tmp/pr-comment.md
+  fi
+done
 
 # Update existing comment or create new one
 if [ -n "$comment_id" ]; then

@@ -14,28 +14,33 @@ outputs:
   entry_created:
     description: "Whether a changelog entry was created"
     value: ${{ steps.detect.outputs.created }}
-  entry_file:
-    description: "Path to created changelog entry"
-    value: ${{ steps.detect.outputs.file }}
+  entry_files:
+    description: "Newline-separated paths to changelog entries"
+    value: ${{ steps.check.outputs.files || steps.detect.outputs.files }}
   skipped:
-    description: "Whether the action was skipped (entry already exists)"
+    description: "Whether the action was skipped (entries already exist)"
     value: ${{ steps.check.outputs.skipped }}
 
 runs:
   using: "composite"
   steps:
-    # Step 1: Check if entry for this PR already exists
-    - name: Check for existing entry
+    # Step 1: Check if entries for this PR already exist
+    - name: Check for existing entries
       id: check
       shell: bash
       env:
         PR_NUMBER: ${{ github.event.pull_request.number }}
       run: |
-        entry_file=$(find . -path "*/changelog/unreleased/*.md" -exec grep -l "^pr: $PR_NUMBER$" {} \; 2>/dev/null | head -1 || true)
-        if [ -n "$entry_file" ]; then
-          echo "Changelog entry for PR #$PR_NUMBER already exists: $entry_file"
+        entry_files=$(find . -path "*/changelog/unreleased/*.md" -exec grep -l "^pr: $PR_NUMBER$" {} \; 2>/dev/null || true)
+        if [ -n "$entry_files" ]; then
+          echo "Changelog entries for PR #$PR_NUMBER already exist:"
+          echo "$entry_files"
           echo "skipped=true" >> $GITHUB_OUTPUT
-          echo "file=$entry_file" >> $GITHUB_OUTPUT
+          {
+            echo "files<<EOF"
+            echo "$entry_files"
+            echo "EOF"
+          } >> $GITHUB_OUTPUT
         else
           echo "skipped=false" >> $GITHUB_OUTPUT
         fi
@@ -84,9 +89,12 @@ runs:
           exit 0
         fi
 
-        entry_file=$(echo "$new_files" | head -1)
         echo "created=true" >> $GITHUB_OUTPUT
-        echo "file=$entry_file" >> $GITHUB_OUTPUT
+        {
+          echo "files<<EOF"
+          echo "$new_files"
+          echo "EOF"
+        } >> $GITHUB_OUTPUT
 
     # Step 5: Post PR comment
     - name: Post PR comment
@@ -94,9 +102,7 @@ runs:
       shell: bash
       env:
         GH_TOKEN: ${{ inputs.github_token }}
-        ENTRY_FILE: ${{ steps.check.outputs.file || steps.detect.outputs.file }}
-        PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+        ENTRY_FILES: ${{ steps.check.outputs.files || steps.detect.outputs.files }}
         PR_NUMBER: ${{ github.event.pull_request.number }}
-        BRANCH: ${{ github.head_ref }}
         MODE: ${{ steps.check.outputs.skipped == 'true' && 'existing' || 'created' }}
       run: ${{ github.action_path }}/scripts/post-comment.sh
