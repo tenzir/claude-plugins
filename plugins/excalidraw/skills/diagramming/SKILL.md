@@ -58,7 +58,9 @@ Before writing a diagram, verify:
 
 - Elements don't overlap unexpectedly
 - Arrows route around shapes, not through them
+- Minimum 40px between sibling elements
 - All IDs are unique
+- Label text matches actual names (verify spelling)
 
 ## Reference Index
 

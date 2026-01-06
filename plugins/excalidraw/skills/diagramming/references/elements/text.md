@@ -87,11 +87,11 @@ To position text without browser font APIs, approximate dimensions:
 
 ```
 height = fontSize * lineHeight * numberOfLines
-width  ≈ characterCount * fontSize * 0.6
+width  ≈ characterCount * fontSize * 0.65
 ```
 
-The 0.6 factor works for Excalifont. Narrow characters (i, l, 1) are closer
-to 0.3, wide ones (M, W, m, w) closer to 0.9.
+Use 0.65 for Excalifont (underestimating causes horizontal clipping). Narrow
+characters (i, l, 1) are ~0.3, wide ones (M, W, m, w) are ~0.9.
 
 ## Multi-line Text
 

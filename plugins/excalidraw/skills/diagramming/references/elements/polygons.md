@@ -60,17 +60,33 @@ Include the first point again at the end to close the path.
 
 ### Hexagon
 
+For pointy-side hexagons with consistent 60° angles regardless of width:
+
+```
+endCap = height × 0.577      // keeps angle constant
+minWidth = height × 1.155    // below this, shape collapses
+
+Points for width W, height H:
+  [endCap, 0], [W - endCap, 0],  // top flat edge
+  [W, H/2],                       // right point
+  [W - endCap, H], [endCap, H],  // bottom flat edge
+  [0, H/2],                       // left point
+  [endCap, 0]                     // close
+```
+
+Example (width=100, height=50):
+
 ```json
 {
   "type": "line",
   "points": [
-    [25, 0],
-    [75, 0],
-    [100, 43],
-    [75, 86],
-    [25, 86],
-    [0, 43],
-    [25, 0]
+    [29, 0],
+    [71, 0],
+    [100, 25],
+    [71, 50],
+    [29, 50],
+    [0, 25],
+    [29, 0]
   ],
   "polygon": true
 }
