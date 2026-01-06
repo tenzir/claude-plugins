@@ -81,20 +81,28 @@ def extract_title(content: str, fallback: str) -> str:
     return fallback
 
 
-def sync_directory(dirname: str) -> int:
-    """Sync a directory from the ocsf-docs repo. Returns file count."""
+def sync_directory(dirname: str) -> tuple[int, bool]:
+    """Sync a directory from the ocsf-docs repo.
+
+    Returns:
+        Tuple of (file_count, changed) where changed indicates if any
+        content was added, modified, or removed.
+    """
     print(f"Syncing {dirname}/...")
 
     # Get directory listing
     contents = fetch_json(f"{REPO_API}/{dirname}")
     if contents is None:
         print(f"  Skipping {dirname}/ due to fetch error")
-        return 0
+        return 0, False
 
     # Create local directory
     local_dir = DOCS_DIR / dirname
     local_dir.mkdir(parents=True, exist_ok=True)
 
+    changed = False
+
+    # Prune stale files
     expected_files = {
         item["name"]
         for item in contents
@@ -105,7 +113,8 @@ def sync_directory(dirname: str) -> int:
     for md_file in local_dir.glob("*.md"):
         if md_file.name not in expected_files:
             md_file.unlink()
-            print(f"  Removed stale {md_file.name}")
+            print(f"  Removed {md_file.name}")
+            changed = True
 
     count = 0
     for item in contents:
@@ -114,17 +123,25 @@ def sync_directory(dirname: str) -> int:
         if item["name"] == "README.md":
             continue  # Skip READMEs - they have broken links to upstream paths
 
-        # Fetch and save file
+        # Fetch content
         content = fetch_text(f"{RAW_BASE}/{dirname}/{item['name']}")
         if content is None:
             print(f"  Skipping {item['name']} due to fetch error")
             continue
+
         local_path = local_dir / item["name"]
-        local_path.write_text(content)
-        print(f"  {item['name']}")
         count += 1
 
-    return count
+        # Compare before writing
+        if local_path.exists() and local_path.read_text() == content:
+            print(f"  {item['name']} (unchanged)")
+            continue
+
+        local_path.write_text(content)
+        print(f"  {item['name']} (updated)")
+        changed = True
+
+    return count, changed
 
 
 def extract_faq_questions(faq_path: Path) -> list[str]:
@@ -281,12 +298,19 @@ def main():
         sys.exit(1)
 
     total = 0
+    any_changed = False
     for dirname in SYNC_DIRS:
-        total += sync_directory(dirname)
+        count, changed = sync_directory(dirname)
+        total += count
+        any_changed = any_changed or changed
 
     if total == 0:
         print("No files synced (network errors or empty directories)")
         sys.exit(1)
+
+    if not any_changed:
+        print("\nNo content changes")
+        return
 
     # Update FAQ index in SKILL.md
     faq_path = DOCS_DIR / "faqs" / "schema-faq.md"
@@ -298,7 +322,7 @@ def main():
     articles_dir = DOCS_DIR / "articles"
     update_skill_articles_index(articles_dir)
 
-    print(f"\nSynced {total} files")
+    print(f"\nSynced {total} files ({any_changed=})")
 
 
 if __name__ == "__main__":
