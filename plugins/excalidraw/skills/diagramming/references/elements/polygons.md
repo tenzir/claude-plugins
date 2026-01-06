@@ -158,7 +158,7 @@ All fill and stroke styles work with polygons:
   "strokeColor": "#1971c2",
   "strokeWidth": 2,
   "strokeStyle": "solid",
-  "roughness": 0
+  "roughness": 1
 }
 ```
 

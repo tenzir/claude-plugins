@@ -20,7 +20,7 @@ Lines and arrows with bindings and routing.
   "startArrowhead": null,
   "endArrowhead": "triangle",
   "elbowed": false,
-  "roughness": 0,
+  "roughness": 1,
   "roundness": null
 }
 ```
