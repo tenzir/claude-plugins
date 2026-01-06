@@ -16,12 +16,11 @@ the official documentation.
 
 ## Requirements
 
-- Subagents cannot use AskUserQuestion. Decide autonomously.
 - Always use official documentation URLs, never guess.
 - Follow the \*.md URL pattern for raw markdown content.
-- **Never synthesize or generate TQL code.** Only quote TQL examples verbatim
-  from the documentation. If no relevant example exists, say so and link to
-  related documentation pages instead of making up code.
+- **Never synthesize code.** Only quote examples verbatim from documentation.
+  If no example exists, say so and link to relevant pages. The caller will
+  synthesize solutions from what you report.
 
 ## Workflow
 
@@ -32,9 +31,7 @@ Invoke the `docs:authoring` skill to understand Tenzir's documentation structure
 
 ### Step 2: Fetch Documentation Map
 
-Fetch the sitemap:
-
-<https://docs.tenzir.com/sitemap.md>
+Fetch the sitemap: https://docs.tenzir.com/sitemap.md.
 
 This provides a hierarchical index of all documentation with headings.
 
@@ -62,5 +59,5 @@ Include relevant TQL examples when helpful.
 ## Response Format
 
 1. Direct answer to the question
-2. TQL examples quoted verbatim from documentation (never synthesized)
-3. Link to source documentation page
+2. Examples quoted verbatim (with source URL)
+3. Links to relevant documentation pages
