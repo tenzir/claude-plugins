@@ -88,9 +88,13 @@ user how to proceed:
 
 Apply the requested changes to the file(s).
 
-### 4.3 Commit the fix
+### 4.3 Commit and push the fix
 
-Use the @git:committer agent to commit the fix.
+Use the @git:committer agent to commit the fix, then push immediately:
+
+```sh
+git push
+```
 
 ### 4.4 Reply and resolve
 
@@ -120,15 +124,7 @@ mutation {
 If you're unsure whether the fix fully addresses the comment, ask the user
 whether to resolve it.
 
-## 5. Push changes
-
-After all comments are addressed:
-
-```sh
-git push
-```
-
-## 6. Report summary
+## 5. Report summary
 
 Report:
 
