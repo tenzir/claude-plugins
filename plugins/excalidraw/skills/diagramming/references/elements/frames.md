@@ -1,6 +1,8 @@
 # Frame Elements
 
-Grouping containers with names for organizing diagrams.
+Frames are slides or artboards—separate canvases within an Excalidraw file.
+Use frames when creating presentations or multi-page documents, not for
+grouping elements within a single diagram.
 
 ## Frame Element
 
@@ -63,18 +65,8 @@ Elements inside a frame reference it via `frameId`:
 
 ## Frame Rendering
 
-Frame behavior options (in appState):
-
-```json
-{
-  "frameRendering": {
-    "enabled": true,
-    "name": true,
-    "outline": true,
-    "clip": true
-  }
-}
-```
+Frame display is controlled by runtime `appState.frameRendering` (not persisted
+in files). Default: `{ enabled: true, name: true, outline: true, clip: true }`.
 
 | Option    | Description                  |
 | --------- | ---------------------------- |

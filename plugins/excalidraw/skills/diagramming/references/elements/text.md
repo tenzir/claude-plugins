@@ -7,6 +7,10 @@ Standalone text and labels bound to containers.
 ```json
 {
   "type": "text",
+  "x": 0,
+  "y": 0,
+  "width": 150,
+  "height": 25,
   "text": "Label Text",
   "fontSize": 20,
   "fontFamily": 5,
@@ -18,6 +22,8 @@ Standalone text and labels bound to containers.
   "lineHeight": 1.25
 }
 ```
+
+Dimensions: `height = 20 × 1.25 = 25`, `width = 10 × 20 × 0.75 = 150`
 
 ## Font Families
 
@@ -50,16 +56,16 @@ technical identifiers) or a cleaner sans-serif look (formal documentation).
 
 ## Font Sizes
 
-Built-in size constants:
+**Always use standard sizes.** Do not use custom values.
 
-| Name | Value |
-| ---- | ----- |
-| sm   | 16    |
-| md   | 20    |
-| lg   | 28    |
-| xl   | 36    |
+| Size | Value | Use Case                   |
+| ---- | ----- | -------------------------- |
+| S    | 16    | Secondary labels, captions |
+| M    | 20    | Default for most text      |
+| L    | 28    | Headings, emphasis         |
+| XL   | 36    | Titles, large headings     |
 
-Defaults: `DEFAULT_FONT_SIZE = 20`, `MIN_FONT_SIZE = 1`
+Default: M (20). Prefer standard sizes for consistency.
 
 ## Text Alignment
 
@@ -83,15 +89,16 @@ Multiply by fontSize for pixel height: `lineHeightPx = lineHeight * fontSize`
 
 ## Estimating Text Size
 
-To position text without browser font APIs, approximate dimensions:
+For standalone (unbound) text, estimate dimensions:
 
 ```
-height = fontSize * lineHeight * numberOfLines
-width  ≈ characterCount * fontSize * 0.65
+height = fontSize × lineHeight × numberOfLines
+width  = characterCount × fontSize × 0.6
 ```
 
-Use 0.65 for Excalifont (underestimating causes horizontal clipping). Narrow
-characters (i, l, 1) are ~0.3, wide ones (M, W, m, w) are ~0.9.
+For **bound text** (text with `containerId`), use generous estimates. Excalidraw
+will wrap and position the text automatically. Overestimating width is safer
+than clipping.
 
 ## Multi-line Text
 
@@ -145,21 +152,57 @@ Text can be bound inside shapes (rectangles, diamonds, ellipses, arrows).
 
 ## Text Positioning in Containers
 
-Bound text is centered with 5px padding. The available text area depends on
-container shape:
+For bound text, set `containerId`, `textAlign`, and `verticalAlign`. Excalidraw
+computes the actual position based on internal padding and container geometry.
 
-| Shape     | Text area offset        | Available size          |
-| --------- | ----------------------- | ----------------------- |
-| Rectangle | 5px padding             | width - 10, height - 10 |
-| Ellipse   | 0.146 × dimension + 5px | 0.707 × dimension - 10  |
-| Diamond   | dimension / 4 + 5px     | dimension / 2 - 10      |
-
-Center the text within that area:
+**Do not manually calculate x/y for bound text.** Use the container's center
+as an approximation—Excalidraw will adjust:
 
 ```
-text.x = container.x + offset + (availableWidth - textWidth) / 2
-text.y = container.y + offset + (availableHeight - textHeight) / 2
+text.x = container.x + container.width / 2
+text.y = container.y + container.height / 2
 ```
+
+Excalidraw applies `BOUND_TEXT_PADDING = 5px` and shape-specific offsets
+(ellipses and diamonds have inscribed rectangle calculations).
+
+### Example: Rectangle with Label
+
+```json
+{
+  "id": "rect-1",
+  "type": "rectangle",
+  "x": 100,
+  "y": 200,
+  "width": 180,
+  "height": 40,
+  "boundElements": [{ "type": "text", "id": "rect-1-text" }]
+}
+```
+
+```json
+{
+  "id": "rect-1-text",
+  "type": "text",
+  "x": 190,
+  "y": 220,
+  "width": 60,
+  "height": 25,
+  "text": "status",
+  "originalText": "status",
+  "fontSize": 20,
+  "fontFamily": 5,
+  "lineHeight": 1.25,
+  "textAlign": "center",
+  "verticalAlign": "middle",
+  "containerId": "rect-1",
+  "autoResize": true
+}
+```
+
+### Example: Ellipse with Label
+
+For ellipses, use the same center approximation:
 
 ## Text Containers
 

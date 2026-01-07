@@ -207,6 +207,68 @@ in the same group using `groupIds`.
 Position the text manually at the polygon's center. Estimate the text size
 (see text.md) and offset accordingly.
 
+## Arrow Bindings
+
+**Polygons cannot have arrow bindings directly.** Excalidraw only allows arrows
+to bind to: rectangle, diamond, ellipse, image, iframe, embeddable, frame,
+magicframe, and uncontained text.
+
+When a polygon is grouped with a text label, bind arrows to the **text element**
+instead. Since the text shares the same `groupIds` as the polygon, moving the
+group will move both the polygon and the arrow attachment point together.
+
+```json
+[
+  {
+    "id": "hexagon-shape",
+    "type": "line",
+    "x": 100,
+    "y": 200,
+    "width": 100,
+    "height": 50,
+    "polygon": true,
+    "groupIds": ["hexagon-group"],
+    "boundElements": null,
+    "points": [
+      [29, 0],
+      [71, 0],
+      [100, 25],
+      [71, 50],
+      [29, 50],
+      [0, 25],
+      [29, 0]
+    ]
+  },
+  {
+    "id": "hexagon-label",
+    "type": "text",
+    "x": 125,
+    "y": 217,
+    "text": "Label",
+    "containerId": null,
+    "groupIds": ["hexagon-group"],
+    "boundElements": [{ "type": "arrow", "id": "arrow-to-hexagon" }]
+  },
+  {
+    "id": "arrow-to-hexagon",
+    "type": "arrow",
+    "startBinding": {
+      "elementId": "hexagon-label",
+      "fixedPoint": [0.5, 0],
+      "mode": "orbit"
+    },
+    "endBinding": null
+  }
+]
+```
+
+Key points:
+
+- The polygon has `boundElements: null` (it cannot accept bindings)
+- The grouped text label receives the arrow binding instead
+- Arrows use the text element's ID in `startBinding`/`endBinding`
+- Moving the group moves polygon, label, and attached arrows together
+
 ## Composition Patterns
 
 ### Layered Shapes

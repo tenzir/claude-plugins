@@ -260,7 +260,8 @@ array. If only the arrow knows about the shapes but not vice versa, dragging
 won't work properly.
 
 **Binding to polygons**: Arrows can't bind to polygon elements (lines with
-`polygon: true`). Position these arrows manually and leave the binding null.
+`polygon: true`). When a polygon is grouped with a text label, bind arrows to
+the text element instead. See `polygons.md` for details.
 
 ## Arrow Position and Points
 

@@ -53,6 +53,8 @@ Before writing a diagram, verify:
 
 - Polygon labels use `groupIds` (not `containerId`)
 - Text positioned manually at polygon center
+- **Polygons cannot have arrow bindings** - bind to grouped text label instead
+- Polygon's `boundElements` must be `null`
 
 ### Layout
 
@@ -61,6 +63,16 @@ Before writing a diagram, verify:
 - Minimum 40px between sibling elements
 - All IDs are unique
 - Label text matches actual names (verify spelling)
+
+### Text
+
+- Use standard font sizes: S (16), M (20), L (28), XL (36)
+- Bound text: set `containerId`, `textAlign: "center"`, `verticalAlign: "middle"`
+- Position bound text at container center; Excalidraw adjusts automatically
+
+### Frames (presentations only)
+
+- Frames are slides/artboards, not for grouping elements in a single diagram
 
 ## Reference Index
 
@@ -75,7 +87,7 @@ Load references progressively based on need:
 | [linear.md](./references/elements/linear.md)     | Creating arrows, lines, bindings     |
 | [freedraw.md](./references/elements/freedraw.md) | Hand-drawn paths                     |
 | [images.md](./references/elements/images.md)     | Embedding images                     |
-| [frames.md](./references/elements/frames.md)     | Grouping with frames                 |
+| [frames.md](./references/elements/frames.md)     | Slides/artboards for presentations   |
 | [polygons.md](./references/elements/polygons.md) | Custom polygon shapes                |
 
 ### Styling

@@ -70,35 +70,9 @@ For multiplayer scenarios, use fractional index:
 
 Follows rocicorp/fractional-indexing format.
 
-## Frames
+## Visual Containers
 
-Use frames for logical grouping with names.
-
-### Frame Element
-
-```json
-{
-  "id": "my-frame",
-  "type": "frame",
-  "name": "Section A"
-}
-```
-
-### Child Elements
-
-Elements inside a frame reference it via `frameId`:
-
-```json
-{
-  "id": "box-1",
-  "type": "rectangle",
-  "frameId": "my-frame"
-}
-```
-
-## Visual Groups
-
-For visual-only grouping without frame behavior:
+For visual boundaries around related elements (not actual groups):
 
 ```json
 {
@@ -111,7 +85,7 @@ For visual-only grouping without frame behavior:
 
 ## Ordering Best Practices
 
-1. Place background elements (frames, boundaries) first in array
+1. Place background elements (boundaries, containers) first in array
 2. Add main content elements in the middle
 3. Place foreground elements (labels, annotations) last
 4. Keep related elements adjacent in the array
