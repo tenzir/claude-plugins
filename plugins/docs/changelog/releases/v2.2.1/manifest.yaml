@@ -1,0 +1,7 @@
+created: 2026-01-08
+title: Documentation Reader Bug Fixes
+intro: >-
+  This release fixes two bugs in the documentation reader subagent. The reader now
+  reports all examples from operator and function pages instead of only the first
+  one, and only reports verbatim examples from the documentation instead of synthesizing
+  potentially incorrect code.

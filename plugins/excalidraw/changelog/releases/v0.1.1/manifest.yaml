@@ -1,0 +1,8 @@
+created: 2026-01-08
+title: Improved Diagram Generation Accuracy
+intro: >-
+  This release improves the accuracy and reliability of Excalidraw diagram generation
+  through better documentation and corrected defaults. It fixes several bugs related
+  to polygon path closing, text positioning formulas, and roughness settings, while
+  also enhancing documentation to clarify technical limitations around arrow bindings,
+  frames, and text sizing.

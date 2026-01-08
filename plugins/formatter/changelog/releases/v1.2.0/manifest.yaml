@@ -1,0 +1,5 @@
+created: 2026-01-08
+title: ESLint Support
+intro: >-
+  This release adds ESLint support for JavaScript and TypeScript files, automatically
+  fixing linting issues after every edit.
