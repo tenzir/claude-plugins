@@ -1,5 +1,6 @@
 ---
 description: Address GitHub PR review comments with commits
+argument-hint: "[pr-number]"
 args:
   pr:
     description: PR number (defaults to current branch's PR)

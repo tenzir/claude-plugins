@@ -1,5 +1,7 @@
 ---
 description: Commit changes with project-specific workflows
+context: fork
+model: haiku
 ---
 
 # Commit Changes
@@ -18,12 +20,12 @@ Examine staged changes to identify distinct logical units. Look for:
 - Documentation updates alongside code changes
 
 If staged changes contain **multiple orthogonal changes** that should be
-separate commits:
+separate commits, split them automatically:
 
-1. Present a numbered list of the distinct changes detected
-2. Use `AskUserQuestion` to let the user select which change to commit first
-3. Proceed with only the selected change—unstage files not part of that change
-4. After committing, inform the user about remaining unstaged changes
+1. Identify the distinct logical units
+2. Unstage files not part of the first logical unit
+3. Commit the first unit
+4. Repeat until all changes are committed
 
 If all staged changes form a single logical unit, proceed to the next step.
 
@@ -35,4 +37,4 @@ If the project has a linter configured, run it before committing.
 
 Stage changes and commit. Invoke `git:writing-commit-messages`.
 
-If it's unclear whether to amend the last commit or create a new one, ask the user.
+Always create a new commit. Never amend unless the user explicitly requested it.
