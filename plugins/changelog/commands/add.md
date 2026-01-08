@@ -1,5 +1,12 @@
 ---
 description: Add a changelog entry for recent changes (feature, bugfix, breaking, change).
+context: fork
+model: sonnet
+argument-hint: "[breaking|feature|bugfix|change]"
+args:
+  type:
+    description: The change type (breaking, feature, bugfix, or change)
+    required: false
 ---
 
 Begin with invoking these skills:
@@ -13,8 +20,8 @@ Guide me through adding a changelog entry for recent work.
 
 ## Gather Context
 
-Review the full scope of changes to suggest an appropriate entry *type* and
-*title* that captures the overall user-facing impact.
+Review the full scope of changes to suggest an appropriate entry _type_ and
+_title_ that captures the overall user-facing impact.
 
 To this end, introspect the local git repository. A changelog entry typically
 summarizes all changes in a PR and can go beyond a single commit.
@@ -39,9 +46,12 @@ For standalone projects, the default changelog directory is used.
 
 Infer the following from the repository context:
 
-1. **Entry type**
+1. **Entry type** (use the `type` argument if provided)
 2. **Title**
 3. **Description**
+
+If entry type or title cannot be determined from context, abort and explain why.
+Do not create placeholder entries.
 
 ### Writing Style
 
