@@ -1,0 +1,7 @@
+created: 2026-01-08
+title: Autonomous Workflows
+intro: >-
+  This release enhances the changelog commands with autonomous decision-making capabilities.
+  Both `/changelog:add` and `/changelog:release` now run in forked contexts that infer
+  parameters from repository context and proceed without user confirmation, streamlining
+  the changelog and release workflows.
