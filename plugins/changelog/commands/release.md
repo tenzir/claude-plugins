@@ -1,8 +1,18 @@
 ---
 description: Guide through releasing a project with tenzir-changelog (detect, stage, review, commit, publish, verify).
+context: fork
+model: sonnet
+argument-hint: "[patch|minor|major]"
+args:
+  bump:
+    description: The version bump type (patch, minor, or major)
+    required: false
 ---
 
-Make sure you loaded the `changelog:managing-entries` skill.
+Begin with invoking these skills:
+
+- `changelog:managing-entries`
+- `prose:technical-writing`
 
 # Create a Release
 
@@ -51,7 +61,7 @@ Before starting, verify:
 2. **CI passing**: Confirm CI is green on the main branch
 3. **Unreleased entries exist**: Check `changelog/unreleased/` for pending entries
 
-If any check fails, use `AskUserQuestion` to ask how to proceed.
+If any check fails, abort and explain why. Do not attempt to fix issues.
 
 ## Release Steps
 
@@ -73,13 +83,13 @@ Fix any failures before continuing.
 
 ### 2. Determine version bump
 
-Use `AskUserQuestion` to ask what type of release this is:
+Use the `bump` argument if provided. Otherwise, infer from unreleased entries:
 
-- **patch** (x.y.Z) - Bug fixes, minor changes
-- **minor** (x.Y.0) - New features, backward compatible
-- **major** (X.0.0) - Breaking changes
+- **patch** (x.y.Z) - Only bugfixes and minor changes
+- **minor** (x.Y.0) - Any features present
+- **major** (X.0.0) - Any breaking changes present
 
-Record the selected bump type for subsequent steps.
+If the bump type cannot be determined, abort and explain why.
 
 ### 3. Stage the release
 
@@ -109,14 +119,13 @@ Remove the temporary intro file on success.
 
 ### 4. Review release notes
 
-Display the generated release notes and use `AskUserQuestion` to ask for confirmation:
+Display the generated release notes:
 
 ```sh
 uvx tenzir-changelog release notes
 ```
 
-If adjustments are needed, edit the intro and/or entries, and re-run `release
-create` to update the just created changelog files.
+Proceed with the generated notes. Do not ask for confirmation.
 
 ### 5. Bump version
 
