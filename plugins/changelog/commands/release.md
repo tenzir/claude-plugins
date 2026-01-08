@@ -1,7 +1,6 @@
 ---
 description: Guide through releasing a project with tenzir-changelog (detect, stage, review, commit, publish, verify).
 context: fork
-model: sonnet
 argument-hint: "[patch|minor|major]"
 args:
   bump:
@@ -9,20 +8,43 @@ args:
     required: false
 ---
 
-Begin with invoking these skills:
+## Release context
+
+Look for unreleased changes.
+
+### 1. Detect release type
+
+Check `<repo>/changelog/config.yaml` for a `modules` field
+ - If present and releasing a module → **module release**
+ - Otherwise → **standard release**
+
+### 2. Identify unreleased entries
+
+In the target changelog directory:
+ - Module: `<repo>/.../<module>/changelog/unreleased/`
+ - Standard: `<repo>/changelog/unreleased/`
+
+Abort if none exist.
+
+## Agent setup
+
+Invoke these skills:
 
 - `changelog:managing-entries`
 - `prose:technical-writing`
 
-# Create a Release
+## Pre-release checks
 
-Guide me through releasing a project that uses `tenzir-changelog`.
+Before starting, verify:
 
-## Detect Release Context
+1. **Clean tree**: Ensure no uncommitted changes
+2. **CI passing**: Confirm CI is green on the main branch
 
-### Project type
+If any check fails, abort and explain why. Do not attempt to fix issues.
 
-Identify the project type by running
+## Release steps
+
+Begin by identifying the project type by running
 `${CLAUDE_PLUGIN_ROOT}/scripts/detect-project-type.sh`.
 
 Only execute the project-specific sections, e.g., if the project type is
@@ -31,39 +53,6 @@ Only execute the project-specific sections, e.g., if the project type is
 <project type="python">
 Python-specific instructions here.
 </project>
-
-### Module context
-
-Check if this is a **module release**:
-
-1. Look for a parent `changelog/config.yaml` with a `modules` field that
-   references this changelog directory
-2. Check if the current path matches `plugins/*/changelog`
-
-If either condition is true, this is a **module release**:
-
-- Follow steps 1–5 normally
-- **Stop after "Bump version"**—do not publish or create tags
-- Stage only this module's files: `git add <module-root>/` where `<module-root>`
-  is the parent directory of module's `changelog/` (e.g., if changelog is at
-  `plugins/cpp/changelog/`, stage `plugins/cpp/`)
-- Commit with message format: `git commit -m "Release <module-name> <version>"`
-  - `<module-name>` is the module directory name (e.g., `cpp`, `mylib`)
-  - `<version>` is the direct output from `uvx tenzir-changelog release version`
-    that includes a `v` prefix
-- Report the new version; the parent project handles publishing
-
-## Pre-Release Checks
-
-Before starting, verify:
-
-1. **Clean tree**: Ensure no uncommitted changes
-2. **CI passing**: Confirm CI is green on the main branch
-3. **Unreleased entries exist**: Check `changelog/unreleased/` for pending entries
-
-If any check fails, abort and explain why. Do not attempt to fix issues.
-
-## Release Steps
 
 ### 1. Quality gates
 
@@ -179,3 +168,18 @@ Confirm:
 Watch CI until the **Publish to PyPI** workflow completes successfully.
 
 </project>
+
+## Module releases
+
+For module releases, adapt the above release steps as follows:
+
+- Only execute steps 1–5 and skip the remaining ones
+- **Stop after "Bump version"**—do not publish or create tags
+- Stage only this module's files: `git add <module-root>/`
+  - `<module-root>` is the parent directory of module's `changelog/`
+  - e.g., if changelog is at `plugins/cpp/changelog/`, stage `plugins/cpp/`
+- Commit with message format: `git commit -m "Release <module-name> <version>"`
+  - `<module-name>` is the module directory name (e.g., `cpp`, `mylib`)
+  - `<version>` is the direct output from `uvx tenzir-changelog release version`
+    that includes a `v` prefix
+- Report the new version; the parent project handles publishing
