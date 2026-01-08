@@ -10,7 +10,11 @@ model: haiku
 
 Run `git status`, `git diff`, and `git log --oneline -10` to understand changes.
 
-## 2. Analyze change cohesion
+## 2. Lint
+
+Run any configured project linters.
+
+## 3. Analyze change cohesion
 
 Examine staged changes to identify distinct logical units. Look for:
 
@@ -28,10 +32,6 @@ separate commits, split them automatically:
 4. Repeat until all changes are committed
 
 If all staged changes form a single logical unit, proceed to the next step.
-
-## 3. Lint
-
-If the project has a linter configured, run it before committing.
 
 ## 4. Stage and commit
 
