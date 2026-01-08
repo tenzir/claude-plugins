@@ -2,10 +2,6 @@
 description: Guide through releasing a project with tenzir-changelog (detect, stage, review, commit, publish, verify).
 context: fork
 argument-hint: "[patch|minor|major]"
-args:
-  bump:
-    description: The version bump type (patch, minor, or major)
-    required: false
 ---
 
 ## Release context
@@ -15,14 +11,16 @@ Look for unreleased changes.
 ### 1. Detect release type
 
 Check `<repo>/changelog/config.yaml` for a `modules` field
- - If present and releasing a module → **module release**
- - Otherwise → **standard release**
+
+- If present and releasing a module → **module release**
+- Otherwise → **standard release**
 
 ### 2. Identify unreleased entries
 
 In the target changelog directory:
- - Module: `<repo>/.../<module>/changelog/unreleased/`
- - Standard: `<repo>/changelog/unreleased/`
+
+- Module: `<repo>/.../<module>/changelog/unreleased/`
+- Standard: `<repo>/changelog/unreleased/`
 
 Abort if none exist.
 
@@ -72,7 +70,7 @@ Fix any failures before continuing.
 
 ### 2. Determine version bump
 
-Use the `bump` argument if provided. Otherwise, infer from unreleased entries:
+Use `$1` if provided. Otherwise, infer from unreleased entries:
 
 - **patch** (x.y.Z) - Only bugfixes and minor changes
 - **minor** (x.Y.0) - Any features present

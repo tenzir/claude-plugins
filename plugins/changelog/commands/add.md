@@ -3,10 +3,6 @@ description: Add a changelog entry for recent changes (feature, bugfix, breaking
 context: fork
 model: sonnet
 argument-hint: "[breaking|feature|bugfix|change]"
-args:
-  type:
-    description: The change type (breaking, feature, bugfix, or change)
-    required: false
 ---
 
 Begin with invoking these skills:
@@ -46,7 +42,7 @@ For standalone projects, the default changelog directory is used.
 
 Infer the following from the repository context:
 
-1. **Entry type** (use the `type` argument if provided)
+1. **Entry type** (use `$1` if provided)
 2. **Title**
 3. **Description**
 
