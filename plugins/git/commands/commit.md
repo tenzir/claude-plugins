@@ -10,9 +10,11 @@ model: haiku
 
 Run `git status`, `git diff`, and `git log --oneline -10` to understand changes.
 
-## 2. Lint
+## 2. Run static checks
 
-Run any configured project linters.
+Check `pyproject.toml`, `package.json`, or `Makefile` for configured static
+checks. Run linters, type checkers, and formatters if present. Skip this step if
+no checks are configured.
 
 ## 3. Analyze change cohesion
 
