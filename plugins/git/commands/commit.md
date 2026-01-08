@@ -8,7 +8,7 @@ model: haiku
 
 ## 1. Gather context
 
-Run `git status`, `git diff`, and `git log --oneline -5` to understand changes.
+Run `git status`, `git diff`, and `git log --oneline -10` to understand changes.
 
 ## 2. Analyze change cohesion
 
