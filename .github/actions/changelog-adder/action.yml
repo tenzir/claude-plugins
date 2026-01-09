@@ -68,7 +68,7 @@ runs:
           Analyze this PR and run /changelog:add if there are user-facing changes.
           If you create an entry, commit it to this PR branch.
           If there are no user-facing changes, do nothing.
-        claude_args: "--agent changelog:adder --allowedTools Read,Glob,Grep,Bash,Write,Edit,Skill,SlashCommand"
+        claude_args: "--agent changelog:adder --allowedTools Read,Glob,Grep,Bash,Write,Edit,Skill"
         plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
         plugins: |
           changelog@tenzir

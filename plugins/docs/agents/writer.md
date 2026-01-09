@@ -1,7 +1,7 @@
 ---
 name: writer
 description: Write, review, and publish documentation. Creates a PR for tenzir/docs.
-tools: Read, Glob, Grep, Bash, Edit, Write, Skill, SlashCommand
+tools: Read, Glob, Grep, Bash, Edit, Write, Skill
 model: opus
 color: blue
 skills: docs:authoring, prose:technical-writing, git:writing-commit-messages
