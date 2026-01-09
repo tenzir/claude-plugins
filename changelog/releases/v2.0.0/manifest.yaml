@@ -1,0 +1,19 @@
+created: 2026-01-09
+title: Ship Plugin
+intro: >-
+  This major release renames the `changelog` plugin to `ship` to better reflect its
+  focus on release engineering. Subagents now require explicit skill declarations
+  in their YAML frontmatter, and tool configurations have been updated to use the
+  consolidated `Skill` tool.
+modules:
+  brand: v1.0.0
+  cpp: v0.2.0
+  docs: v2.2.1
+  excalidraw: v0.1.1
+  formatter: v1.2.0
+  git: v1.3.0
+  ocsf: v0.1.1
+  prose: v1.0.0
+  python: v1.1.0
+  ship: v2.0.0
+  tql: v1.2.0
