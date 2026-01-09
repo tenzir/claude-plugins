@@ -53,8 +53,8 @@ runs:
       run: |
         find . -path "*/changelog/unreleased/*.md" -type f 2>/dev/null | sort > /tmp/changelog-before.txt
 
-    # Step 3: Run Claude with changelog:adder agent
-    - name: Run Claude changelog:adder
+    # Step 3: Run Claude with ship:adder agent
+    - name: Run Claude ship:adder
       if: steps.check.outputs.skipped != 'true'
       uses: anthropics/claude-code-action@v1
       with:
@@ -65,13 +65,13 @@ runs:
           PR NUMBER: ${{ github.event.pull_request.number }}
           AUTHOR: ${{ github.event.pull_request.user.login }}
 
-          Analyze this PR and run /changelog:add if there are user-facing changes.
+          Analyze this PR and run /ship:add if there are user-facing changes.
           If you create an entry, commit it to this PR branch.
           If there are no user-facing changes, do nothing.
-        claude_args: "--agent changelog:adder --allowedTools Read,Glob,Grep,Bash,Write,Edit,Skill"
+        claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Edit,Skill"
         plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
         plugins: |
-          changelog@tenzir
+          ship@tenzir
           git@tenzir
           prose@tenzir
 

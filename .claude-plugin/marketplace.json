@@ -15,11 +15,6 @@
       "source": "./plugins/brand"
     },
     {
-      "name": "changelog",
-      "description": "Manage changelogs and release notes with tenzir-changelog",
-      "source": "./plugins/changelog"
-    },
-    {
       "name": "cpp",
       "description": "C++ language support, tooling, and coding conventions",
       "source": "./plugins/cpp"
@@ -58,6 +53,11 @@
       "name": "python",
       "description": "Python coding conventions for Tenzir projects",
       "source": "./plugins/python"
+    },
+    {
+      "name": "ship",
+      "description": "Release engineering with tenzir-ship",
+      "source": "./plugins/ship"
     },
     {
       "name": "tql",

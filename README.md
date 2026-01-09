@@ -10,7 +10,6 @@ commands, agents, hooks, skills, and MCP servers tailored for working with
 | Plugin       | Description                                                |
 | ------------ | ---------------------------------------------------------- |
 | `brand`      | Tenzir brand and style guidelines for frontend development |
-| `changelog`  | Manage changelogs and release notes with tenzir-changelog  |
 | `cpp`        | C++ language support, tooling, and coding conventions      |
 | `docs`       | Documentation workflows for Tenzir projects                |
 | `excalidraw` | Create Excalidraw diagrams with proper JSON structure      |
@@ -19,6 +18,7 @@ commands, agents, hooks, skills, and MCP servers tailored for working with
 | `ocsf`       | Understand the OCSF schema structure                       |
 | `prose`      | Style guidelines for technical prose                       |
 | `python`     | Python coding conventions for Tenzir projects              |
+| `ship`       | Release engineering with tenzir-ship                       |
 | `tql`        | Build TQL pipelines with expert language guidance          |
 
 ## 🛠️ Development

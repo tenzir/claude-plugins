@@ -13,7 +13,6 @@ on:
         type: string
         default: |
           brand@tenzir
-          changelog@tenzir
           cpp@tenzir
           docs@tenzir
           excalidraw@tenzir
@@ -22,6 +21,7 @@ on:
           ocsf@tenzir
           prose@tenzir
           python@tenzir
+          ship@tenzir
           tql@tenzir
     secrets:
       anthropic_api_key:
@@ -52,7 +52,6 @@ jobs:
           plugin_marketplaces: |
             https://github.com/tenzir/claude-plugins.git
           plugins: ${{ inputs.plugins || 'brand@tenzir
-            changelog@tenzir
             cpp@tenzir
             docs@tenzir
             excalidraw@tenzir
@@ -61,4 +60,5 @@ jobs:
             ocsf@tenzir
             prose@tenzir
             python@tenzir
+            ship@tenzir
             tql@tenzir' }}

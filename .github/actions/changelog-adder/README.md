@@ -1,7 +1,7 @@
 # Changelog Adder Action
 
 Automatically add changelog entries to PRs using Claude Code with the
-`changelog:adder` agent.
+`ship:adder` agent.
 
 ## Usage
 
@@ -52,8 +52,8 @@ jobs:
 ## Behavior
 
 1. Checks if a changelog entry for this PR already exists (idempotent)
-2. Runs Claude with the `changelog:adder` agent
-3. Agent analyzes PR and runs `/changelog:add` if user-facing changes exist
+2. Runs Claude with the `ship:adder` agent
+3. Agent analyzes PR and runs `/ship:add` if user-facing changes exist
 4. Agent commits the entry to the PR branch
 5. Posts or updates a PR comment with:
    - Status badge (`✓ added` or `✓ exists`)

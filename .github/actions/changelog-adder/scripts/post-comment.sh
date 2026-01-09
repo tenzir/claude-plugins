@@ -38,8 +38,8 @@ echo "$ENTRY_FILES" | while read -r entry_file; do
   module_root="${entry_file%/changelog/*}"
   entry_id="$(basename "$entry_file" .md)"
 
-  # Get rendered markdown from tenzir-changelog
-  entry_md=$(uvx tenzir-changelog --root "$module_root" show "$entry_id" --markdown --explicit-links 2>/dev/null)
+  # Get rendered markdown from tenzir-ship
+  entry_md=$(uvx tenzir-ship --root "$module_root" show "$entry_id" --markdown --explicit-links 2>/dev/null)
 
   if [ -n "$entry_md" ]; then
     # Remove the "## 🔧 Changes" header and following blank line
@@ -47,7 +47,7 @@ echo "$ENTRY_FILES" | while read -r entry_file; do
     echo "$entry_md" >> /tmp/pr-comment.md
     echo "" >> /tmp/pr-comment.md
   else
-    # Fallback: just show the entry file path if tenzir-changelog fails
+    # Fallback: just show the entry file path if tenzir-ship fails
     echo "- \`$entry_file\`" >> /tmp/pr-comment.md
   fi
 done

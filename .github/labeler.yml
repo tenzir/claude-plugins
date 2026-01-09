@@ -5,9 +5,9 @@ plugin:brand:
   - changed-files:
       - any-glob-to-any-file: plugins/brand/**
 
-plugin:changelog:
+plugin:ship:
   - changed-files:
-      - any-glob-to-any-file: plugins/changelog/**
+      - any-glob-to-any-file: plugins/ship/**
 
 plugin:cpp:
   - changed-files:

@@ -19,7 +19,7 @@ metadata, and components. It loads automatically when working in `plugins/`.
 ### Updating a Plugin
 
 1. Make your changes
-2. Add changelog entry: `/changelog:add`
+2. Add changelog entry: `/ship:add`
 
 ### Renaming or Removing a Plugin
 
@@ -29,5 +29,5 @@ metadata, and components. It loads automatically when working in `plugins/`.
 
 ### Releasing a Plugin
 
-Use `/changelog:release`. This stages the release and updates `plugin.json`.
+Use `/ship:release`. This stages the release and updates `plugin.json`.
 Do not create git tags or GitHub releases—the parent handles publishing.

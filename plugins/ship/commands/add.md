@@ -5,14 +5,13 @@ model: sonnet
 argument-hint: "[breaking|feature|bugfix|change]"
 ---
 
-Begin with invoking these skills:
+Begin by invoking the `prose:technical-writing` skill and reading about the
+`tenzir-ship` CLI here:
 
-- `changelog:managing-entries`
-- `prose:technical-writing`
+- <https://docs.tenzir.com/reference/changelog-framework.md>
+- <https://docs.tenzir.com/guides/package-management/maintain-a-changelog.md>
 
-# Add Changelog Entry
-
-Guide me through adding a changelog entry for recent work.
+Then guide us through adding a changelog entry for recent work.
 
 ## Gather Context
 
@@ -55,16 +54,28 @@ Follow the `prose:technical-writing` skill. Additional guidance for changelog en
 
 #### Titles
 
-- **Plain text only** - Sentence case, no backticks, no Markdown formatting. Titles appear in tables and feeds where Markdown isn't rendered.
-- **User-facing language** - Describe the user benefit, not the implementation. Good: "Autonomous documentation workflow", Bad: "New `docs:writer` subagent"
-- **Descriptive noun phrases** - Describe what changed, not imperative commands. Good: "OAuth support for authentication API", Bad: "Add OAuth authentication"
+- **Plain text only** since titles appear where Markdown isn't rendered
+  - Sentence case
+  - No backticks
+  - No Markdown formatting
+- **User-facing language** that describes the user benefit, not the implementation
+  - Good: "Autonomous documentation workflow"
+  - Bad: "New `docs:writer` subagent"
+- **Descriptive noun phrases** that describe what changed, not imperative commands
+  - Good: "OAuth support for authentication API"
+  - Bad: "Add OAuth authentication"
 
 #### Body
 
-- **Standalone first sentence** - The first sentence must summarize the entire change, as compact mode only displays this
-- **Write for users** - Explain what changed and why it matters, not implementation details
-- **Use Markdown deliberately** - Frame code and technical terms in backticks (e.g., `--option 42`). Use _emphasis_ and **bold** where it improves clarity
-- **Avoid PR-centric language** - Explain the change directly. Good: "The `--verbose` flag now shows detailed timing", Bad: "Adds detailed timing to the verbose flag"
+- **Standalone first sentence** that summarizes the _entire_ change
+- **Write for users**
+  - Explain what changed and why it matters, not implementation details
+- **Use Markdown deliberately**
+  - Frame code and technical terms in backticks (e.g., `--option 42`)
+  - Use _emphasis_ and **bold** where it improves clarity
+- **Avoid PR-centric language** to explain the change directly
+  - Good: "The `--verbose` flag now shows detailed timing"
+  - Bad: "Adds detailed timing to the verbose flag"
 
 ## Create the Entry
 
@@ -72,7 +83,7 @@ First, write the description to a temporary file, e.g., `.description.md`.
 Thereafter create the entry:
 
 ```sh
-uvx tenzir-changelog --root <module>/changelog add \
+uvx tenzir-ship --root <module>/changelog add \
   --title "<title>" \
   --type <type> \
   --description-file .description.md \
@@ -80,13 +91,14 @@ uvx tenzir-changelog --root <module>/changelog add \
   --co-author claude
 ```
 
-Omit `--root <module>/changelog` for standalone projects or when targeting the parent changelog.
+Omit `--root <module>/changelog` for standalone projects or when targeting the
+parent changelog.
 
-Omit `--description-file` if no description was provided.
+Include `--pr <number>` only when running in GitHub Actions (CI). Extract the PR
+number from `$GITHUB_EVENT_PATH`. Locally, omit `--pr` as it's auto-inferred
+from `gh` context.
 
-Include `--pr <number>` only when running in GitHub Actions (CI). Extract the PR number from `$GITHUB_EVENT_PATH`. Locally, omit `--pr` as it's auto-inferred from `gh` context.
-
-Remove the temporary file on success.
+Remove the temporary description file on success.
 
 ## Summarize
 

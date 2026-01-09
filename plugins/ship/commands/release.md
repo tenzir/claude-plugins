@@ -1,35 +1,28 @@
 ---
-description: Guide through releasing a project with tenzir-changelog (detect, stage, review, commit, publish, verify).
+description: Guide through releasing a project with tenzir-ship (detect, stage, commit, publish, verify).
 context: fork
 argument-hint: "[patch|minor|major]"
 ---
 
 ## Release context
 
-Look for unreleased changes.
+Look for the right changelog directory for this release by running:
 
-### 1. Detect release type
+```sh
+uvx tenzir-ship stats --json
+```
 
-Check `<repo>/changelog/config.yaml` for a `modules` field
+This release is a **module release** iff it belongs to one of the listed
+module paths. Otherwise it is a relase of the parent project.
 
-- If present and releasing a module → **module release**
-- Otherwise → **standard release**
-
-### 2. Identify unreleased entries
-
-In the target changelog directory:
-
-- Module: `<repo>/.../<module>/changelog/unreleased/`
-- Standard: `<repo>/changelog/unreleased/`
-
-Abort if none exist.
+Abort if there are no unreleased changelog entries.
 
 ## Agent setup
 
-Invoke these skills:
+Bootstrap your knowledge by invoking the `prose:technical-writing` skill and
+reading about the `tenzir-ship` CLI here:
 
-- `changelog:managing-entries`
-- `prose:technical-writing`
+- <https://docs.tenzir.com/reference/changelog-framework.md>
 
 ## Pre-release checks
 
@@ -54,9 +47,9 @@ Python-specific instructions here.
 
 ### 1. Quality gates
 
-<project type="python">
+Run the quality gates of the project. All must pass.
 
-Run the quality gates (all must pass):
+<project type="python">
 
 - `uv run ruff check`
 - `uv run ruff format --check`
@@ -64,9 +57,9 @@ Run the quality gates (all must pass):
 - `uv run pytest`
 - `uv build`
 
-Fix any failures before continuing.
-
 </project>
+
+Fix any failures before continuing.
 
 ### 2. Determine version bump
 
@@ -96,25 +89,15 @@ latest release. This requires two additional inputs:
 Then execute staging the release:
 
 ```sh
-uvx tenzir-changelog release create --patch|--minor|--major \
+uvx tenzir-ship release create --patch|--minor|--major \
   --title "Title" \
   --intro-file .intro.md \
   --yes
 ```
 
-Remove the temporary intro file on success.
+Remove the temporary intro file upon success.
 
-### 4. Review release notes
-
-Display the generated release notes:
-
-```sh
-uvx tenzir-changelog release notes
-```
-
-Proceed with the generated notes. Do not ask for confirmation.
-
-### 5. Bump version
+### 4. Bump version
 
 If the project contains files that maintain the authoritative project version,
 update them now using the bump type from step 2.
@@ -138,12 +121,12 @@ This updates `pyproject.toml` and `uv.lock`.
 
 </project>
 
-### 6. Publish the release
+### 5. Publish the release
 
 Preview the release notes:
 
 ```sh
-uvx tenzir-changelog release notes
+uvx tenzir-ship show --release latest
 ```
 
 Stage all changes, then publish (commits, creates git tag, pushes, and creates
@@ -151,10 +134,10 @@ GitHub release):
 
 ```sh
 git add -A
-uvx tenzir-changelog release publish --commit --tag --yes
+uvx tenzir-ship release publish --commit --tag --yes
 ```
 
-### 7. Verify
+### 6. Verify
 
 Confirm:
 
@@ -171,13 +154,13 @@ Watch CI until the **Publish to PyPI** workflow completes successfully.
 
 For module releases, adapt the above release steps as follows:
 
-- Only execute steps 1–5 and skip the remaining ones
-- **Stop after "Bump version"**—do not publish or create tags
+- Only execute steps 1–4 and skip the remaining ones. That is, **stop after
+  "Bump version"**—do not publish or create tags.
 - Stage only this module's files: `git add <module-root>/`
   - `<module-root>` is the parent directory of module's `changelog/`
   - e.g., if changelog is at `plugins/cpp/changelog/`, stage `plugins/cpp/`
 - Commit with message format: `git commit -m "Release <module-name> <version>"`
   - `<module-name>` is the module directory name (e.g., `cpp`, `mylib`)
-  - `<version>` is the direct output from `uvx tenzir-changelog release version`
+  - `<version>` is the direct output from `uvx tenzir-ship release version`
     that includes a `v` prefix
-- Report the new version; the parent project handles publishing
+- Report the new version; the parent project handles publishing.

@@ -1,25 +1,21 @@
-# Changelog
+# Ship
 
-Manage changelogs and release notes with tenzir-changelog. Provides interactive
-commands for adding entries, orchestrating releases, and automating changelog
-workflows through CI.
+Release engineering for projects using the `tenzir-ship` CLI. Provides commands
+for managing changelog entries and orchestrating releases.
 
 ## ✨ Features
 
-- 🎯 **Managing Entries Skill**: Get guided assistance when creating changelog entries. Activates automatically when finishing features, bugfixes, or documenting changes.
-- ➕ **Add Command**: Interactive entry creation with `/changelog:add`
-- 🚀 **Release Command**: Orchestrate releases with `/changelog:release`. Stages, reviews, and publishes in one workflow.
-- 🤖 **Adder Agent**: Automate changelog entry creation from PR comments in CI
-- 📦 **Releaser Agent**: Automate release workflows in CI with a specified version bump
+- ➕ **Add Command**: Create changelog entries with `/ship:add`
+- 🚀 **Release Command**: Orchestrate releases with `/ship:release`
 
 ## 🚀 Usage
 
 ### Adding Entries
 
-After completing work, run `/changelog:add`:
+After completing work, run `/ship:add`:
 
 ```
-/changelog:add
+/ship:add
 ```
 
 Claude analyzes your uncommitted changes and recent commits, then:
@@ -33,16 +29,16 @@ For module-based projects, Claude targets the correct module's changelog automat
 
 ### Creating Releases
 
-When ready to ship, run `/changelog:release`:
+When ready to ship, run `/ship:release`:
 
 ```
-/changelog:release
+/ship:release
 ```
 
 Claude walks you through the full workflow:
 
 1. Runs quality gates (linters, tests, build)
-2. Asks for version bump type (patch/minor/major)
+2. Determines version bump type (patch/minor/major)
 3. Synthesizes a release title from unreleased entries
 4. Generates release notes with an intro summary
 5. Bumps version files (`pyproject.toml`, `package.json`, etc.)
@@ -50,20 +46,20 @@ Claude walks you through the full workflow:
 
 ### Querying Entries
 
-The skill provides direct CLI access for inspection:
+The `tenzir-ship` CLI provides direct access for inspection:
 
 ```sh
 # Show unreleased entries
-uvx tenzir-changelog show
+uvx tenzir-ship show
 
 # Show specific entry details
-uvx tenzir-changelog show --json 1
+uvx tenzir-ship show --json 1
 
 # Preview release notes for a version
-uvx tenzir-changelog release notes --json v1.0.0
+uvx tenzir-ship show --release v1.0.0 --json
 
 # Validate all entries
-uvx tenzir-changelog validate
+uvx tenzir-ship validate
 ```
 
 ## 🔄 CI Integration
@@ -75,5 +71,5 @@ With the [Claude GitHub App](https://github.com/apps/claude) installed:
 
 ## Requirements
 
-- [tenzir-changelog](https://github.com/tenzir/changelog) - Installable via `uvx` or `pip`
+- [tenzir-ship](https://github.com/tenzir/ship) - Installable via `uvx` or `pip`
 - [Claude GitHub App](https://github.com/apps/claude) installed on the repository

@@ -21,7 +21,7 @@ Orthogonal concerns:
 Good (orthogonal only):
 
 ```markdown
-Release a project by running `/changelog:release`.
+Release a project by running `/ship:release`.
 
 ## Requirements
 
