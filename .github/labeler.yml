@@ -5,10 +5,6 @@ plugin:brand:
   - changed-files:
       - any-glob-to-any-file: plugins/brand/**
 
-plugin:ship:
-  - changed-files:
-      - any-glob-to-any-file: plugins/ship/**
-
 plugin:cpp:
   - changed-files:
       - any-glob-to-any-file: plugins/cpp/**
@@ -16,6 +12,10 @@ plugin:cpp:
 plugin:docs:
   - changed-files:
       - any-glob-to-any-file: plugins/docs/**
+
+plugin:excalidraw:
+  - changed-files:
+      - any-glob-to-any-file: plugins/excalidraw/**
 
 plugin:formatter:
   - changed-files:
@@ -36,6 +36,10 @@ plugin:prose:
 plugin:python:
   - changed-files:
       - any-glob-to-any-file: plugins/python/**
+
+plugin:ship:
+  - changed-files:
+      - any-glob-to-any-file: plugins/ship/**
 
 plugin:tql:
   - changed-files:
