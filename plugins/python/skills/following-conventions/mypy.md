@@ -5,6 +5,7 @@ Standard Mypy configuration for Tenzir Python projects.
 ```toml
 [tool.mypy]
 files = ["src"]
+plugins = ["pydantic.mypy"]
 python_version = "3.12"
 warn_return_any = true
 warn_unused_configs = true

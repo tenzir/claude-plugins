@@ -1,6 +1,6 @@
 ---
 name: following-conventions
-description: Tenzir Python coding standards and tooling setup. Use when editing .py files, running ruff/mypy/pytest, encountering pyproject.toml/uv.lock, or setting up a new Python project.
+description: Tenzir Python coding standards and tooling setup. Use when writing python code, running ruff/mypy/pytest, encountering pyproject.toml/uv.lock, or setting up a new Python project.
 ---
 
 # Python Coding Conventions
@@ -15,6 +15,15 @@ All projects use:
 - **Ruff** — Linting and formatting
 - **Mypy** — Static type checking
 - **pytest** — Testing
+
+## Default Libraries
+
+Prefer to use these libraries to ensure uniform codebase across Tenzir
+repositories:
+
+- **pydantic** - Defining and validating models
+- **FastAPI** - Declaring REST APIs
+- **Click** - Providing a CLI interface
 
 ## Quality Gates
 
@@ -49,6 +58,14 @@ backwards-compatibility with older versions.
 - Strict Mypy settings reject untyped or partial definitions
 - Avoid `Any`; fix warnings rather than ignoring them
 
+### Package structure and imports
+
+- Keep `__init__.py` files empty. They are only used to mark a directory as
+  importable but do not contain any content, let alone non-trivial code.
+- Always use absolute imports from the package top level:
+  `from this_package.foo import bar` instead of `from .foo import bar`.
+- Never use wildcard imports
+
 ### Naming Conventions
 
 | Element   | Convention      | Example             |
@@ -61,7 +78,6 @@ backwards-compatibility with older versions.
 
 ### CLI Conventions
 
-- Use [Click](https://click.palletsprojects.com/) for CLI applications, not argparse
 - Use kebab-case for CLI flags: `--output-file`, not `--output_file`
 - Keep user messages concise
 
@@ -70,6 +86,14 @@ backwards-compatibility with older versions.
 - Write in active voice; rewrite passive sentences before committing
 - Focus on user-facing impact, not implementation details
 - Use explicit imports; isolate configuration helpers in `config.py`
+
+### Unit Test Conventions
+
+- Use `pytest` as testing framework
+- Use `CliRunner` for end-to-end CLI testing
+- Favor `tmp_path` for filesystem tests
+- Use parametrization for scenario variation
+- Maintain ≥80% coverage when coverage is configured
 
 ## Project Setup
 
