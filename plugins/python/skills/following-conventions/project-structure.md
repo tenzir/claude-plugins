@@ -6,9 +6,10 @@ Standard layout for Tenzir Python projects.
 project/
 ├── src/tenzir_<name>/   # Main package code
 │   ├── __init__.py
+│   ├── py.typed         # PEP 561 marker for type hints
 │   ├── cli.py           # CLI entrypoint (Click)
 │   ├── config.py        # Configuration helpers
-│   └── utils.py         # Shared utilities
+│   └── ...
 ├── tests/               # Test suite
 │   ├── conftest.py      # Shared fixtures
 │   └── test_*.py        # Test modules (mirror src structure)
@@ -28,7 +29,3 @@ project/
 ## Testing Conventions
 
 - Place tests in `tests/` following the `test_*.py` pattern
-- Use `CliRunner` for end-to-end CLI testing
-- Favor `tmp_path` for filesystem tests
-- Use parametrization for scenario variation
-- Maintain ≥80% coverage when coverage is configured
