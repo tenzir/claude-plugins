@@ -1,0 +1,6 @@
+created: 2026-01-15
+title: Bun Package Manager
+intro: >-
+  This release updates the docs plugin command scripts to use bun instead of pnpm,
+
+  aligning with the Tenzir documentation site's package manager migration.
