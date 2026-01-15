@@ -22,7 +22,32 @@ comment_id=${comment_url##*-}
 # Render the entry using tenzir-ship for nice display
 module_root="${ENTRY_FILE%/changelog/*}"
 entry_id=$(basename "$ENTRY_FILE" .md)
-rendered=$(uvx tenzir-ship --root "$module_root" show "$entry_id" --markdown --explicit-links 2>/dev/null || echo "$ENTRY_CONTENT")
+rendered=$(uvx tenzir-ship --root "$module_root" show "$entry_id" --markdown --explicit-links 2>/dev/null)
+
+# If tenzir-ship failed, format the raw content nicely
+if [ -z "$rendered" ]; then
+  # Parse frontmatter fields
+  entry_type=$(echo "$ENTRY_CONTENT" | grep -E '^type:' | head -1 | sed 's/^type:[[:space:]]*//')
+  entry_title=$(echo "$ENTRY_CONTENT" | grep -E '^title:' | head -1 | sed 's/^title:[[:space:]]*//')
+
+  # Extract body (everything after the closing ---)
+  entry_body=$(echo "$ENTRY_CONTENT" | awk '/^---$/{n++; next} n>=2{print}')
+
+  # If no title: in frontmatter, check for markdown heading in body
+  if [ -z "$entry_title" ]; then
+    entry_title=$(echo "$entry_body" | grep -E '^# ' | head -1 | sed 's/^# //')
+    # Remove the heading from body if we extracted it
+    if [ -n "$entry_title" ]; then
+      entry_body=$(echo "$entry_body" | sed '/^# /d')
+    fi
+  fi
+
+  rendered="| Type | Title |
+|------|-------|
+| \`${entry_type:-change}\` | ${entry_title:-Changelog entry} |
+
+${entry_body}"
+fi
 
 # Remove the "## 🔧 Changes" header if present
 rendered=$(echo "$rendered" | sed '1{/^## /d;}' | sed '1{/^$/d;}')
