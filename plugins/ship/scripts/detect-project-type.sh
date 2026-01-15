@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # Detects the project type based on configuration files.
 
-if [[ -f pyproject.toml ]]; then
+if [[ -f .claude-plugin/plugin.json ]]; then
+  echo "claude-plugin"
+elif [[ -f pyproject.toml ]]; then
   echo "python"
 elif [[ -f Cargo.toml ]]; then
   echo "rust"

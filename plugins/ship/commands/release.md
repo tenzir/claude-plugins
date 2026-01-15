@@ -109,6 +109,12 @@ Example files that contain an authoritative version:
 - package.json
 - plugin.json
 
+<project type="claude-plugin">
+
+Update the version in `.claude-plugin/plugin.json`.
+
+</project>
+
 <project type="python">
 
 Run with the bump type from step 2:
