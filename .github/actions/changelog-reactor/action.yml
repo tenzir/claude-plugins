@@ -107,7 +107,7 @@ runs:
           Try a different angle, different wording, or focus on different aspects.
 
           IMPORTANT: Do NOT commit anything. Just create the changelog entry file.
-        claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Edit,Skill"
+        claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Skill"
         plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
         plugins: |
           ship@tenzir
@@ -130,7 +130,7 @@ runs:
           components, or implementation details.
 
           IMPORTANT: Do NOT commit anything. Just create the changelog entry file.
-        claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Edit,Skill"
+        claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Skill"
         plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
         plugins: |
           ship@tenzir
@@ -153,7 +153,7 @@ runs:
           not implementation details. Make it accessible to non-developers.
 
           IMPORTANT: Do NOT commit anything. Just create the changelog entry file.
-        claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Edit,Skill"
+        claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Skill"
         plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
         plugins: |
           ship@tenzir
@@ -176,7 +176,7 @@ runs:
           Keep it informative but add subtle edge.
 
           IMPORTANT: Do NOT commit anything. Just create the changelog entry file.
-        claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Edit,Skill"
+        claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Skill"
         plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
         plugins: |
           ship@tenzir
