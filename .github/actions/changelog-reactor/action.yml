@@ -1,0 +1,195 @@
+name: "Changelog Reactor"
+description: "Process changelog suggestion reactions"
+
+inputs:
+  anthropic_api_key:
+    description: "Anthropic API key or OAuth token"
+    required: true
+  github_token:
+    description: "GitHub token for PR operations"
+    required: true
+  pr_number:
+    description: "PR number"
+    required: true
+  comment_id:
+    description: "Comment ID containing the suggestion"
+    required: true
+  action:
+    description: "Action to perform"
+    required: true
+  reactor:
+    description: "User who reacted"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Extract entry data from comment
+      id: extract
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github_token }}
+        COMMENT_ID: ${{ inputs.comment_id }}
+      run: |
+        # Get comment body
+        comment=$(gh api "repos/{owner}/{repo}/issues/comments/$COMMENT_ID" -q .body)
+
+        # Extract base64-encoded entry content
+        entry_content_b64=$(echo "$comment" | grep -oP '<!-- entry-content:base64:\K[^-\s]+' || true)
+        if [ -n "$entry_content_b64" ]; then
+          entry_content=$(echo "$entry_content_b64" | base64 -d)
+          echo "entry_content<<EOF" >> $GITHUB_OUTPUT
+          echo "$entry_content" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          echo "Entry content extracted successfully"
+        else
+          echo "No entry content found in comment"
+        fi
+
+        # Extract base64-encoded entry file path
+        entry_file_b64=$(echo "$comment" | grep -oP '<!-- entry-file:base64:\K[^-\s]+' || true)
+        if [ -n "$entry_file_b64" ]; then
+          entry_file=$(echo "$entry_file_b64" | base64 -d)
+          echo "entry_file=$entry_file" >> $GITHUB_OUTPUT
+          echo "Entry file path: $entry_file"
+        else
+          echo "No entry file path found in comment"
+        fi
+
+    - name: Accept entry
+      if: inputs.action == 'accept'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github_token }}
+        ENTRY_CONTENT: ${{ steps.extract.outputs.entry_content }}
+        ENTRY_FILE: ${{ steps.extract.outputs.entry_file }}
+        PR_NUMBER: ${{ inputs.pr_number }}
+        COMMENT_ID: ${{ inputs.comment_id }}
+        REACTOR: ${{ inputs.reactor }}
+      run: ${{ github.action_path }}/scripts/accept.sh
+
+    - name: Reject entry
+      if: inputs.action == 'reject'
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github_token }}
+        PR_NUMBER: ${{ inputs.pr_number }}
+        COMMENT_ID: ${{ inputs.comment_id }}
+        REACTOR: ${{ inputs.reactor }}
+      run: ${{ github.action_path }}/scripts/reject.sh
+
+    - name: Delete old entry file before regenerate
+      if: inputs.action == 'regenerate' || contains(fromJSON('["more-technical", "less-technical", "more-cynical"]'), inputs.action)
+      shell: bash
+      env:
+        ENTRY_FILE: ${{ steps.extract.outputs.entry_file }}
+      run: |
+        # Remove old entry if it exists (clean slate for regeneration)
+        if [ -n "$ENTRY_FILE" ] && [ -f "$ENTRY_FILE" ]; then
+          rm -f "$ENTRY_FILE"
+        fi
+        # Capture current files for detection
+        find . -path "*/changelog/unreleased/*.md" -type f 2>/dev/null | sort > /tmp/changelog-before.txt
+
+    - name: Regenerate entry
+      if: inputs.action == 'regenerate'
+      uses: anthropics/claude-code-action@v1
+      with:
+        anthropic_api_key: ${{ inputs.anthropic_api_key }}
+        github_token: ${{ inputs.github_token }}
+        prompt: |
+          PR NUMBER: ${{ inputs.pr_number }}
+          PREVIOUS ENTRY (user wants something different):
+          ${{ steps.extract.outputs.entry_content }}
+
+          The user was not satisfied with the previous changelog entry.
+          Analyze the PR again and run /ship:add to create a DIFFERENT entry.
+          Try a different angle, different wording, or focus on different aspects.
+
+          IMPORTANT: Do NOT commit anything. Just create the changelog entry file.
+        claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Edit,Skill"
+        plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
+        plugins: |
+          ship@tenzir
+          git@tenzir
+          prose@tenzir
+
+    - name: Modify style (more technical)
+      if: inputs.action == 'more-technical'
+      uses: anthropics/claude-code-action@v1
+      with:
+        anthropic_api_key: ${{ inputs.anthropic_api_key }}
+        github_token: ${{ inputs.github_token }}
+        prompt: |
+          PR NUMBER: ${{ inputs.pr_number }}
+          CURRENT ENTRY (make more technical):
+          ${{ steps.extract.outputs.entry_content }}
+
+          Rewrite this changelog entry to be MORE TECHNICAL.
+          Run /ship:add with enhanced technical depth - mention specific APIs,
+          components, or implementation details.
+
+          IMPORTANT: Do NOT commit anything. Just create the changelog entry file.
+        claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Edit,Skill"
+        plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
+        plugins: |
+          ship@tenzir
+          git@tenzir
+          prose@tenzir
+
+    - name: Modify style (less technical)
+      if: inputs.action == 'less-technical'
+      uses: anthropics/claude-code-action@v1
+      with:
+        anthropic_api_key: ${{ inputs.anthropic_api_key }}
+        github_token: ${{ inputs.github_token }}
+        prompt: |
+          PR NUMBER: ${{ inputs.pr_number }}
+          CURRENT ENTRY (simplify):
+          ${{ steps.extract.outputs.entry_content }}
+
+          Rewrite this changelog entry to be SIMPLER and LESS TECHNICAL.
+          Run /ship:add with user-friendly language - focus on benefits,
+          not implementation details. Make it accessible to non-developers.
+
+          IMPORTANT: Do NOT commit anything. Just create the changelog entry file.
+        claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Edit,Skill"
+        plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
+        plugins: |
+          ship@tenzir
+          git@tenzir
+          prose@tenzir
+
+    - name: Modify style (more cynical)
+      if: inputs.action == 'more-cynical'
+      uses: anthropics/claude-code-action@v1
+      with:
+        anthropic_api_key: ${{ inputs.anthropic_api_key }}
+        github_token: ${{ inputs.github_token }}
+        prompt: |
+          PR NUMBER: ${{ inputs.pr_number }}
+          CURRENT ENTRY (add wit):
+          ${{ steps.extract.outputs.entry_content }}
+
+          Rewrite this changelog entry with MORE CYNICAL wit and dry humor.
+          Run /ship:add but write it like a seasoned engineer who's seen it all.
+          Keep it informative but add subtle edge.
+
+          IMPORTANT: Do NOT commit anything. Just create the changelog entry file.
+        claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Edit,Skill"
+        plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
+        plugins: |
+          ship@tenzir
+          git@tenzir
+          prose@tenzir
+
+    - name: Update comment after regenerate/style change
+      if: inputs.action == 'regenerate' || contains(fromJSON('["more-technical", "less-technical", "more-cynical"]'), inputs.action)
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.github_token }}
+        PR_NUMBER: ${{ inputs.pr_number }}
+        COMMENT_ID: ${{ inputs.comment_id }}
+        REACTOR: ${{ inputs.reactor }}
+        ACTION: ${{ inputs.action }}
+      run: ${{ github.action_path }}/scripts/update-comment.sh

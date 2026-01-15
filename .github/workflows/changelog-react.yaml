@@ -1,0 +1,54 @@
+name: Changelog React
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "PR number"
+        required: true
+        type: string
+      comment_id:
+        description: "Comment ID containing the suggestion"
+        required: true
+        type: string
+      action:
+        description: "Action to perform (accept, reject, regenerate, more-technical, less-technical, more-cynical)"
+        required: true
+        type: string
+      reactor:
+        description: "User who reacted"
+        required: true
+        type: string
+
+jobs:
+  react:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get PR branch
+        id: pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          branch=$(gh pr view ${{ inputs.pr_number }} --json headRefName -q .headRefName)
+          echo "branch=$branch" >> $GITHUB_OUTPUT
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.pr.outputs.branch }}
+
+      - name: Process reaction
+        uses: ./.github/actions/changelog-reactor
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_CLAUDE_CODE_OAUTH_TOKEN || secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          pr_number: ${{ inputs.pr_number }}
+          comment_id: ${{ inputs.comment_id }}
+          action: ${{ inputs.action }}
+          reactor: ${{ inputs.reactor }}
