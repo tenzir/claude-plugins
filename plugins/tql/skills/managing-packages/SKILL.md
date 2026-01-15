@@ -24,7 +24,7 @@ framework features, spawn the `docs:reader` subagent with your question.
 The `tenzir-ship` framework manages the changelog/ directory. Read the
 following pages to understand how to maintain a changelog:
 
-- <https://docs.tenzir.com/reference/changelog-framework.md>
+- <https://docs.tenzir.com/reference/ship-framework.md>
 - <https://docs.tenzir.com/guides/package-management/maintain-a-changelog.md>
 
 When adding changelog entries to a package, spawn the `ship:adder` subagent or

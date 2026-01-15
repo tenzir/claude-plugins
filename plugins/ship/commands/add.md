@@ -8,7 +8,7 @@ argument-hint: "[breaking|feature|bugfix|change]"
 Begin by invoking the `prose:technical-writing` skill and reading about the
 `tenzir-ship` CLI here:
 
-- <https://docs.tenzir.com/reference/changelog-framework.md>
+- <https://docs.tenzir.com/reference/ship-framework.md>
 - <https://docs.tenzir.com/guides/package-management/maintain-a-changelog.md>
 
 Then guide us through adding a changelog entry for recent work.

@@ -22,7 +22,7 @@ Abort if there are no unreleased changelog entries.
 Bootstrap your knowledge by invoking the `prose:technical-writing` skill and
 reading about the `tenzir-ship` CLI here:
 
-- <https://docs.tenzir.com/reference/changelog-framework.md>
+- <https://docs.tenzir.com/reference/ship-framework.md>
 
 ## Pre-release checks
 
