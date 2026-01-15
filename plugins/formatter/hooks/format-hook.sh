@@ -8,8 +8,8 @@ FILE_PATH=$(echo "$stdin_data" | jq -r '.tool_input.file_path // .tool_output.fi
 [[ -z "$FILE_PATH" ]] && exit 0
 
 if [[ "$FILE_PATH" =~ \.(cpp|hpp|cpp\.in|hpp\.in)$ ]]; then
-  if command -v clang-format &>/dev/null; then
-    clang-format -i "$FILE_PATH"
+  if command -v clang-format-21 &>/dev/null; then
+    clang-format-21 -i "$FILE_PATH"
   else
     echo "clang-format not found, skipping auto-formatting" >&2
   fi
