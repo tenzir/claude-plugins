@@ -71,4 +71,4 @@ jobs:
       - name: Add changelog entry
         uses: ./.github/actions/changelog-adder
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_CLAUDE_CODE_OAUTH_TOKEN || secrets.ANTHROPIC_API_KEY }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}

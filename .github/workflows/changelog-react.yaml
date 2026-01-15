@@ -46,7 +46,7 @@ jobs:
       - name: Process reaction
         uses: ./.github/actions/changelog-reactor
         with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_CLAUDE_CODE_OAUTH_TOKEN || secrets.ANTHROPIC_API_KEY }}
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           pr_number: ${{ inputs.pr_number }}
           comment_id: ${{ inputs.comment_id }}
