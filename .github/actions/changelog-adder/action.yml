@@ -1,9 +1,9 @@
 name: "Changelog Adder"
-description: "Add changelog entries to PRs using Claude Code"
+description: "Generate changelog entry suggestions for PRs using Claude Code"
 
 inputs:
-  anthropic_oauth_token:
-    description: "Claude Code OAuth token"
+  anthropic_api_key:
+    description: "Anthropic API key or OAuth token"
     required: true
   github_token:
     description: "GitHub token for PR operations"
@@ -11,54 +11,57 @@ inputs:
     default: ${{ github.token }}
 
 outputs:
-  entry_created:
-    description: "Whether a changelog entry was created"
-    value: ${{ steps.detect.outputs.created }}
-  entry_files:
-    description: "Newline-separated paths to changelog entries"
-    value: ${{ steps.check.outputs.files || steps.detect.outputs.files }}
+  suggestion_created:
+    description: "Whether a changelog suggestion was created"
+    value: ${{ steps.generate.outputs.has_suggestion }}
   skipped:
-    description: "Whether the action was skipped (entries already exist)"
+    description: "Whether the action was skipped (entries already exist or committed)"
     value: ${{ steps.check.outputs.skipped }}
 
 runs:
   using: "composite"
   steps:
-    # Step 1: Check if entries for this PR already exist
+    # Step 1: Check if entries for this PR already exist (committed)
     - name: Check for existing entries
       id: check
       shell: bash
       env:
         PR_NUMBER: ${{ github.event.pull_request.number }}
+        GH_TOKEN: ${{ inputs.github_token }}
       run: |
+        # Check for committed changelog files
         entry_files=$(find . -path "*/changelog/unreleased/*.md" -exec grep -l "^pr: $PR_NUMBER$" {} \; 2>/dev/null || true)
         if [ -n "$entry_files" ]; then
-          echo "Changelog entries for PR #$PR_NUMBER already exist:"
+          echo "Changelog entries for PR #$PR_NUMBER already committed:"
           echo "$entry_files"
           echo "skipped=true" >> $GITHUB_OUTPUT
-          {
-            echo "files<<EOF"
-            echo "$entry_files"
-            echo "EOF"
-          } >> $GITHUB_OUTPUT
-        else
-          echo "skipped=false" >> $GITHUB_OUTPUT
+          exit 0
         fi
 
-    # Step 2: Capture existing changelog files
+        # Check if there's already a pending suggestion comment
+        MARKER="<!-- changelog-adder-bot -->"
+        comment=$(gh pr view "$PR_NUMBER" --json comments --jq ".comments[] | select(.body | contains(\"$MARKER\")) | .body" 2>/dev/null | head -1 || true)
+        if [ -n "$comment" ] && echo "$comment" | grep -q "<!-- status:pending -->"; then
+          echo "Pending changelog suggestion already exists for PR #$PR_NUMBER"
+          echo "skipped=true" >> $GITHUB_OUTPUT
+          exit 0
+        fi
+
+        echo "skipped=false" >> $GITHUB_OUTPUT
+
+    # Step 2: Capture existing changelog files (to detect new ones)
     - name: Capture existing changelog files
       if: steps.check.outputs.skipped != 'true'
-      id: before
       shell: bash
       run: |
         find . -path "*/changelog/unreleased/*.md" -type f 2>/dev/null | sort > /tmp/changelog-before.txt
 
-    # Step 3: Run Claude with ship:adder agent
-    - name: Run Claude ship:adder
+    # Step 3: Run /ship:add to generate the entry (but don't commit)
+    - name: Generate changelog entry
       if: steps.check.outputs.skipped != 'true'
       uses: anthropics/claude-code-action@v1
       with:
-        claude_code_oauth_token: ${{ inputs.anthropic_oauth_token }}
+        anthropic_api_key: ${{ inputs.anthropic_api_key }}
         github_token: ${{ inputs.github_token }}
         prompt: |
           REPO: ${{ github.repository }}
@@ -66,43 +69,59 @@ runs:
           AUTHOR: ${{ github.event.pull_request.user.login }}
 
           Analyze this PR and run /ship:add if there are user-facing changes.
-          If you create an entry, commit it to this PR branch.
+
+          IMPORTANT: Do NOT commit anything. Just create the changelog entry file.
           If there are no user-facing changes, do nothing.
-        claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Edit,Skill"
+        claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Skill"
+        show_full_output: true
         plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
         plugins: |
           ship@tenzir
           git@tenzir
           prose@tenzir
 
-    # Step 4: Detect new changelog entries
-    - name: Detect new entries
+    # Step 4: Detect and stash the new entry file
+    - name: Detect new entry
       if: steps.check.outputs.skipped != 'true'
       id: detect
       shell: bash
+      env:
+        PR_NUMBER: ${{ github.event.pull_request.number }}
       run: |
         find . -path "*/changelog/unreleased/*.md" -type f 2>/dev/null | sort > /tmp/changelog-after.txt
-        new_files=$(comm -13 /tmp/changelog-before.txt /tmp/changelog-after.txt)
+        new_file=$(comm -13 /tmp/changelog-before.txt /tmp/changelog-after.txt | head -1)
 
-        if [ -z "$new_files" ]; then
-          echo "created=false" >> $GITHUB_OUTPUT
+        if [ -z "$new_file" ]; then
+          echo "No changelog entry created (no user-facing changes)"
+          echo "has_entry=false" >> $GITHUB_OUTPUT
           exit 0
         fi
 
-        echo "created=true" >> $GITHUB_OUTPUT
+        echo "New entry file: $new_file"
+        echo "has_entry=true" >> $GITHUB_OUTPUT
+        echo "entry_file=$new_file" >> $GITHUB_OUTPUT
+
+        # Read the entry content for embedding
+        entry_content=$(cat "$new_file")
         {
-          echo "files<<EOF"
-          echo "$new_files"
+          echo "entry_content<<EOF"
+          echo "$entry_content"
           echo "EOF"
         } >> $GITHUB_OUTPUT
 
-    # Step 5: Post PR comment
-    - name: Post PR comment
-      if: steps.check.outputs.skipped == 'true' || steps.detect.outputs.created == 'true'
+        # Remove the file (we'll recreate on accept)
+        # But keep a backup for the comment
+        cp "$new_file" /tmp/changelog-entry.md
+        rm "$new_file"
+        git checkout -- . 2>/dev/null || true
+
+    # Step 5: Post suggestion comment with entry content
+    - name: Post suggestion comment
+      if: steps.check.outputs.skipped != 'true' && steps.detect.outputs.has_entry == 'true'
       shell: bash
       env:
         GH_TOKEN: ${{ inputs.github_token }}
-        ENTRY_FILES: ${{ steps.check.outputs.files || steps.detect.outputs.files }}
         PR_NUMBER: ${{ github.event.pull_request.number }}
-        MODE: ${{ steps.check.outputs.skipped == 'true' && 'existing' || 'created' }}
+        ENTRY_FILE: ${{ steps.detect.outputs.entry_file }}
+        ENTRY_CONTENT: ${{ steps.detect.outputs.entry_content }}
       run: ${{ github.action_path }}/scripts/post-comment.sh
