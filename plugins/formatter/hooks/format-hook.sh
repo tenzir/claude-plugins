@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+CLANG_FORMAT_VERSION=21
+
 command -v jq &>/dev/null || exit 1
 
 stdin_data=$(cat)
@@ -8,10 +10,18 @@ FILE_PATH=$(echo "$stdin_data" | jq -r '.tool_input.file_path // .tool_output.fi
 [[ -z "$FILE_PATH" ]] && exit 0
 
 if [[ "$FILE_PATH" =~ \.(cpp|hpp|cpp\.in|hpp\.in)$ ]]; then
-  if command -v clang-format-21 &>/dev/null; then
-    clang-format-21 -i "$FILE_PATH"
-  else
-    echo "clang-format not found, skipping auto-formatting" >&2
+  if [[ "$(uname)" == "Linux" ]]; then
+    if command -v "clang-format-${CLANG_FORMAT_VERSION}" &>/dev/null; then
+      "clang-format-${CLANG_FORMAT_VERSION}" -i "$FILE_PATH"
+    else
+      echo "clang-format-${CLANG_FORMAT_VERSION} not found, skipping auto-formatting" >&2
+    fi
+  elif [[ "$(uname)" == "Darwin" ]]; then
+    if command -v clang-format &>/dev/null && clang-format --version 2>/dev/null | grep -q "clang-format version ${CLANG_FORMAT_VERSION}"; then
+      clang-format -i "$FILE_PATH"
+    else
+      echo "clang-format version ${CLANG_FORMAT_VERSION} not found, skipping auto-formatting" >&2
+    fi
   fi
 fi
 
