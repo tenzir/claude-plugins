@@ -73,7 +73,7 @@ runs:
           IMPORTANT: Do NOT commit anything. Just create the changelog entry file.
           If there are no user-facing changes, do nothing.
         claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Skill"
-        plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
+        plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git#${{ github.head_ref }}"
         plugins: |
           ship@tenzir
           git@tenzir
