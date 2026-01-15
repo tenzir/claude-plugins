@@ -108,7 +108,7 @@ runs:
 
           IMPORTANT: Do NOT commit anything. Just create the changelog entry file.
         claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Skill"
-        plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git#${{ github.head_ref }}"
+        plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
         plugins: |
           ship@tenzir
           git@tenzir
@@ -131,7 +131,7 @@ runs:
 
           IMPORTANT: Do NOT commit anything. Just create the changelog entry file.
         claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Skill"
-        plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git#${{ github.head_ref }}"
+        plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
         plugins: |
           ship@tenzir
           git@tenzir
@@ -154,7 +154,7 @@ runs:
 
           IMPORTANT: Do NOT commit anything. Just create the changelog entry file.
         claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Skill"
-        plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git#${{ github.head_ref }}"
+        plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
         plugins: |
           ship@tenzir
           git@tenzir
@@ -177,7 +177,7 @@ runs:
 
           IMPORTANT: Do NOT commit anything. Just create the changelog entry file.
         claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Skill"
-        plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git#${{ github.head_ref }}"
+        plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
         plugins: |
           ship@tenzir
           git@tenzir
