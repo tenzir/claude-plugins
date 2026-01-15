@@ -22,7 +22,7 @@ If there are no changes, stop.
 ## 2. Run linting
 
 ```bash
-cd .docs && pnpm lint:fix
+cd .docs && bun run lint:fix
 ```
 
 If linting fails, fix issues before proceeding. Skip `build:linkcheck`

@@ -51,7 +51,7 @@ Create or update documentation files in `.docs/`:
 Run linting and auto-fix trivial issues:
 
 ```bash
-cd .docs && pnpm lint:fix
+cd .docs && bun run lint:fix
 ```
 
 If there are remaining linting errors, show them to the user and ask how to

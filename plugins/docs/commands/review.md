@@ -21,7 +21,7 @@ If there are no changes, inform the user and stop.
 Start the local development server:
 
 ```bash
-cd .docs && pnpm dev
+cd .docs && bun run dev
 ```
 
 Tell the user the preview is available at `http://localhost:4321` and that they
