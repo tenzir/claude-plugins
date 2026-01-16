@@ -20,4 +20,10 @@ The `ocsf:guide` agent now fetches documentation directly from
 `docs.tenzir.com/reference/ocsf/` at startup, which ensures access to the
 latest schema documentation without requiring local generation.
 
-The agent model has been changed from Sonnet to Haiku for faster responses.
+The agent has been restructured with:
+
+- OCSF Primer moved to the top for early reference
+- Consolidated URL reference section
+- Clearer workflow for different question types ("which entity", "mapping X to
+  OCSF", "difference between X and Y")
+- Simplified response format guidance
