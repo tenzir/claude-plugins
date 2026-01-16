@@ -386,7 +386,7 @@ for plugin_dir in "$PLUGINS_DIR"/*/; do
       fi
 
       # Validate skills field references existing skills.
-      skills_field=$(awk '/^---$/{if(++n==2)exit}n==1' "$agent_file" | grep "^skills:" | sed 's/^skills: *//')
+      skills_field=$(awk '/^---$/{if(++n==2)exit}n==1' "$agent_file" | grep "^skills:" | sed 's/^skills: *//' || true)
       if [ -n "$skills_field" ]; then
         # Parse comma-separated skills list.
         IFS=',' read -ra skill_refs <<<"$skills_field"
