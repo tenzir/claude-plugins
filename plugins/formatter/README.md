@@ -10,7 +10,7 @@ Keeps your code consistently formatted without manual intervention.
 
 - 🔧 **Automatic**: Runs after every `Write` or `Edit` operation
 - 🌐 **Multi-language**: Supports C++, CMake, Shell, Markdown, JSON, YAML, and JS/TS
-- 🤫 **Silent**: Only warns when a formatter is missing
+- 🤫 **Non-blocking**: Errors are shown but never fail the hook
 
 ## 🔧 Configuration
 
@@ -22,13 +22,19 @@ The plugin uses these formatters and linters (install the ones you need):
 | `.cmake`, `CMakeLists.txt`                   | cmake-format | `pip install cmake-format`        |
 | `.sh`, `.bash`                               | shfmt        | `brew install shfmt`              |
 | `.md`, `.mdx`                                | markdownlint | `npm install -g markdownlint-cli` |
-| `.md`, `.mdx`, `.json`                       | prettier     | `npm install -g prettier`         |
+| `.md`, `.mdx`                                | prettier     | `npm install -g prettier`         |
+| `.json`                                      | biome        | `npm install -g @biomejs/biome`   |
+| `.json`                                      | prettier     | `npm install -g prettier`         |
 | `.yaml`, `.yml`                              | yamllint     | `pip install yamllint`            |
+| `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs`, `.cjs` | biome        | `npm install -g @biomejs/biome`   |
 | `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs`, `.cjs` | eslint       | `npm install -g eslint`           |
 
 Shell formatting uses `.editorconfig` settings when available, otherwise falls
 back to sensible defaults (2-space indent, switch case indentation, binary ops
 may start lines).
+
+For JavaScript/TypeScript and JSON files, Biome is preferred when available.
+Falls back to eslint (JS/TS) or prettier (JSON) if Biome is not installed.
 
 ## 🚀 Usage
 
@@ -54,14 +60,28 @@ Different file types trigger their respective formatters:
 | `CMakeLists.txt` | cmake-format                              |
 | `deploy.sh`      | shfmt (uses `.editorconfig` if available) |
 | `README.md`      | markdownlint, then prettier               |
-| `config.json`    | prettier                                  |
+| `config.json`    | biome (or prettier)                       |
 | `pipeline.yaml`  | yamllint (linting only)                   |
-| `app.tsx`        | eslint                                    |
+| `app.tsx`        | biome (or eslint)                         |
 
-If a formatter is missing, you get a warning but the edit still completes:
+If a formatter encounters an error, the message is shown but the hook continues
+without failing. Missing formatters are silently skipped.
 
-```
-cmake-format not found, skipping auto-formatting
-```
+## 📋 Hook Behavior
 
-Install the formatters you need and ignore the rest.
+The hook uses error suppression and output redirection to stay non-blocking:
+
+| Tool         | Suppress exit | Suppress stdout | Reason                              |
+| ------------ | ------------- | --------------- | ----------------------------------- |
+| clang-format | Yes           | No              | Silent on success, errors to stderr |
+| cmake-format | Yes           | No              | Silent on success, errors to stderr |
+| shfmt        | Yes           | No              | Silent on success, errors to stderr |
+| markdownlint | Yes           | Yes             | Outputs unfixable issues to stdout  |
+| prettier     | Yes           | Yes             | Outputs filenames to stdout         |
+| biome        | Yes           | Yes             | Outputs results to stdout           |
+| yamllint     | Yes           | Yes             | Outputs lint issues to stdout       |
+| eslint       | Yes           | Yes             | Outputs issues to stdout            |
+
+All tools suppress non-zero exits (`|| true`) because they fail on parse errors
+or unfixable issues. Tools that output to stdout get `>/dev/null` to keep the
+hook quiet while still showing stderr for actual failures.

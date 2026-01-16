@@ -9,35 +9,35 @@ FILE_PATH=$(echo "$stdin_data" | jq -r '.tool_input.file_path // .tool_output.fi
 
 if [[ "$FILE_PATH" =~ \.(cpp|hpp|cpp\.in|hpp\.in)$ ]]; then
   if command -v clang-format &>/dev/null; then
-    clang-format -i "$FILE_PATH"
-  else
-    echo "clang-format not found, skipping auto-formatting" >&2
+    clang-format -i "$FILE_PATH" || true
   fi
 fi
 
 if [[ "$FILE_PATH" =~ \.(cmake|CMakeLists\.txt)$ ]]; then
   if command -v cmake-format &>/dev/null; then
-    cmake-format --in-place "$FILE_PATH"
+    cmake-format --in-place "$FILE_PATH" || true
   elif command -v uv &>/dev/null; then
-    uv tool run cmake-format --in-place "$FILE_PATH"
-  else
-    echo "cmake-format not found, skipping auto-formatting" >&2
+    uv tool run cmake-format --in-place "$FILE_PATH" >/dev/null || true
   fi
 fi
 
 if [[ "$FILE_PATH" =~ \.(md|mdx)$ ]]; then
   if command -v markdownlint &>/dev/null; then
-    markdownlint "$FILE_PATH" --fix
-  else
-    echo "markdownlint not found, skipping auto-formatting" >&2
+    markdownlint --fix "$FILE_PATH" >/dev/null || true
   fi
 fi
 
-if [[ "$FILE_PATH" =~ \.(md|mdx|json)$ ]]; then
+if [[ "$FILE_PATH" =~ \.(md|mdx)$ ]]; then
   if command -v prettier &>/dev/null; then
-    prettier --write "$FILE_PATH"
-  else
-    echo "prettier not found, skipping auto-formatting" >&2
+    prettier --write "$FILE_PATH" >/dev/null || true
+  fi
+fi
+
+if [[ "$FILE_PATH" =~ \.(json)$ ]]; then
+  if command -v biome &>/dev/null; then
+    biome check --write "$FILE_PATH" >/dev/null || true
+  elif command -v prettier &>/dev/null; then
+    prettier --write "$FILE_PATH" >/dev/null || true
   fi
 fi
 
@@ -56,31 +56,27 @@ if [[ "$FILE_PATH" =~ \.(sh|bash)$ ]]; then
     done
     if $has_editorconfig; then
       # Let shfmt use .editorconfig settings
-      shfmt -w "$FILE_PATH"
+      shfmt -w "$FILE_PATH" || true
     else
       # Fallback defaults:
       # -i 2: indent with 2 spaces
       # -ci: indent switch cases
       # -bn: binary ops may start a line
-      shfmt -i 2 -ci -bn -w "$FILE_PATH"
+      shfmt -i 2 -ci -bn -w "$FILE_PATH" || true
     fi
-  else
-    echo "shfmt not found, skipping auto-formatting" >&2
   fi
 fi
 
 if [[ "$FILE_PATH" =~ \.(yaml|yml)$ ]]; then
   if command -v yamllint &>/dev/null; then
-    yamllint "$FILE_PATH"
-  else
-    echo "yamllint not found, skipping linting" >&2
+    yamllint "$FILE_PATH" >/dev/null || true
   fi
 fi
 
 if [[ "$FILE_PATH" =~ \.(js|jsx|ts|tsx|mjs|cjs)$ ]]; then
-  if command -v eslint &>/dev/null; then
-    eslint --fix "$FILE_PATH"
-  else
-    echo "eslint not found, skipping auto-formatting" >&2
+  if command -v biome &>/dev/null; then
+    biome check --write "$FILE_PATH" >/dev/null || true
+  elif command -v eslint &>/dev/null; then
+    eslint --fix "$FILE_PATH" >/dev/null || true
   fi
 fi
