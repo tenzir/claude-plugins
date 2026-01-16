@@ -1,3 +1,0 @@
-# Date/Time
-
-This profile defines date/time attributes as defined in RFC-3339. For example 1985-04-12T23:20:50.52Z.

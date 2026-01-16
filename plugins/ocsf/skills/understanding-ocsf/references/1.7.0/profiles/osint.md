@@ -1,9 +1,0 @@
-# OSINT
-
-The OSINT (Open Source Intelligence) profile contains one or more indicators and associated analysis and details, such as registrar (WHOIS) information and commentary about a hostname, or information about a digital certificate and its usage within a campaign. This information can be used to further enrich a detection or finding by providing decisioning support to other analysts and engineers within the profile itself.
-
-## Attributes
-
-| Attribute | Type | Requirement | Description |
-|-----------|------|-------------|-------------|
-| `osint` | object (osint) | required | OSINT |
