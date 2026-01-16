@@ -103,3 +103,5 @@ Remove the temporary description file on success.
 ## Summarize
 
 After creating the entry, provide a summary to the user.
+
+Do not commit the new entry automatically.
