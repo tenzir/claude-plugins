@@ -7,6 +7,7 @@ for managing changelog entries and orchestrating releases.
 
 - ➕ **Add Command**: Create changelog entries with `/ship:add`
 - 🚀 **Release Command**: Orchestrate releases with `/ship:release`
+- 🤖 **Adder Agent**: Non-interactive agent for CI automation of changelog entries
 
 ## 🚀 Usage
 
