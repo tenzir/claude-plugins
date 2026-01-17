@@ -2,7 +2,7 @@
 description: Add a changelog entry for recent changes (feature, bugfix, breaking, change).
 context: fork
 model: sonnet
-argument-hint: "breaking · feature · bugfix · change"
+argument-hint: "[breaking|feature|bugfix|change]"
 ---
 
 Begin by invoking the `prose:technical-writing` skill and reading about the
