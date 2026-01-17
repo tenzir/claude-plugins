@@ -10,6 +10,7 @@ Keeps your code consistently formatted without manual intervention.
 
 - 🔧 **Automatic**: Runs after every `Write` or `Edit` operation
 - 🌐 **Multi-language**: Supports C++, CMake, Shell, Markdown, JSON, YAML, and JS/TS
+- 🔍 **Project-aware**: Detects project config files to choose the right formatter
 - 🤫 **Non-blocking**: Errors are shown but never fail the hook
 
 ## 🔧 Configuration
@@ -28,13 +29,29 @@ The plugin uses these formatters and linters (install the ones you need):
 | `.yaml`, `.yml`                              | yamllint     | `pip install yamllint`            |
 | `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs`, `.cjs` | biome        | `npm install -g @biomejs/biome`   |
 | `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs`, `.cjs` | eslint       | `npm install -g eslint`           |
+| `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs`, `.cjs` | prettier     | `npm install -g prettier`         |
 
 Shell formatting uses `.editorconfig` settings when available, otherwise falls
 back to sensible defaults (2-space indent, switch case indentation, binary ops
 may start lines).
 
-For JavaScript/TypeScript and JSON files, Biome is preferred when available.
-Falls back to eslint (JS/TS) or prettier (JSON) if Biome is not installed.
+## 🔍 Config Detection
+
+The hook detects which formatter your project uses by searching for config files
+from the edited file's directory up to the filesystem root:
+
+| Tool     | Config files detected               |
+| -------- | ----------------------------------- |
+| Biome    | `biome.json`, `biome.jsonc`         |
+| ESLint   | `eslint.config.*`, `.eslintrc*`     |
+| Prettier | `.prettierrc*`, `prettier.config.*` |
+
+For JavaScript/TypeScript files, the hook checks for Biome config first, then
+ESLint, then Prettier. For JSON and Markdown files, it checks for Biome or
+Prettier config respectively.
+
+If no config is found, the hook skips formatting for that file type. This
+prevents applying wrong formatting rules to projects that use different tools.
 
 ## 🚀 Usage
 
@@ -54,18 +71,19 @@ Claude's edit had inconsistent spacing.
 
 Different file types trigger their respective formatters:
 
-| You edit...      | Formatter runs                            |
-| ---------------- | ----------------------------------------- |
-| `parser.cpp`     | clang-format                              |
-| `CMakeLists.txt` | cmake-format                              |
-| `deploy.sh`      | shfmt (uses `.editorconfig` if available) |
-| `README.md`      | markdownlint, then prettier               |
-| `config.json`    | biome (or prettier)                       |
-| `pipeline.yaml`  | yamllint (linting only)                   |
-| `app.tsx`        | biome (or eslint)                         |
+| You edit...      | Formatter runs                               |
+| ---------------- | -------------------------------------------- |
+| `parser.cpp`     | clang-format                                 |
+| `CMakeLists.txt` | cmake-format                                 |
+| `deploy.sh`      | shfmt (uses `.editorconfig` if available)    |
+| `README.md`      | markdownlint, then prettier (if config)      |
+| `config.json`    | biome or prettier (based on project config)  |
+| `pipeline.yaml`  | yamllint (linting only)                      |
+| `app.tsx`        | biome, eslint, or prettier (based on config) |
 
 If a formatter encounters an error, the message is shown but the hook continues
-without failing. Missing formatters are silently skipped.
+without failing. Missing formatters and unconfigured file types are silently
+skipped.
 
 ## 📋 Hook Behavior
 
