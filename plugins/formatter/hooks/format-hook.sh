@@ -2,47 +2,83 @@
 
 command -v jq &>/dev/null || exit 1
 
+# Check if a command exists
+has_cmd() {
+  command -v "$1" &>/dev/null
+}
+
+# Check if a config file exists by walking up from file's directory
+has_config() {
+  local file="$1"
+  shift
+  local patterns=("$@")
+  local dir
+  dir=$(dirname "$file")
+  while [[ "$dir" != "/" ]]; do
+    for pattern in "${patterns[@]}"; do
+      # shellcheck disable=SC2086
+      if ls "$dir"/$pattern &>/dev/null; then
+        return 0
+      fi
+    done
+    dir=$(dirname "$dir")
+  done
+  return 1
+}
+
+has_biome_config() {
+  has_config "$1" "biome.json" "biome.jsonc"
+}
+
+has_eslint_config() {
+  has_config "$1" "eslint.config.*" ".eslintrc*"
+}
+
+has_prettier_config() {
+  has_config "$1" ".prettierrc*" "prettier.config.*"
+}
+
 stdin_data=$(cat)
 FILE_PATH=$(echo "$stdin_data" | jq -r '.tool_input.file_path // .tool_output.file_path // empty' 2>/dev/null)
 
 [[ -z "$FILE_PATH" ]] && exit 0
 
 if [[ "$FILE_PATH" =~ \.(cpp|hpp|cpp\.in|hpp\.in)$ ]]; then
-  if command -v clang-format &>/dev/null; then
+  if has_cmd clang-format; then
     clang-format -i "$FILE_PATH" || true
   fi
 fi
 
 if [[ "$FILE_PATH" =~ \.(cmake|CMakeLists\.txt)$ ]]; then
-  if command -v cmake-format &>/dev/null; then
+  if has_cmd cmake-format; then
     cmake-format --in-place "$FILE_PATH" || true
-  elif command -v uv &>/dev/null; then
+  elif has_cmd uv; then
     uv tool run cmake-format --in-place "$FILE_PATH" >/dev/null || true
   fi
 fi
 
 if [[ "$FILE_PATH" =~ \.(md|mdx)$ ]]; then
-  if command -v markdownlint &>/dev/null; then
+  if has_cmd markdownlint; then
     markdownlint --fix "$FILE_PATH" >/dev/null || true
   fi
 fi
 
 if [[ "$FILE_PATH" =~ \.(md|mdx)$ ]]; then
-  if command -v prettier &>/dev/null; then
+  if has_prettier_config "$FILE_PATH" && has_cmd prettier; then
     prettier --write "$FILE_PATH" >/dev/null || true
   fi
 fi
 
 if [[ "$FILE_PATH" =~ \.(json)$ ]]; then
-  if command -v biome &>/dev/null; then
+  if has_biome_config "$FILE_PATH" && has_cmd biome; then
     biome check --write "$FILE_PATH" >/dev/null || true
-  elif command -v prettier &>/dev/null; then
+  elif has_prettier_config "$FILE_PATH" && has_cmd prettier; then
     prettier --write "$FILE_PATH" >/dev/null || true
   fi
 fi
 
 if [[ "$FILE_PATH" =~ \.(sh|bash)$ ]]; then
-  if command -v shfmt &>/dev/null; then
+  if has_cmd shfmt; then
     # Find .editorconfig by walking up from the file's directory to cwd
     dir=$(dirname "$FILE_PATH")
     cwd=$(pwd)
@@ -68,15 +104,17 @@ if [[ "$FILE_PATH" =~ \.(sh|bash)$ ]]; then
 fi
 
 if [[ "$FILE_PATH" =~ \.(yaml|yml)$ ]]; then
-  if command -v yamllint &>/dev/null; then
+  if has_cmd yamllint; then
     yamllint "$FILE_PATH" >/dev/null || true
   fi
 fi
 
 if [[ "$FILE_PATH" =~ \.(js|jsx|ts|tsx|mjs|cjs)$ ]]; then
-  if command -v biome &>/dev/null; then
+  if has_biome_config "$FILE_PATH" && has_cmd biome; then
     biome check --write "$FILE_PATH" >/dev/null || true
-  elif command -v eslint &>/dev/null; then
+  elif has_eslint_config "$FILE_PATH" && has_cmd eslint; then
     eslint --fix "$FILE_PATH" >/dev/null || true
+  elif has_prettier_config "$FILE_PATH" && has_cmd prettier; then
+    prettier --write "$FILE_PATH" >/dev/null || true
   fi
 fi
