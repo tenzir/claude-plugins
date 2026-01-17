@@ -1,10 +1,6 @@
 ---
 description: Write/update documentation for user-facing changes and new features
 argument-hint: "[topic]"
-args:
-  topic:
-    description: What to document (defaults to uncommitted changes or last commit)
-    required: false
 hooks:
   PreToolUse:
     - matcher: "Read|Edit|Write"

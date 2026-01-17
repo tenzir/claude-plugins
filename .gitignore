@@ -3,3 +3,6 @@
 
 # Generated OCSF content (committed via CI with git add -f)
 plugins/ocsf/skills/understanding-ocsf/references/
+
+# Code review output
+.review/
