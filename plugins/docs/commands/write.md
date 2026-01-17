@@ -5,6 +5,12 @@ args:
   topic:
     description: What to document (defaults to uncommitted changes or last commit)
     required: false
+hooks:
+  PreToolUse:
+    - matcher: "Read|Edit|Write"
+      hooks:
+        - type: command
+          command: "$CLAUDE_PLUGIN_ROOT/scripts/synchronize-docs.sh"
 ---
 
 # Write documentation
