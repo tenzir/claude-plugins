@@ -10,6 +10,8 @@ for managing changelog entries, orchestrating releases, and parallel code review
 - ✅ **Finalize Command**: Changelog, commit, and push with `/ship:finalize`
 - ➕ **Add Command**: Create changelog entries with `/ship:add`
 - 🚀 **Release Command**: Orchestrate releases with `/ship:release`
+- 🤖 **Preparer Agent**: Non-interactive agent for branch/worktree setup
+- 🤖 **Finalizer Agent**: Non-interactive agent for changelog, commit, and PR
 - 🤖 **Adder Agent**: Non-interactive agent for CI automation of changelog entries
 - 👁️ **Reviewer Agents**: Six specialized reviewers for parallel code review
 
