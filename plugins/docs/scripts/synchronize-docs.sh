@@ -120,7 +120,14 @@ if [[ "$current_branch" == "main" ]]; then
 else
   # On a topic branch
   if is_branch_merged "$current_branch"; then
-    warn "Branch '$current_branch' was merged to main, consider switching to main"
+    warn "Branch '$current_branch' was merged to main, switching to main"
+    git -C "$DOCS_DIR" switch main 2>/dev/null || {
+      warn "Failed to switch to main"
+      exit 0
+    }
+    git -C "$DOCS_DIR" pull --ff-only origin main 2>/dev/null || {
+      warn "Failed to pull latest changes"
+    }
   elif ! would_merge_cleanly; then
     block "origin/main has changes that conflict with branch '$current_branch'. Rebase onto origin/main to resolve."
   fi
