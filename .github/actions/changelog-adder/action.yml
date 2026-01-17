@@ -40,7 +40,7 @@ runs:
 
         # Check if there's already a pending suggestion comment
         MARKER="<!-- changelog-adder-bot -->"
-        comment=$(gh pr view "$PR_NUMBER" --json comments --jq ".comments[] | select(.body | contains(\"$MARKER\")) | .body" 2>/dev/null | head -1 || true)
+        comment=$(gh pr view "$PR_NUMBER" --json comments --jq "[.comments[] | select(.body | contains(\"$MARKER\"))] | first | .body // empty" 2>/dev/null || true)
         if [ -n "$comment" ] && echo "$comment" | grep -q "<!-- status:pending -->"; then
           echo "Pending changelog suggestion already exists for PR #$PR_NUMBER"
           echo "skipped=true" >> $GITHUB_OUTPUT
@@ -109,13 +109,7 @@ runs:
           echo "EOF"
         } >> $GITHUB_OUTPUT
 
-        # Remove the file (we'll recreate on accept)
-        # But keep a backup for the comment
-        cp "$new_file" /tmp/changelog-entry.md
-        rm "$new_file"
-        git checkout -- . 2>/dev/null || true
-
-    # Step 5: Post suggestion comment with entry content
+    # Step 5: Post suggestion comment (file still exists for tenzir-ship)
     - name: Post suggestion comment
       if: steps.check.outputs.skipped != 'true' && steps.detect.outputs.has_entry == 'true'
       shell: bash
@@ -125,3 +119,11 @@ runs:
         ENTRY_FILE: ${{ steps.detect.outputs.entry_file }}
         ENTRY_CONTENT: ${{ steps.detect.outputs.entry_content }}
       run: ${{ github.action_path }}/scripts/post-comment.sh
+
+    # Step 6: Clean up the entry file (will be recreated on accept)
+    - name: Clean up entry file
+      if: steps.check.outputs.skipped != 'true' && steps.detect.outputs.has_entry == 'true'
+      shell: bash
+      run: |
+        rm -f "${{ steps.detect.outputs.entry_file }}"
+        git checkout -- . 2>/dev/null || true
