@@ -1,7 +1,7 @@
 ---
 description: Guide through releasing a project with tenzir-ship (detect, stage, commit, publish, verify).
 context: fork
-argument-hint: "[patch|minor|major]"
+argument-hint: "patch · minor · major"
 ---
 
 ## Release context

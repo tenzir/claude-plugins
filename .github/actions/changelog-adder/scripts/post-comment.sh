@@ -66,8 +66,7 @@ ${rendered}
 
 ---
 
-**React to this comment:**
-👍 Accept | 👎 Reject | 😕 Regenerate | 🚀 Technical | 👀 Simpler | 😄 Cynical
+<sub>👍 Accept · 👎 Reject · 😕 Regenerate · 🚀 Technical · 👀 Simpler · 😄 Cynical</sub>
 EOF
 
 # Update existing comment or create new one
