@@ -127,6 +127,25 @@ This updates `pyproject.toml` and `uv.lock`.
 
 </project>
 
+<project type="node">
+
+Run with the bump type from step 2:
+
+```sh
+npm version patch|minor|major --no-git-tag-version
+```
+
+This updates `package.json`. Regenerate the lock file based on which one exists:
+
+| Lock file           | Command        |
+| ------------------- | -------------- |
+| `bun.lockb`         | `bun install`  |
+| `pnpm-lock.yaml`    | `pnpm install` |
+| `yarn.lock`         | `yarn install` |
+| `package-lock.json` | `npm install`  |
+
+</project>
+
 ### 5. Publish the release
 
 Preview the release notes:
