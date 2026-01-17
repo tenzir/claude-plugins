@@ -54,6 +54,11 @@ For JavaScript/TypeScript and JSON files, the hook checks for Biome config
 first, then ESLint (JS/TS only), then Prettier. If no config is found, the hook
 skips formatting for these file types.
 
+For C++ files, you can optionally add a `.clang-format-version` file containing
+the required major version (digits only, for example, `21`). If present, the
+hook only runs clang-format when the installed version matches; otherwise it
+skips formatting with a warning.
+
 ## 🚀 Usage
 
 The plugin runs automatically after every `Write` or `Edit` operation. No

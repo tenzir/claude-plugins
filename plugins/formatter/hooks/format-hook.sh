@@ -7,8 +7,7 @@ has_cmd() {
   command -v "$1" &>/dev/null
 }
 
-# Check if a config file exists by walking up from file's directory
-has_config() {
+find_config_file() {
   local file="$1"
   shift
   local patterns=("$@")
@@ -18,12 +17,38 @@ has_config() {
     for pattern in "${patterns[@]}"; do
       # shellcheck disable=SC2086
       if ls "$dir"/$pattern &>/dev/null; then
+        # shellcheck disable=SC2086
+        echo "$dir"/$pattern
         return 0
       fi
     done
     dir=$(dirname "$dir")
   done
   return 1
+}
+
+# Check if a config file exists by walking up from file's directory
+has_config() {
+  find_config_file "$@" &>/dev/null
+}
+
+get_clang_format_required_version() {
+  local file="$1"
+  local version_file
+  local version_raw
+  local version_parsed
+  version_file=$(find_config_file "$file" ".clang-format-version") || return 0
+  version_raw=$(head -n 1 "$version_file" 2>/dev/null | tr -d '\r')
+  if [[ -n "$version_raw" ]]; then
+    version_parsed=$(echo "$version_raw" | grep -Eo '[0-9]+' | head -n 1)
+    if [[ -n "$version_parsed" ]]; then
+      echo "$version_parsed"
+    else
+      echo "invalid"
+    fi
+  else
+    echo "invalid"
+  fi
 }
 
 has_biome_config() {
@@ -45,7 +70,19 @@ FILE_PATH=$(echo "$stdin_data" | jq -r '.tool_input.file_path // .tool_output.fi
 
 if [[ "$FILE_PATH" =~ \.(cpp|hpp|cpp\.in|hpp\.in)$ ]]; then
   if has_cmd clang-format; then
-    clang-format -i "$FILE_PATH" || true
+    required_version=$(get_clang_format_required_version "$FILE_PATH")
+    if [[ -z "$required_version" ]]; then
+      clang-format -i "$FILE_PATH" || true
+    elif [[ "$required_version" == "invalid" ]]; then
+      echo ".clang-format-version is invalid, skipping auto-formatting" >&2
+    else
+      clang_format_version=$(clang-format --version 2>/dev/null | sed -E 's/.*version ([0-9]+).*/\1/')
+      if [[ "$clang_format_version" == "$required_version" ]]; then
+        clang-format -i "$FILE_PATH" || true
+      else
+        echo "clang-format version mismatch (have ${clang_format_version}, need ${required_version}), skipping" >&2
+      fi
+    fi
   fi
 fi
 
