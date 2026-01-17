@@ -1,10 +1,6 @@
 ---
 description: Address GitHub PR review comments with commits
 argument-hint: "[pr-number]"
-args:
-  pr:
-    description: PR number (defaults to current branch's PR)
-    required: false
 ---
 
 # Address PR Review Comments
@@ -70,7 +66,7 @@ Present the grouping to the user for confirmation before proceeding.
 
 ## 4. Address each comment or group
 
-For each comment or group of comments:
+Process all comments or groups in sequence. For each one:
 
 ### 4.1 Understand the feedback
 
@@ -127,7 +123,7 @@ whether to resolve it.
 
 ## 5. Report summary
 
-Report:
+After processing all comments, display a summary and exit:
 
 - Number of comments addressed
 - Commits created

@@ -1,9 +1,18 @@
 #!/usr/bin/env bash
+#
+# Update a changelog suggestion comment after a reaction action.
+#
+# Required environment variables:
+#   PR_NUMBER  - The PR number
+#   COMMENT_ID - The comment ID to update
+#   ACTION     - The action that was performed (regenerate, more-technical, etc.)
+#   REACTOR    - The user who reacted
+#
 set -euo pipefail
 
-echo "Updating changelog comment for PR #$PR_NUMBER after $ACTION"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-MARKER="<!-- changelog-adder-bot -->"
+echo "Updating changelog comment for PR #$PR_NUMBER after $ACTION"
 
 # Detect the new entry file created by /ship:add
 find . -path "*/changelog/unreleased/*.md" -type f 2>/dev/null | sort > /tmp/changelog-after.txt
@@ -19,18 +28,6 @@ echo "New entry file: $new_file"
 # Read the new entry content
 entry_content=$(cat "$new_file")
 
-# Encode entry content and file path as base64
-entry_content_b64=$(echo "$entry_content" | base64 -w0 2>/dev/null || echo "$entry_content" | base64)
-entry_file_b64=$(echo "$new_file" | base64 -w0 2>/dev/null || echo "$new_file" | base64)
-
-# Render the entry using tenzir-ship for nice display
-module_root="${new_file%/changelog/*}"
-entry_id=$(basename "$new_file" .md)
-rendered=$(uvx tenzir-ship --root "$module_root" show "$entry_id" --markdown --explicit-links 2>/dev/null || echo "$entry_content")
-
-# Remove the "## 🔧 Changes" header if present
-rendered=$(echo "$rendered" | sed '1{/^## /d;}' | sed '1{/^$/d;}')
-
 # Get current comment to extract processed reactions
 current_comment=$(gh api "repos/{owner}/{repo}/issues/comments/$COMMENT_ID" -q .body)
 processed_match=$(echo "$current_comment" | grep -oP '<!-- processed-reactions:\K[^-]*' || true)
@@ -42,34 +39,23 @@ else
   processed="$ACTION:$REACTOR"
 fi
 
-# Determine action label for history
+# Determine action label for footer
 case "$ACTION" in
-  regenerate) action_label="🔄 Regenerated" ;;
-  more-technical) action_label="🚀 Made more technical" ;;
-  less-technical) action_label="👀 Simplified" ;;
-  more-cynical) action_label="😄 Added wit" ;;
+  regenerate) action_label="Regenerated" ;;
+  more-technical) action_label="Made more technical" ;;
+  less-technical) action_label="Simplified" ;;
+  more-cynical) action_label="Added wit" ;;
   *) action_label="Updated" ;;
 esac
 
-# Build the updated comment
-cat > /tmp/pr-comment.md << EOF
-${MARKER}
-<!-- entry-content:base64:${entry_content_b64} -->
-<!-- entry-file:base64:${entry_file_b64} -->
-<!-- status:pending -->
-<!-- processed-reactions:${processed} -->
+# Build the comment using shared script
+export ENTRY_FILE="$new_file"
+export ENTRY_CONTENT="$entry_content"
+export STATUS="pending"
+export PROCESSED="$processed"
+export FOOTER="<sub>👍 Accept · 👎 Reject · 😕 Regenerate · 🚀 Technical · 👀 Simpler · 😄 Cynical · ${action_label} by @${REACTOR}</sub>"
 
-## 📋 Changelog Suggestion
-
-${rendered}
-
----
-
-**React to this comment:**
-👍 Accept | 👎 Reject | 😕 Regenerate | 🚀 Technical | 👀 Simpler | 😄 Cynical
-
-<sub>${action_label} by @${REACTOR}</sub>
-EOF
+"$SCRIPT_DIR/../../../scripts/build-changelog-comment.sh" > /tmp/pr-comment.md
 
 # Update the comment
 gh api "repos/{owner}/{repo}/issues/comments/$COMMENT_ID" -X PATCH -F body=@/tmp/pr-comment.md

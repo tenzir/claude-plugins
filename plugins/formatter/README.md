@@ -17,19 +17,19 @@ Keeps your code consistently formatted without manual intervention.
 
 The plugin uses these formatters and linters (install the ones you need):
 
-| File Type                                    | Tool         | Install                           |
-| -------------------------------------------- | ------------ | --------------------------------- |
-| `.cpp`, `.hpp`, `.*pp.in`                    | clang-format | `brew install clang-format`       |
-| `.cmake`, `CMakeLists.txt`                   | cmake-format | `pip install cmake-format`        |
-| `.sh`, `.bash`                               | shfmt        | `brew install shfmt`              |
-| `.md`, `.mdx`                                | markdownlint | `npm install -g markdownlint-cli` |
-| `.md`, `.mdx`                                | prettier     | `npm install -g prettier`         |
-| `.json`                                      | biome        | `npm install -g @biomejs/biome`   |
-| `.json`                                      | prettier     | `npm install -g prettier`         |
-| `.yaml`, `.yml`                              | yamllint     | `pip install yamllint`            |
-| `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs`, `.cjs` | biome        | `npm install -g @biomejs/biome`   |
-| `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs`, `.cjs` | eslint       | `npm install -g eslint`           |
-| `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs`, `.cjs` | prettier     | `npm install -g prettier`         |
+| File Type                                    | Tool         | Config Required | Install                           |
+| -------------------------------------------- | ------------ | --------------- | --------------------------------- |
+| `.cpp`, `.hpp`, `.*pp.in`                    | clang-format | No              | `brew install clang-format`       |
+| `.cmake`, `CMakeLists.txt`                   | cmake-format | No              | `pip install cmake-format`        |
+| `.sh`, `.bash`                               | shfmt        | No              | `brew install shfmt`              |
+| `.md`, `.mdx`                                | markdownlint | No              | `npm install -g markdownlint-cli` |
+| `.md`, `.mdx`                                | prettier     | No              | `npm install -g prettier`         |
+| `.json`                                      | biome        | Yes             | `npm install -g @biomejs/biome`   |
+| `.json`                                      | prettier     | Yes             | `npm install -g prettier`         |
+| `.yaml`, `.yml`                              | yamllint     | No              | `pip install yamllint`            |
+| `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs`, `.cjs` | biome        | Yes             | `npm install -g @biomejs/biome`   |
+| `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs`, `.cjs` | eslint       | Yes             | `npm install -g eslint`           |
+| `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs`, `.cjs` | prettier     | Yes             | `npm install -g prettier`         |
 
 Shell formatting uses `.editorconfig` settings when available, otherwise falls
 back to sensible defaults (2-space indent, switch case indentation, binary ops
@@ -37,8 +37,12 @@ may start lines).
 
 ## 🔍 Config Detection
 
-The hook detects which formatter your project uses by searching for config files
-from the edited file's directory up to the filesystem root:
+Some formatters run unconditionally when installed (C++, CMake, Shell, Markdown,
+YAML). Others require a project config file to avoid applying wrong formatting
+rules.
+
+The hook searches for config files from the edited file's directory up to the
+filesystem root:
 
 | Tool     | Config files detected               |
 | -------- | ----------------------------------- |
@@ -46,12 +50,9 @@ from the edited file's directory up to the filesystem root:
 | ESLint   | `eslint.config.*`, `.eslintrc*`     |
 | Prettier | `.prettierrc*`, `prettier.config.*` |
 
-For JavaScript/TypeScript files, the hook checks for Biome config first, then
-ESLint, then Prettier. For JSON and Markdown files, it checks for Biome or
-Prettier config respectively.
-
-If no config is found, the hook skips formatting for that file type. This
-prevents applying wrong formatting rules to projects that use different tools.
+For JavaScript/TypeScript and JSON files, the hook checks for Biome config
+first, then ESLint (JS/TS only), then Prettier. If no config is found, the hook
+skips formatting for these file types.
 
 ## 🚀 Usage
 
@@ -76,7 +77,7 @@ Different file types trigger their respective formatters:
 | `parser.cpp`     | clang-format                                 |
 | `CMakeLists.txt` | cmake-format                                 |
 | `deploy.sh`      | shfmt (uses `.editorconfig` if available)    |
-| `README.md`      | markdownlint, then prettier (if config)      |
+| `README.md`      | markdownlint, then prettier                  |
 | `config.json`    | biome or prettier (based on project config)  |
 | `pipeline.yaml`  | yamllint (linting only)                      |
 | `app.tsx`        | biome, eslint, or prettier (based on config) |

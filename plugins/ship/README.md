@@ -1,15 +1,74 @@
 # Ship
 
 Release engineering for projects using the `tenzir-ship` CLI. Provides commands
-for managing changelog entries and orchestrating releases.
+for managing changelog entries, orchestrating releases, and parallel code review.
 
 ## ✨ Features
 
+- 🌱 **Prepare Command**: Start fresh with `/ship:prepare`
+- 🔍 **Review Command**: Parallel code review with `/ship:review`
+- ✅ **Finalize Command**: Changelog, commit, and push with `/ship:finalize`
 - ➕ **Add Command**: Create changelog entries with `/ship:add`
 - 🚀 **Release Command**: Orchestrate releases with `/ship:release`
+- 🤖 **Preparer Agent**: Non-interactive agent for branch/worktree setup
+- 🤖 **Finalizer Agent**: Non-interactive agent for changelog, commit, and PR
 - 🤖 **Adder Agent**: Non-interactive agent for CI automation of changelog entries
+- 👁️ **Reviewer Agents**: Six specialized reviewers for parallel code review
 
 ## 🚀 Usage
+
+### Preparing to Work
+
+Use `/ship:prepare` to start fresh:
+
+```
+/ship:prepare
+```
+
+This fetches the latest from origin and creates a topic branch. For isolated
+work, use a worktree:
+
+```
+/ship:prepare worktree
+```
+
+### Reviewing Changes
+
+Use `/ship:review` to run parallel code review:
+
+```
+/ship:review
+```
+
+Claude spawns six specialized reviewers in parallel:
+
+| Reviewer                     | Focus                     | Output                   |
+| ---------------------------- | ------------------------- | ------------------------ |
+| `@ship:reviewer-ux`          | User experience, clarity  | `.review/ux.md`          |
+| `@ship:reviewer-docs`        | Documentation quality     | `.review/docs.md`        |
+| `@ship:reviewer-tests`       | Test coverage, edge cases | `.review/tests.md`       |
+| `@ship:reviewer-arch`        | API design, modularity    | `.review/arch.md`        |
+| `@ship:reviewer-security`    | Input validation, secrets | `.review/security.md`    |
+| `@ship:reviewer-consistency` | Naming, code style        | `.review/consistency.md` |
+
+Each reviewer scores findings on a 0-100 confidence scale. Only findings with
+confidence 80+ are reported.
+
+**Scope auto-detection:**
+
+1. If staged changes exist → review staged only
+2. Else if unstaged changes exist → review unstaged
+3. Else → review entire branch since merge-base
+
+### Finalizing Changes
+
+Use `/ship:finalize` to wrap up your work:
+
+```
+/ship:finalize
+```
+
+This creates a changelog entry, commits all changes, and pushes to remote.
 
 ### Adding Entries
 
@@ -67,10 +126,20 @@ uvx tenzir-ship validate
 
 With the [Claude GitHub App](https://github.com/apps/claude) installed:
 
-- **Add entries**: Comment `@claude add a changelog entry` on any PR. The `adder` agent analyzes changes and creates a matching entry.
-- **Create releases**: Comment `@claude create a minor release` (or `major`/`patch`). The `releaser` agent runs the full release workflow autonomously.
+- **Add entries**: Comment `@claude add a changelog entry` on any PR. The app
+  spawns the `@ship:adder` agent to analyze changes and create a matching entry.
+- **Create releases**: Comment `@claude create a minor release` (or
+  `major`/`patch`). The app spawns the releaser agent to run the full workflow.
+
+The app parses comment intent and routes to the appropriate agent automatically.
 
 ## Requirements
 
 - [tenzir-ship](https://github.com/tenzir/ship) - Installable via `uvx` or `pip`
 - [Claude GitHub App](https://github.com/apps/claude) installed on the repository
+
+## Dependencies
+
+This plugin uses agents from other plugins:
+
+- `@git:committer` - Used by `/ship:finalize` and `/ship:add` to create commits

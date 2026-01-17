@@ -64,7 +64,7 @@ if [[ "$FILE_PATH" =~ \.(md|mdx)$ ]]; then
 fi
 
 if [[ "$FILE_PATH" =~ \.(md|mdx)$ ]]; then
-  if has_prettier_config "$FILE_PATH" && has_cmd prettier; then
+  if has_cmd prettier; then
     prettier --write "$FILE_PATH" >/dev/null || true
   fi
 fi
