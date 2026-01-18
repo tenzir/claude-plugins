@@ -6,3 +6,6 @@ plugins/ocsf/skills/understanding-ocsf/references/
 
 # Code review output
 .review/
+
+# Plan mode working directory
+.plans/

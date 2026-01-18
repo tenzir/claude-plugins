@@ -45,6 +45,11 @@
       "source": "./plugins/ocsf"
     },
     {
+      "name": "plan",
+      "description": "Review plans with external AI tools before implementation",
+      "source": "./plugins/plan"
+    },
+    {
       "name": "prose",
       "description": "Style guidelines for technical prose",
       "source": "./plugins/prose"

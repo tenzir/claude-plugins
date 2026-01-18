@@ -19,6 +19,7 @@ on:
           formatter@tenzir
           git@tenzir
           ocsf@tenzir
+          plan@tenzir
           prose@tenzir
           python@tenzir
           ship@tenzir
@@ -58,6 +59,7 @@ jobs:
             formatter@tenzir
             git@tenzir
             ocsf@tenzir
+            plan@tenzir
             prose@tenzir
             python@tenzir
             ship@tenzir
