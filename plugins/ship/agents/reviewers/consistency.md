@@ -1,5 +1,5 @@
 ---
-name: reviewer-consistency
+name: consistency
 description: Review naming conventions, code style, and patterns.
 tools: Read, Glob, Grep, Bash, Write
 model: haiku

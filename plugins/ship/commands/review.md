@@ -31,12 +31,12 @@ different scope, stage or unstage changes accordingly and run the command again.
 Launch all 6 reviewer agents **in parallel** using the Task tool. Pass the file
 list from scope detection to each agent in the prompt:
 
-- `@ship:reviewer-ux` - User experience, clarity, discoverability
-- `@ship:reviewer-docs` - Documentation quality, accuracy
-- `@ship:reviewer-tests` - Test coverage, edge cases
-- `@ship:reviewer-arch` - API design, modularity, complexity
-- `@ship:reviewer-security` - Input validation, injection, secrets
-- `@ship:reviewer-consistency` - Naming, code style, patterns
+- `@ship:reviewers:ux` - User experience, clarity, discoverability
+- `@ship:reviewers:docs` - Documentation quality, accuracy
+- `@ship:reviewers:tests` - Test coverage, edge cases
+- `@ship:reviewers:arch` - API design, modularity, complexity
+- `@ship:reviewers:security` - Input validation, injection, secrets
+- `@ship:reviewers:consistency` - Naming, code style, patterns
 
 Pass files as a comma-separated list of backtick-quoted paths:
 

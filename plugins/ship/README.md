@@ -42,14 +42,14 @@ Use `/ship:review` to run parallel code review:
 
 Claude spawns six specialized reviewers in parallel:
 
-| Reviewer                     | Focus                     | Output                   |
-| ---------------------------- | ------------------------- | ------------------------ |
-| `@ship:reviewer-ux`          | User experience, clarity  | `.review/ux.md`          |
-| `@ship:reviewer-docs`        | Documentation quality     | `.review/docs.md`        |
-| `@ship:reviewer-tests`       | Test coverage, edge cases | `.review/tests.md`       |
-| `@ship:reviewer-arch`        | API design, modularity    | `.review/arch.md`        |
-| `@ship:reviewer-security`    | Input validation, secrets | `.review/security.md`    |
-| `@ship:reviewer-consistency` | Naming, code style        | `.review/consistency.md` |
+| Reviewer                      | Focus                     | Output                   |
+| ----------------------------- | ------------------------- | ------------------------ |
+| `@ship:reviewers:ux`          | User experience, clarity  | `.review/ux.md`          |
+| `@ship:reviewers:docs`        | Documentation quality     | `.review/docs.md`        |
+| `@ship:reviewers:tests`       | Test coverage, edge cases | `.review/tests.md`       |
+| `@ship:reviewers:arch`        | API design, modularity    | `.review/arch.md`        |
+| `@ship:reviewers:security`    | Input validation, secrets | `.review/security.md`    |
+| `@ship:reviewers:consistency` | Naming, code style        | `.review/consistency.md` |
 
 Each reviewer scores findings on a 0-100 confidence scale. Only findings with
 confidence 80+ are reported.

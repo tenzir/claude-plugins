@@ -1,5 +1,5 @@
 ---
-name: reviewer-security
+name: security
 description: Review input validation, injection risks, and secrets exposure.
 tools: Read, Glob, Grep, Bash, Write
 model: sonnet

@@ -1,5 +1,5 @@
 ---
-name: reviewer-arch
+name: arch
 description: Review API design, modularity, and complexity.
 tools: Read, Glob, Grep, Bash, Write
 model: opus

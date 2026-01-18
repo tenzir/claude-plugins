@@ -1,5 +1,5 @@
 ---
-name: reviewer-docs
+name: docs
 description: Review documentation quality, accuracy, and completeness.
 tools: Read, Glob, Grep, Bash, Write
 model: sonnet

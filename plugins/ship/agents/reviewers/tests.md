@@ -1,5 +1,5 @@
 ---
-name: reviewer-tests
+name: tests
 description: Review test coverage, edge cases, and behavioral testing.
 tools: Read, Glob, Grep, Bash, Write
 model: haiku

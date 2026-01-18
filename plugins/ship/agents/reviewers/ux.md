@@ -1,5 +1,5 @@
 ---
-name: reviewer-ux
+name: ux
 description: Review user experience, clarity, and discoverability.
 tools: Read, Glob, Grep, Bash, Write
 model: haiku
