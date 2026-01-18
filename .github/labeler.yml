@@ -29,6 +29,10 @@ plugin:ocsf:
   - changed-files:
       - any-glob-to-any-file: plugins/ocsf/**
 
+plugin:plan:
+  - changed-files:
+      - any-glob-to-any-file: plugins/plan/**
+
 plugin:prose:
   - changed-files:
       - any-glob-to-any-file: plugins/prose/**
