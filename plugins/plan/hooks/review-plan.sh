@@ -6,15 +6,15 @@
 # containing tool_input and tool_output from the ExitPlanMode call.
 #
 # Output:
-#   - Exit 0 with JSON: Review passed, systemMessage contains results
-#   - Exit 2 with stderr: P1 critical issues found, blocks approval
+#   - Exit 0 with JSON: Review approved, systemMessage contains results
+#   - Exit 2 with stderr: Review blocked (P1/P2 issues or REVISE/BLOCK verdict)
 #
 # Environment variables:
-#   PLAN_REVIEW_DIR         - Directory containing plans (default: .plans)
-#   PLAN_REVIEW_TOOLS       - Comma-separated review tools (default: codex,gemini)
-#   PLAN_REVIEW_TIMEOUT     - Per-tool timeout in seconds (default: 120)
-#   PLAN_REVIEW_BLOCK_ON_P1 - Block on P1 findings (default: true)
-#   PLAN_REVIEW_SKIP        - Skip review entirely (default: false)
+#   PLAN_REVIEW_DIR     - Directory containing plans (default: .plans)
+#   PLAN_REVIEW_TOOLS   - Comma-separated review tools (default: codex,gemini)
+#   PLAN_REVIEW_TIMEOUT - Per-tool timeout in seconds (default: 120)
+#   PLAN_REVIEW_BLOCK   - Block on P1/P2 findings or REVISE/BLOCK verdict (default: true)
+#   PLAN_REVIEW_SKIP    - Skip review entirely (default: false)
 
 set -euo pipefail
 
@@ -33,7 +33,7 @@ fi
 # Configuration
 PLAN_DIR="${PLAN_REVIEW_DIR:-.plans}"
 TIMEOUT="${PLAN_REVIEW_TIMEOUT:-120}"
-BLOCK_ON_P1="${PLAN_REVIEW_BLOCK_ON_P1:-true}"
+BLOCK_ENABLED="${PLAN_REVIEW_BLOCK:-true}"
 SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 REVIEW_PROMPT="$SCRIPT_DIR/prompts/review.txt"
 
@@ -94,6 +94,10 @@ if [[ ${#available_tools[@]} -eq 0 ]]; then
   exit 0
 fi
 
+# Notify user that review is starting (stderr shown immediately)
+tools_list=$(IFS=,; echo "${available_tools[*]}" | sed 's/,/, /g')
+echo "Starting plan review with ${tools_list}..." >&2
+
 # Read the review prompt
 if [[ ! -f "$REVIEW_PROMPT" ]]; then
   output_json "Plan review skipped: prompt not found at $REVIEW_PROMPT"
@@ -127,19 +131,31 @@ $plan_content"
   local cmd_prefix=""
   [[ -n "$TIMEOUT_CMD" ]] && cmd_prefix="$TIMEOUT_CMD $TIMEOUT"
 
+  # Capture stdout (actual response) and stderr (banners/errors) separately.
+  # Only include stderr if command fails or stdout is empty.
+  # Pass prompt via stdin to avoid huge command line arguments in ps output.
+  local stderr_file="$RESULTS_DIR/$tool.stderr"
+  local exit_code=0
+
   case "$tool" in
     codex)
-      $cmd_prefix codex exec --full-auto \
-        "$full_prompt" > "$output_file" 2>&1 || true
+      echo "$full_prompt" | $cmd_prefix codex exec --full-auto - \
+        > "$output_file" 2> "$stderr_file" || exit_code=$?
       ;;
     gemini)
-      $cmd_prefix gemini "$full_prompt" > "$output_file" 2>&1 || true
+      echo "$full_prompt" | $cmd_prefix gemini \
+        > "$output_file" 2> "$stderr_file" || exit_code=$?
       ;;
     *)
-      # Generic: assume tool accepts prompt as argument
-      $cmd_prefix "$tool" "$full_prompt" > "$output_file" 2>&1 || true
+      echo "$full_prompt" | $cmd_prefix "$tool" \
+        > "$output_file" 2> "$stderr_file" || exit_code=$?
       ;;
   esac
+
+  # If command failed or stdout is empty, include stderr for debugging
+  if [[ $exit_code -ne 0 || ! -s "$output_file" ]]; then
+    cat "$stderr_file" >> "$output_file" 2>/dev/null || true
+  fi
 }
 
 # Run reviews in parallel
@@ -149,28 +165,32 @@ done
 wait
 
 # Aggregate results
-has_p1=false
+should_block=false
+block_reason=""
 all_output=""
 
 for tool in "${available_tools[@]}"; do
   output_file="$RESULTS_DIR/$tool.txt"
   if [[ -f "$output_file" && -s "$output_file" ]]; then
     tool_output=$(cat "$output_file")
-    all_output+="--- Review by $tool ---"$'\n'"$tool_output"$'\n\n'
+    all_output+="# Review by $tool"$'\n\n'"$tool_output"$'\n\n'
 
-    # Check for P1 findings or BLOCK verdict
-    if echo "$tool_output" | grep -qE '^\[P1\]|^### \[P1\]|VERDICT:.*BLOCK'; then
-      has_p1=true
+    # Check for blocking conditions: P1 findings, BLOCK verdict, or REVISE verdict
+    # Use word boundaries to avoid matching template text like "VERDICT: [APPROVE|REVISE|BLOCK]"
+    if echo "$tool_output" | grep -qE '^\[P1\]|^### \[P1\]|VERDICT:\s*BLOCK\s*$'; then
+      should_block=true
+      block_reason="P1 critical issues found"
+    elif echo "$tool_output" | grep -qE 'VERDICT:\s*REVISE\s*$'; then
+      should_block=true
+      block_reason="P2 issues require revision"
     fi
   fi
 done
 
-# Determine exit and output
-tools_list=$(IFS=,; echo "${available_tools[*]}" | sed 's/,/, /g')
-
-if [[ "$has_p1" == "true" && "$BLOCK_ON_P1" == "true" ]]; then
-  # Exit 2 blocks the tool; use JSON for consistent output
-  output_json "Plan review BLOCKED (${tools_list}): P1 critical issues found. $all_output"
+# Determine exit and output (tools_list already set above)
+if [[ "$should_block" == "true" && "$BLOCK_ENABLED" == "true" ]]; then
+  # Exit 2 blocks the tool; stderr is shown to Claude (JSON in stdout is ignored for exit 2)
+  echo "Plan review BLOCKED (${tools_list}): ${block_reason}."$'\n\n'"$all_output" >&2
   exit 2
 else
   # Exit 0 with JSON systemMessage adds review to Claude's context
