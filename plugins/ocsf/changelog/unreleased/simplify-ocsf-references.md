@@ -27,3 +27,7 @@ The agent has been restructured with:
 - Clearer workflow for different question types ("which entity", "mapping X to
   OCSF", "difference between X and Y")
 - Simplified response format guidance
+
+The guide agent uses Haiku for faster performance on typical OCSF lookups. This
+reverts the Sonnet upgrade from v0.1.1, which proved unnecessary for the
+agent's primarily reference-based queries
