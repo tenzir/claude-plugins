@@ -373,8 +373,10 @@ for plugin_dir in "$PLUGINS_DIR"/*/; do
 
   agents_dir="$plugin_dir/agents"
   if [ -d "$agents_dir" ]; then
-    for agent_file in "$agents_dir"/*.md; do
+    while IFS= read -r agent_file; do
       [ -f "$agent_file" ] || continue
+      # Get relative path from agents_dir for error messages.
+      agent_relpath="${agent_file#"$agents_dir/"}"
       agent_filename=$(basename "$agent_file" .md)
 
       validate_frontmatter "$agent_file" "name description"
@@ -382,7 +384,16 @@ for plugin_dir in "$PLUGINS_DIR"/*/; do
       # Check agent name in frontmatter matches filename.
       frontmatter_name=$(awk '/^---$/{if(++n==2)exit}n==1' "$agent_file" | grep "^name:" | sed 's/^name: *//')
       if [ -n "$frontmatter_name" ] && [ "$frontmatter_name" != "$agent_filename" ]; then
-        error "$plugin_name/agents/$agent_filename: name '$frontmatter_name' doesn't match filename"
+        error "$plugin_name/agents/$agent_relpath: name '$frontmatter_name' doesn't match filename"
+      fi
+
+      # Validate color field if present.
+      color_field=$(awk '/^---$/{if(++n==2)exit}n==1' "$agent_file" | grep "^color:" | sed 's/^color: *//' || true)
+      if [ -n "$color_field" ]; then
+        valid_colors="red blue green yellow purple orange pink cyan"
+        if ! echo "$valid_colors" | grep -qw "$color_field"; then
+          error "$plugin_name/agents/$agent_relpath: invalid color '$color_field' (must be one of: $valid_colors)"
+        fi
       fi
 
       # Validate skills field references existing skills.
@@ -408,11 +419,11 @@ for plugin_dir in "$PLUGINS_DIR"/*/; do
           # Check that the skill exists.
           skill_path="$PLUGINS_DIR/$skill_plugin/skills/$skill_name/SKILL.md"
           if [ ! -f "$skill_path" ]; then
-            error "$plugin_name/agents/$agent_filename: skill '$skill_ref' not found (expected $skill_path)"
+            error "$plugin_name/agents/$agent_relpath: skill '$skill_ref' not found (expected $skill_path)"
           fi
         done
       fi
-    done
+    done < <(find "$agents_dir" -name "*.md" -type f)
   fi
 
   # ---------------------------------------------------------------------------
