@@ -5,9 +5,9 @@
 # This hook executes AFTER Claude calls ExitPlanMode. It receives JSON on stdin
 # containing tool_input and tool_output from the ExitPlanMode call.
 #
-# Exit codes:
-#   0 - Success (review passed or non-critical issues found)
-#   2 - Blocking error (P1 critical issues found, shows stderr to user)
+# Output:
+#   - Exit 0 with JSON: Review passed, systemMessage contains results
+#   - Exit 2 with stderr: P1 critical issues found, blocks approval
 #
 # Environment variables:
 #   PLAN_REVIEW_DIR         - Directory containing plans (default: .plans)
@@ -18,8 +18,17 @@
 
 set -euo pipefail
 
+# Helper to output JSON result (requires jq)
+output_json() {
+  local message="$1"
+  jq -n --arg msg "$message" '{continue: true, systemMessage: $msg}'
+}
+
 # Skip if explicitly disabled
-[[ "${PLAN_REVIEW_SKIP:-false}" == "true" ]] && exit 0
+if [[ "${PLAN_REVIEW_SKIP:-false}" == "true" ]]; then
+  echo '{"continue": true}'
+  exit 0
+fi
 
 # Configuration
 PLAN_DIR="${PLAN_REVIEW_DIR:-.plans}"
@@ -33,8 +42,21 @@ has_cmd() {
   command -v "$1" &>/dev/null
 }
 
+# Cross-platform timeout (macOS uses gtimeout from coreutils)
+if has_cmd timeout; then
+  TIMEOUT_CMD="timeout"
+elif has_cmd gtimeout; then
+  TIMEOUT_CMD="gtimeout"
+else
+  # Fallback: no timeout, just run directly
+  TIMEOUT_CMD=""
+fi
+
 # Check for required tools
-has_cmd jq || exit 0
+if ! has_cmd jq; then
+  echo '{"continue": true}'
+  exit 0
+fi
 
 # Parse stdin to get context
 stdin_data=$(cat)
@@ -49,7 +71,10 @@ if [[ -z "$PLAN_FILE" || ! -f "$PLAN_FILE" ]]; then
 fi
 
 # Exit if no plan file found
-[[ -z "$PLAN_FILE" || ! -f "$PLAN_FILE" ]] && exit 0
+if [[ -z "$PLAN_FILE" || ! -f "$PLAN_FILE" ]]; then
+  echo '{"continue": true}'
+  exit 0
+fi
 
 # Parse configured tools
 IFS=',' read -ra REVIEW_TOOLS <<< "${PLAN_REVIEW_TOOLS:-codex,gemini}"
@@ -65,12 +90,13 @@ done
 
 # Exit gracefully if no tools available
 if [[ ${#available_tools[@]} -eq 0 ]]; then
+  echo '{"continue": true}'
   exit 0
 fi
 
 # Read the review prompt
 if [[ ! -f "$REVIEW_PROMPT" ]]; then
-  echo "Warning: Review prompt not found at $REVIEW_PROMPT" >&2
+  output_json "Plan review skipped: prompt not found at $REVIEW_PROMPT"
   exit 0
 fi
 
@@ -97,27 +123,26 @@ run_review() {
 
 $plan_content"
 
+  # Build command with optional timeout
+  local cmd_prefix=""
+  [[ -n "$TIMEOUT_CMD" ]] && cmd_prefix="$TIMEOUT_CMD $TIMEOUT"
+
   case "$tool" in
     codex)
-      timeout "$TIMEOUT" codex --quiet --approval-mode full-auto \
+      $cmd_prefix codex exec --full-auto \
         "$full_prompt" > "$output_file" 2>&1 || true
       ;;
     gemini)
-      timeout "$TIMEOUT" gemini "$full_prompt" > "$output_file" 2>&1 || true
+      $cmd_prefix gemini "$full_prompt" > "$output_file" 2>&1 || true
       ;;
     *)
       # Generic: assume tool accepts prompt as argument
-      timeout "$TIMEOUT" "$tool" "$full_prompt" > "$output_file" 2>&1 || true
+      $cmd_prefix "$tool" "$full_prompt" > "$output_file" 2>&1 || true
       ;;
   esac
 }
 
 # Run reviews in parallel
-echo "=== Plan Review ===" >&2
-echo "Reviewing: $PLAN_FILE" >&2
-echo "Tools: ${available_tools[*]}" >&2
-echo "" >&2
-
 for tool in "${available_tools[@]}"; do
   run_review "$tool" "$PLAN_FILE" &
 done
@@ -140,16 +165,19 @@ for tool in "${available_tools[@]}"; do
   fi
 done
 
-# Output combined review
-if [[ -n "$all_output" ]]; then
-  echo "$all_output" >&2
-fi
+# Determine exit and output
+tools_list=$(IFS=,; echo "${available_tools[*]}" | sed 's/,/, /g')
 
-# Determine exit code
 if [[ "$has_p1" == "true" && "$BLOCK_ON_P1" == "true" ]]; then
-  echo "Review: BLOCKING - P1 critical issues found" >&2
+  # Exit 2 blocks the tool; use JSON for consistent output
+  output_json "Plan review BLOCKED (${tools_list}): P1 critical issues found. $all_output"
   exit 2
 else
-  echo "Review: COMPLETE" >&2
+  # Exit 0 with JSON systemMessage adds review to Claude's context
+  if [[ -n "$all_output" ]]; then
+    output_json "Plan reviewed by ${tools_list}. $all_output"
+  else
+    output_json "Plan reviewed by ${tools_list} (no findings)."
+  fi
   exit 0
 fi

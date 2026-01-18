@@ -1,11 +1,8 @@
 #!/usr/bin/env bash
 #
-# PostToolUse hook for EnterPlanMode - Notifies user about plan review.
+# PreToolUse hook for ExitPlanMode - Notifies user that plan review is starting.
 #
-# This hook executes AFTER Claude enters plan mode to inform the user
-# that their plan will be reviewed by external AI tools upon exit.
-#
-# Output: JSON with systemMessage field (added to Claude's context)
+# Output: JSON with systemMessage field
 
 set -euo pipefail
 
@@ -26,7 +23,7 @@ done
 # Output JSON with systemMessage if tools are available
 if [[ ${#available_tools[@]} -gt 0 ]]; then
   tools_list=$(IFS=,; echo "${available_tools[*]}" | sed 's/,/, /g')
-  msg="Plan review enabled (${tools_list}). P1 findings will block approval."
+  msg="Starting plan review with ${tools_list}..."
   jq -n --arg msg "$msg" '{continue: true, systemMessage: $msg}'
 else
   echo '{"continue": true}'
