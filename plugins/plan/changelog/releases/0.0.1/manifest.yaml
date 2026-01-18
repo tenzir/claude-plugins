@@ -1,0 +1,6 @@
+created: 2026-01-18
+title: Automated Plan Review
+intro: >-
+  This release introduces the plan review plugin, which automatically evaluates
+
+  implementation plans using external AI tools when exiting plan mode.
