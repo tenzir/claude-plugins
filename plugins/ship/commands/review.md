@@ -22,13 +22,14 @@ Spawn specialized reviewers in parallel to analyze changes.
 
 Two hooks run automatically before the first tool call:
 
-1. **Scope detection** → outputs files to review:
-   - If staged changes exist → review staged only
-   - Else if unstaged or untracked files exist → review those
-   - Else → review branch changes since merge-base with main
-2. **Review directory** → creates `.reviews/<date>/<session_id>/`
+1. **Scope detection** → outputs scope, diff command, and files:
+   - `Scope: <description>` — what's being reviewed
+   - `Diff: <command>` — git diff command base (append files to run)
+   - File list, one per line
+2. **Review directory** → creates and outputs the path:
+   - `Review directory: <path>` — where reviewers write findings
 
-Use the scope output for the file list and the review directory for findings.
+Use the hook outputs for scope, diff command, file list, and review directory.
 To review a different scope, stage or unstage changes and run the command again.
 
 ## 2. Explore Project Context
@@ -62,8 +63,13 @@ context from the Explore agent, file list, and review directory:
 - `@ship:reviewers:readability` - Naming quality, idiomatic patterns, clarity
 - `@ship:reviewers:perf` - Performance, complexity, resource efficiency
 
-Pass each reviewer its to-be-reviewed files as list of backtick-quoted paths,
-and include the review direcotry:
+Pass each reviewer a prompt constructed from hook outputs:
+
+- File list and diff command base from `Diff:` line (append files to complete)
+- Review directory from `Review directory:` line
+- Replace `<reviewer>` with reviewer name (e.g., `security`, `ux`)
+
+Template:
 
 > ## Project
 >
@@ -72,11 +78,27 @@ and include the review direcotry:
 >
 > ## Scope
 >
-> Review these files: `src/foo.ts`, `src/bar.ts`
+> Review changes in: `src/foo.ts`, `src/bar.ts`
+>
+> Diff command:
+>
+> ```sh
+> git diff --cached -- src/foo.ts src/bar.ts
+> ```
+>
+> ## Workflow
+>
+> 1. Run the diff command above to see the changed hunks
+> 2. Focus your review on the changes shown in the diff
+> 3. Read full file context only when needed to understand changes
+> 4. Report line numbers from the original file, not diff output
+>
+> Note: With unstaged scope, files with no diff output are untracked (new)—review
+> them in full.
 >
 > ## Findings
 >
-> Write findings to: `<review_dir>/<aspect>.md`
+> Write findings to: `<review_dir>/<reviewer>.md`
 
 Wait for all reviewers to complete.
 

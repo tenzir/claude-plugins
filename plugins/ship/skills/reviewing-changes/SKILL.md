@@ -109,5 +109,7 @@ Avoid reporting:
 
 ## Review Scope
 
-Review only the files provided in the prompt. Do not emit findings from files
-outside the review scope.
+Focus on **changed code**. Do not emit findings for:
+
+- Files outside the review scope
+- Unchanged code unless directly related to the changes
