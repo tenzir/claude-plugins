@@ -116,16 +116,16 @@ Extract from each finding header:
 - **Confidence**: Percentage from `· {n}%`
 - **Reviewer**: Derived from filename (e.g., `security.md` → `security`)
 
-### Action Emoji
+### Severity Emoji
 
-Compute action emoji from severity and confidence:
+Map severity directly to color:
 
-| Emoji | Label     | Logic                                   |
-| ----- | --------- | --------------------------------------- |
-| 🔴    | critical  | P1-P2 with 80%+ confidence              |
-| 🟠    | important | P1 with <80% conf, or P3 with 80%+ conf |
-| 🟡    | minor     | P2-P3 with <80% conf, or P4 with 80%+   |
-| ⚪    | optional  | P4 with <80% confidence                 |
+| Severity | Emoji |
+| -------- | ----- |
+| P1       | 🔴    |
+| P2       | 🟠    |
+| P3       | 🟡    |
+| P4       | ⚪    |
 
 ### Category Emoji
 
@@ -146,26 +146,24 @@ Filter to confidence 80+ and display as compact inline format:
 ```markdown
 ## Review Findings
 
-🔴 P1 🛡️ SQL injection in user input handler (92%)
-🔴 P2 🛡️ Missing authentication check (88%)
-🟠 P3 🏗️ Inconsistent error handling (85%)
 🟡 P3 🧪 Missing edge case for empty input (82%)
-🟡 P4 👁️ Unclear variable name obscures intent (80%)
-⚪ P4 🚀 Unbounded loop in data processor (75%)
+🔴 P1 🛡️ SQL injection in user input handler (92%)
+⚪ P4 👁️ Unclear variable name obscures intent (80%)
+🟠 P2 🛡️ Missing authentication check (88%)
+🟡 P3 🏗️ Inconsistent error handling (85%)
 
-Legend: 🔴 critical · 🟠 important · 🟡 minor · ⚪ optional
+Severity: 🔴 P1 · 🟠 P2 · 🟡 P3 · ⚪ P4
 Categories: 🛡️ security · 🏗️ arch · 🧪 tests · 🎨 ux · 👁️ readability · 📖 docs · 🚀 perf
 ```
 
-Format: `{action_emoji} {severity} {category_emoji} {finding} ({confidence}%)`
+Format: `{severity_emoji} {severity} {category_emoji} {finding} ({confidence}%)`
 
 ### Sorting
 
-Sort findings by:
+Sort findings by urgency:
 
-1. Label priority: 🔴 → 🟠 → 🟡 → ⚪
-2. Severity: P1 → P2 → P3 → P4
-3. Confidence: descending
+1. Severity: P1 → P2 → P3 → P4
+2. Confidence: descending
 
 ## 5. Report Results
 
