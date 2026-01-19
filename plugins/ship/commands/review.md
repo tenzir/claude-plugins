@@ -39,7 +39,7 @@ mkdir -p "$review_dir"
 
 ## 3. Spawn Reviewers
 
-Launch all 6 reviewer agents **in parallel** using the Task tool. Pass the file
+Launch all 7 reviewer agents **in parallel** using the Task tool. Pass the file
 list and review directory to each agent in the prompt:
 
 - `@ship:reviewers:ux` - User experience, clarity, discoverability
@@ -47,7 +47,8 @@ list and review directory to each agent in the prompt:
 - `@ship:reviewers:tests` - Test coverage, edge cases
 - `@ship:reviewers:arch` - API design, modularity, complexity
 - `@ship:reviewers:security` - Input validation, injection, secrets
-- `@ship:reviewers:consistency` - Naming, code style, patterns
+- `@ship:reviewers:readability` - Naming quality, idiomatic patterns, clarity
+- `@ship:reviewers:perf` - Performance, complexity, resource efficiency
 
 Pass files as a comma-separated list of backtick-quoted paths, and include the
 review directory:
@@ -68,7 +69,7 @@ findings. Parse findings by extracting lines matching `### P{n} · title · {n}%
 Extract from each finding header:
 
 - **Severity**: `P1`, `P2`, `P3`, or `P4` from `### P{n}`
-- **Title**: Text between the two middle dots
+- **Title**: Text between the two dots
 - **Confidence**: Percentage from `· {n}%`
 - **Reviewer**: Derived from filename (e.g., `security.md` → `security`)
 
@@ -83,6 +84,18 @@ Compute action emoji from severity and confidence:
 | 🟡    | Consider    | P2-P3 with <80% conf, or P4 with 80%+   |
 | ⚪    | Optional    | P4 with <80% confidence                 |
 
+### Category Emoji
+
+| Category    | Emoji |
+| ----------- | ----- |
+| security    | 🛡️    |
+| arch        | 🏗️    |
+| tests       | 🧪    |
+| ux          | 🎨    |
+| readability | 👁️    |
+| docs        | 📖    |
+| perf        | 🚀    |
+
 ### Display Format
 
 Filter to confidence 80+ and display as compact inline format:
@@ -90,13 +103,18 @@ Filter to confidence 80+ and display as compact inline format:
 ```markdown
 ## Review Findings
 
-🔴 · P1 · SQL injection in user input handler · security · 92%
-🔴 · P2 · Missing authentication check · security · 88%
-🟠 · P3 · Inconsistent error handling · arch · 85%
-🟡 · P4 · Variable naming inconsistency · consistency · 82%
+🔴 P1 🛡️ SQL injection in user input handler (92%)
+🔴 P2 🛡️ Missing authentication check (88%)
+🟠 P3 🏗️ Inconsistent error handling (85%)
+🟡 P3 🧪 Missing edge case for empty input (82%)
+🟡 P4 👁️ Unclear variable name obscures intent (80%)
+⚪ P4 🚀 Unbounded loop in data processor (75%)
+
+Legend: 🔴 act now · 🟠 investigate · 🟡 consider · ⚪ optional
+Categories: 🛡️ security · 🏗️ arch · 🧪 tests · 🎨 ux · 👁️ readability · 📖 docs · 🚀 perf
 ```
 
-Format: `{action_emoji} · {severity} · {finding} · {reviewer} · {confidence}%`
+Format: `{action_emoji} {severity} {category_emoji} {finding} ({confidence}%)`
 
 ### Sorting
 
