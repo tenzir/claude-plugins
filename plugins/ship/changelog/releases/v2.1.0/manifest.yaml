@@ -1,0 +1,7 @@
+created: 2026-01-19
+title: Two-Dimensional Code Reviews
+intro: >-
+  This release improves code reviews with a two-dimensional rating system that separates
+  severity from confidence. It also adds support for Claude Code plugin and Node.js
+  project types during releases, and saves review output persistently in a hierarchical
+  directory structure.
