@@ -61,20 +61,50 @@ Wait for all reviewers to complete.
 ## 4. Collect and Display Findings
 
 Read all `<review_dir>/*.md` files. These contain the complete review with all
-findings. Parse findings by extracting lines with confidence scores in brackets
-(e.g., `### [95] Finding title`).
+findings. Parse findings by extracting lines matching `### P{n} · title · {n}%`.
 
-Filter to confidence 80+ for the summary display:
+### Parsing
+
+Extract from each finding header:
+
+- **Severity**: `P1`, `P2`, `P3`, or `P4` from `### P{n}`
+- **Title**: Text between the two middle dots
+- **Confidence**: Percentage from `· {n}%`
+- **Reviewer**: Derived from filename (e.g., `security.md` → `security`)
+
+### Action Emoji
+
+Compute action emoji from severity and confidence:
+
+| Emoji | Action      | Logic                                   |
+| ----- | ----------- | --------------------------------------- |
+| 🔴    | Act now     | P1-P2 with 80%+ confidence              |
+| 🟠    | Investigate | P1 with <80% conf, or P3 with 80%+ conf |
+| 🟡    | Consider    | P2-P3 with <80% conf, or P4 with 80%+   |
+| ⚪    | Optional    | P4 with <80% confidence                 |
+
+### Display Format
+
+Filter to confidence 80+ and display as compact inline format:
 
 ```markdown
 ## Review Findings
 
-| Score | Reviewer | Finding                           |
-| ----- | -------- | --------------------------------- |
-| 95    | security | Hardcoded API key in config       |
-| 88    | tests    | Missing edge case for empty input |
-| 82    | arch     | Tight coupling between modules    |
+🔴 · P1 · SQL injection in user input handler · security · 92%
+🔴 · P2 · Missing authentication check · security · 88%
+🟠 · P3 · Inconsistent error handling · arch · 85%
+🟡 · P4 · Variable naming inconsistency · consistency · 82%
 ```
+
+Format: `{action_emoji} · {severity} · {finding} · {reviewer} · {confidence}%`
+
+### Sorting
+
+Sort findings by:
+
+1. Action priority: 🔴 → 🟠 → 🟡 → ⚪
+2. Severity: P1 → P2 → P3 → P4
+3. Confidence: descending
 
 ## 5. Report Results
 

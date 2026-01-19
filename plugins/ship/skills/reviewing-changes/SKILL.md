@@ -8,18 +8,40 @@ description: Review methodology for code changes with confidence scoring.
 Review code changes with confidence-scored findings. This skill defines the
 methodology for specialized reviewers.
 
-## Confidence Scoring
+## Two Rating Dimensions
 
-Score each finding on a 0-100 scale:
+### Severity Rating
 
-| Score    | Severity   | Action                      |
-| -------- | ---------- | --------------------------- |
-| 91-100   | Critical   | Must fix before shipping    |
-| 81-90    | Important  | Should fix, high confidence |
-| 71-80    | Borderline | Filtered out by threshold   |
-| Below 70 | Low        | Likely false positive       |
+Rate each finding's impact independently from confidence:
+
+| Severity | Emoji | Impact                                          |
+| -------- | ----- | ----------------------------------------------- |
+| P1       | 🔴    | Critical — security, data loss, crashes         |
+| P2       | 🟠    | Important — broken features, significant bugs   |
+| P3       | 🟡    | Minor — edge cases, small bugs, inconsistencies |
+| P4       | ⚪    | Trivial — cosmetic, style, optional             |
+
+### Confidence Scoring
+
+Score certainty that the finding is real on a 0-100 scale:
+
+| Score    | Certainty | Meaning                   |
+| -------- | --------- | ------------------------- |
+| 91-100   | Very high | Definitely an issue       |
+| 81-90    | High      | Almost certainly an issue |
+| 71-80    | Moderate  | Likely an issue           |
+| Below 70 | Low       | Possibly a false positive |
 
 Only report findings with confidence 80 or higher.
+
+### Independence of Dimensions
+
+Confidence measures certainty; severity measures impact. Examples:
+
+- P1 + 95% = Critical issue, definitely real
+- P1 + 75% = Potentially critical, needs investigation
+- P4 + 95% = Trivial issue, definitely real
+- P4 + 60% = Trivial issue, might be wrong
 
 ### Scoring Criteria
 
@@ -50,17 +72,19 @@ Brief overall assessment (2-3 sentences).
 
 ## Findings
 
-### [95] <Finding title>
+### P1 · SQL injection vulnerability · 95%
 
 - **File**: `path/to/file.ts:45-52`
-- **Confidence**: 95/100 (Critical)
-- **Issue**: Clear description of the problem
-- **Suggestion**: Actionable fix recommendation
+- **Severity**: P1 — Critical
+- **Confidence**: 95%
+- **Issue**: User input passed directly to SQL query
+- **Suggestion**: Use parameterized queries
 
-### [85] <Another finding>
+### P3 · Missing null check · 85%
 
 - **File**: `path/to/file.ts:120`
-- **Confidence**: 85/100 (Important)
+- **Severity**: P3 — Minor
+- **Confidence**: 85%
 - **Issue**: Description
 - **Suggestion**: Recommendation
 
@@ -69,7 +93,7 @@ Brief overall assessment (2-3 sentences).
 Note things done well to provide balanced feedback.
 ```
 
-The bracketed score `[95]` enables automated parsing and filtering.
+The `### P{n} · title · {n}%` pattern enables automated parsing and filtering.
 
 ## Actionability Criteria
 
