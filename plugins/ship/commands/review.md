@@ -26,10 +26,21 @@ unstaged=$(git diff --name-only)
 Report the detected scope to the user before spawning reviewers. To review a
 different scope, stage or unstage changes accordingly and run the command again.
 
-## 2. Spawn Reviewers
+## 2. Create Review Directory
+
+Create a persistent review directory with hierarchical structure:
+
+```sh
+date_dir=$(date +%Y-%m-%d)
+session_id="${CLAUDE_SESSION_ID:-$(date +%H%M%S)}"
+review_dir=".reviews/$date_dir/$session_id"
+mkdir -p "$review_dir"
+```
+
+## 3. Spawn Reviewers
 
 Launch all 6 reviewer agents **in parallel** using the Task tool. Pass the file
-list from scope detection to each agent in the prompt:
+list and review directory to each agent in the prompt:
 
 - `@ship:reviewers:ux` - User experience, clarity, discoverability
 - `@ship:reviewers:docs` - Documentation quality, accuracy
@@ -38,18 +49,22 @@ list from scope detection to each agent in the prompt:
 - `@ship:reviewers:security` - Input validation, injection, secrets
 - `@ship:reviewers:consistency` - Naming, code style, patterns
 
-Pass files as a comma-separated list of backtick-quoted paths:
+Pass files as a comma-separated list of backtick-quoted paths, and include the
+review directory:
 
 > Review these files: `src/foo.ts`, `src/bar.ts`
+>
+> Write findings to: `<review_dir>/<aspect>.md`
 
-Wait for all reviewers to complete. Each writes findings to `.review/<aspect>.md`.
+Wait for all reviewers to complete.
 
-## 3. Collect and Display Findings
+## 4. Collect and Display Findings
 
-Read all `.review/*.md` files. Parse findings by extracting lines with
-confidence scores in brackets (e.g., `### [95] Finding title`).
+Read all `<review_dir>/*.md` files. These contain the complete review with all
+findings. Parse findings by extracting lines with confidence scores in brackets
+(e.g., `### [95] Finding title`).
 
-Filter to confidence 80+. Display a summary table:
+Filter to confidence 80+ for the summary display:
 
 ```markdown
 ## Review Findings
@@ -61,20 +76,14 @@ Filter to confidence 80+. Display a summary table:
 | 82    | arch     | Tight coupling between modules    |
 ```
 
-## 4. Report Results
+## 5. Report Results
 
 If **actionable findings exist** (confidence 80+):
 
 - Display the findings summary
+- Report the review directory path where full reviews are saved
 
 If **no actionable findings**:
 
 - Display "No actionable findings" message
-
-## 5. Clean Up
-
-Remove the review directory:
-
-```sh
-rm -rf .review/
-```
+- Report the review directory path where full reviews are saved

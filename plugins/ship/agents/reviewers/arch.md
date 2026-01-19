@@ -21,4 +21,4 @@ Review the provided files for architectural quality.
 
 Focus on public interfaces and module boundaries.
 
-Write findings to `.review/arch.md`. Only report issues with confidence 80+.
+Write all findings to the review directory specified in the prompt, with confidence scores for each issue.

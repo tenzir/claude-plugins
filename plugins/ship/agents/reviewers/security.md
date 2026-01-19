@@ -21,4 +21,4 @@ Review the provided files for security concerns.
 
 Scan for security-sensitive patterns and hardcoded secrets.
 
-Write findings to `.review/security.md`. Only report issues with confidence 80+.
+Write all findings to the review directory specified in the prompt, with confidence scores for each issue.

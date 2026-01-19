@@ -22,4 +22,4 @@ Review the provided files for documentation quality.
 For code changes, check if corresponding docs exist and are updated. For doc
 changes, verify accuracy against the code.
 
-Write findings to `.review/docs.md`. Only report issues with confidence 80+.
+Write all findings to the review directory specified in the prompt, with confidence scores for each issue.

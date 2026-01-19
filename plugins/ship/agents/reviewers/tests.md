@@ -21,4 +21,4 @@ Review the provided files for test coverage and quality.
 
 Identify changed source files and check for missing test coverage.
 
-Write findings to `.review/tests.md`. Only report issues with confidence 80+.
+Write all findings to the review directory specified in the prompt, with confidence scores for each issue.

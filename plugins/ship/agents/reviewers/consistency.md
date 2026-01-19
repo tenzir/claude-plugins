@@ -19,4 +19,4 @@ Review the provided files for style and convention adherence.
 4. **Formatting**: Is code properly formatted?
 5. **Comments**: Are comments useful and not redundant?
 
-Write findings to `.review/consistency.md`. Only report issues with confidence 80+.
+Write all findings to the review directory specified in the prompt, with confidence scores for each issue.

@@ -19,4 +19,4 @@ Review the provided files for user experience quality.
 4. **Feedback**: Do operations provide clear status and progress indicators?
 5. **Defaults**: Are default values sensible for common use cases?
 
-Write findings to `.review/ux.md`. Only report issues with confidence 80+.
+Write all findings to the review directory specified in the prompt, with confidence scores for each issue.
