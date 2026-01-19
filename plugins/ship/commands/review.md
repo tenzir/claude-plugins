@@ -2,45 +2,57 @@
 description: Run parallel code review on changes
 context: fork
 model: sonnet
+hooks:
+  PreToolUse:
+    - matcher: "*"
+      hooks:
+        - type: command
+          command: "$CLAUDE_PLUGIN_ROOT/scripts/detect-review-scope.sh"
+          once: true
+        - type: command
+          command: "$CLAUDE_PLUGIN_ROOT/scripts/create-review-dir.sh"
+          once: true
 ---
 
 # Review Changes
 
 Spawn specialized reviewers in parallel to analyze changes.
 
-## 1. Detect Scope
+## 1. Setup (via hooks)
 
-Determine what to review using auto-detection:
+Two hooks run automatically before the first tool call:
 
-```sh
-staged=$(git diff --cached --name-only)
-unstaged=$(git diff --name-only)
-```
+1. **Scope detection** → outputs files to review:
+   - If staged changes exist → review staged only
+   - Else if unstaged or untracked files exist → review those
+   - Else → review branch changes since merge-base with main
+2. **Review directory** → creates `.reviews/<date>/<session_id>/`
 
-**Priority:**
+Use the scope output for the file list and the review directory for findings.
+To review a different scope, stage or unstage changes and run the command again.
 
-1. If staged changes exist → review staged only
-2. Else if unstaged changes exist → review unstaged
-3. Else → review branch (since merge-base)
+## 2. Explore Project Context
 
-Report the detected scope to the user before spawning reviewers. To review a
-different scope, stage or unstage changes accordingly and run the command again.
+Launch the Explore agent to gather project context before spawning reviewers.
 
-## 2. Create Review Directory
+Prompt:
 
-Create a persistent review directory with hierarchical structure:
+> Briefly describe this project for code reviewers. Check the repository root
+> for config files (package.json, Cargo.toml, pyproject.toml, Dockerfile, etc.)
+> and skim the README intro.
+>
+> Return 2-3 sentences describing:
+>
+> - What the project is and does
+> - Key characteristics relevant to code review (e.g., static site generator,
+>   CLI tool, library, web service, build tooling)
 
-```sh
-date_dir=$(date +%Y-%m-%d)
-session_id="${CLAUDE_SESSION_ID:-$(date +%H%M%S)}"
-review_dir=".reviews/$date_dir/$session_id"
-mkdir -p "$review_dir"
-```
+Wait for the agent to complete and capture its output.
 
 ## 3. Spawn Reviewers
 
-Launch all 7 reviewer agents **in parallel** using the Task tool. Pass the file
-list and review directory to each agent in the prompt:
+Launch all reviewer agents in parallel using the Task tool. Pass the project
+context from the Explore agent, file list, and review directory:
 
 - `@ship:reviewers:ux` - User experience, clarity, discoverability
 - `@ship:reviewers:docs` - Documentation quality, accuracy
@@ -50,10 +62,19 @@ list and review directory to each agent in the prompt:
 - `@ship:reviewers:readability` - Naming quality, idiomatic patterns, clarity
 - `@ship:reviewers:perf` - Performance, complexity, resource efficiency
 
-Pass files as a comma-separated list of backtick-quoted paths, and include the
-review directory:
+Pass each reviewer its to-be-reviewed files as list of backtick-quoted paths,
+and include the review direcotry:
 
+> ## Project
+>
+> Description about the project, allowing for calibration of relevance of
+> findings.
+>
+> ## Scope
+>
 > Review these files: `src/foo.ts`, `src/bar.ts`
+>
+> ## Findings
 >
 > Write findings to: `<review_dir>/<aspect>.md`
 
@@ -77,12 +98,12 @@ Extract from each finding header:
 
 Compute action emoji from severity and confidence:
 
-| Emoji | Action      | Logic                                   |
-| ----- | ----------- | --------------------------------------- |
-| 🔴    | Act now     | P1-P2 with 80%+ confidence              |
-| 🟠    | Investigate | P1 with <80% conf, or P3 with 80%+ conf |
-| 🟡    | Consider    | P2-P3 with <80% conf, or P4 with 80%+   |
-| ⚪    | Optional    | P4 with <80% confidence                 |
+| Emoji | Label     | Logic                                   |
+| ----- | --------- | --------------------------------------- |
+| 🔴    | critical  | P1-P2 with 80%+ confidence              |
+| 🟠    | important | P1 with <80% conf, or P3 with 80%+ conf |
+| 🟡    | minor     | P2-P3 with <80% conf, or P4 with 80%+   |
+| ⚪    | optional  | P4 with <80% confidence                 |
 
 ### Category Emoji
 
@@ -110,7 +131,7 @@ Filter to confidence 80+ and display as compact inline format:
 🟡 P4 👁️ Unclear variable name obscures intent (80%)
 ⚪ P4 🚀 Unbounded loop in data processor (75%)
 
-Legend: 🔴 act now · 🟠 investigate · 🟡 consider · ⚪ optional
+Legend: 🔴 critical · 🟠 important · 🟡 minor · ⚪ optional
 Categories: 🛡️ security · 🏗️ arch · 🧪 tests · 🎨 ux · 👁️ readability · 📖 docs · 🚀 perf
 ```
 
@@ -120,7 +141,7 @@ Format: `{action_emoji} {severity} {category_emoji} {finding} ({confidence}%)`
 
 Sort findings by:
 
-1. Action priority: 🔴 → 🟠 → 🟡 → ⚪
+1. Label priority: 🔴 → 🟠 → 🟡 → ⚪
 2. Severity: P1 → P2 → P3 → P4
 3. Confidence: descending
 

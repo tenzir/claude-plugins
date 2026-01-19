@@ -58,6 +58,7 @@ Deduct points for:
 - Edge cases unlikely to occur in practice (-15)
 - Style preferences not backed by convention (-15)
 - Issues the codebase already handles elsewhere (-10)
+- Concern doesn't apply to this project context (-20 to -40)
 
 ## Output Format
 
@@ -87,10 +88,6 @@ Brief overall assessment (2-3 sentences).
 - **Confidence**: 85%
 - **Issue**: Description
 - **Suggestion**: Recommendation
-
-## Positive Observations
-
-Note things done well to provide balanced feedback.
 ```
 
 The `### P{n} · title · {n}%` pattern enables automated parsing and filtering.
@@ -109,18 +106,8 @@ Avoid reporting:
 - Hypothetical future problems
 - Matters of personal taste
 - Issues outside the changed code
-- Problems that require architectural changes
 
 ## Review Scope
 
-Review only the files provided in the prompt. Don't review other files.
-
-## Model Selection
-
-Reviewer agents use different models based on review complexity:
-
-- **opus**: Architecture review requires nuanced judgment about design tradeoffs
-- **sonnet**: Security and docs need thorough analysis with good reasoning
-- **haiku**: UX, tests, and consistency are pattern-matching tasks
-
-This balances cost, speed, and capability across the six parallel reviewers.
+Review only the files provided in the prompt. Do not emit findings from files
+outside the review scope.
