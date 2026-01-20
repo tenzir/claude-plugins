@@ -1,5 +1,14 @@
 ---
 description: Create a pull request for documentation changes in .docs/
+hooks:
+  PreToolUse:
+    - matcher: "Read|Edit|Write|Glob|Grep"
+      hooks:
+        - type: command
+          command: "$CLAUDE_PLUGIN_ROOT/scripts/synchronize-docs.sh --init"
+          once: true
+        - type: command
+          command: "$CLAUDE_PLUGIN_ROOT/scripts/synchronize-docs.sh"
 ---
 
 # Create Documentation PR
@@ -11,34 +20,17 @@ At any step, if there are errors, report them and stop.
 
 ## 1. Verify changes
 
-Check for uncommitted changes in `.docs/`:
-
-```bash
-cd .docs && git status --porcelain
-```
-
-If there are no changes, stop.
+Check for uncommitted changes in `.docs/`. If there are no changes, stop.
 
 ## 2. Run linting
 
-```bash
-cd .docs && bun run lint:fix
-```
-
-If linting fails, fix issues before proceeding. Skip `build:linkcheck`
+Run linting in `.docs/` and fix issues before proceeding. Skip link checking
 locally—CI runs it on the PR.
 
 ## 3. Detect outer PR
 
-Check if the parent repository has an open PR:
-
-```bash
-# From project root (parent of .docs/)
-gh pr view --json number,url,body 2>/dev/null
-```
-
-- If successful: Store `OUTER_PR_NUMBER` and `OUTER_PR_URL`
-- If fails: No outer PR exists, proceed without cross-reference
+Check if the parent repository has an open PR. If one exists, store its number
+and URL for cross-referencing. If not, proceed without cross-reference.
 
 ## 4. Create docs PR
 
@@ -65,22 +57,10 @@ Capture the created docs PR URL from the output.
 If an outer PR was detected in step 3:
 
 1. Check if outer PR body already contains a reference to `tenzir/docs#`
-2. If not, append to the outer PR body:
-
-```bash
-gh pr edit <OUTER_PR_NUMBER> --body-file <temp-file>
-```
-
-Where the temp file contains the existing body plus:
-
-```markdown
-## Related PRs
-
-- Documentation: <DOCS_PR_URL>
-```
-
-If the outer PR already has a "Related PRs" section, append the documentation
-link to that section instead of creating a new one.
+2. If not, edit the outer PR body to add a "Related PRs" section with a link to
+   the docs PR
+3. If the outer PR already has a "Related PRs" section, append the documentation
+   link to that section instead of creating a new one
 
 ## 6. Report results
 

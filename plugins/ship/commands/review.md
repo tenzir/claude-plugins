@@ -184,7 +184,9 @@ Sort by urgency: severity (P1→P4), then confidence (descending).
 
 If **findings exist**:
 
-> Address these? (yes to enter plan mode)
+> Review complete. Full findings saved to: `<review_dir>/`
+>
+> Address these? (**yes** to enter plan mode)
 
 If user responds **yes**:
 
@@ -195,5 +197,3 @@ If user responds **yes**:
 4. Group fixes by file to minimize context switches
 
 If user responds **no** or **no findings**:
-
-> Review complete. Full findings saved to: `<review_dir>/`

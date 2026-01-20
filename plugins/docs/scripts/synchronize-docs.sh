@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 #
-# Pre-tool hook to ensure .docs/ is synchronized before editing.
+# Pre-tool hook to ensure .docs/ is cloned and synchronized.
+#
+# Usage:
+#   synchronize-docs.sh --init   # One-time: clone if missing
+#   synchronize-docs.sh          # Normal: staleness check and sync
 
 set -euo pipefail
 
@@ -9,11 +13,37 @@ DOCS_REPO="git@github.com:tenzir/docs.git"
 SYNC_STATE_FILE="$DOCS_DIR/.git/claude-last-sync"
 STALE_SECONDS=$((24 * 60 * 60)) # 24 hours
 
-# Ensure jq is available
-command -v jq &>/dev/null || exit 0
+warn() {
+  echo "Warning: $1" >&2
+}
+
+# Blocking warning - shown to Claude, prevents the edit
+block() {
+  echo "$1" >&2
+  exit 2
+}
 
 # Exit early if we're inside the docs repo itself (not a .docs clone)
 if git remote get-url origin 2>/dev/null | grep -q "tenzir/docs"; then
+  exit 0
+fi
+
+# --- Init mode: just clone if missing ---
+
+if [[ "${1:-}" == "--init" ]]; then
+  if [[ ! -d "$DOCS_DIR/.git" ]]; then
+    echo "Cloning docs repository to $DOCS_DIR..." >&2
+    git clone "$DOCS_REPO" "$DOCS_DIR"
+    date +%s > "$SYNC_STATE_FILE"
+  fi
+  exit 0
+fi
+
+# --- Normal mode: staleness check and sync ---
+
+# Ensure jq is available
+if ! command -v jq &>/dev/null; then
+  warn "jq not found, skipping sync"
   exit 0
 fi
 
@@ -28,11 +58,8 @@ if [[ "$FILE_PATH" != */.docs/* ]] && [[ "$FILE_PATH" != .docs/* ]]; then
   exit 0
 fi
 
-# If .docs/ doesn't exist, clone it
-if [[ ! -d "$DOCS_DIR/.git" ]]; then
-  echo "Cloning docs repository to $DOCS_DIR..." >&2
-  git clone "$DOCS_REPO" "$DOCS_DIR"
-fi
+# Skip if .docs/ doesn't exist (--init should have run first)
+[[ -d "$DOCS_DIR/.git" ]] || exit 0
 
 # --- Staleness Check ---
 
@@ -53,7 +80,7 @@ fi
 
 echo "Fetching origin (last sync >24h ago)..." >&2
 git -C "$DOCS_DIR" fetch origin 2>/dev/null || {
-  echo "Warning: Failed to fetch origin" >&2
+  warn "Failed to fetch origin"
   exit 0
 }
 
@@ -86,16 +113,6 @@ would_merge_cleanly() {
   result=$(git -C "$DOCS_DIR" merge-tree --write-tree HEAD origin/main 2>&1) || return 1
   # merge-tree outputs just the tree hash on success, includes "CONFLICT" on failure
   [[ "$result" != *"CONFLICT"* ]]
-}
-
-warn() {
-  echo "Warning: $1" >&2
-}
-
-# Blocking warning - shown to Claude, prevents the edit
-block() {
-  echo "$1" >&2
-  exit 2
 }
 
 if [[ "$current_branch" == "main" ]]; then

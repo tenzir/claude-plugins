@@ -1,5 +1,14 @@
 ---
 description: Review documentation changes for completeness and style
+hooks:
+  PreToolUse:
+    - matcher: "Read|Edit|Write|Glob|Grep"
+      hooks:
+        - type: command
+          command: "$CLAUDE_PLUGIN_ROOT/scripts/synchronize-docs.sh --init"
+          once: true
+        - type: command
+          command: "$CLAUDE_PLUGIN_ROOT/scripts/synchronize-docs.sh"
 ---
 
 # Review documentation
@@ -8,24 +17,14 @@ Invoke `docs:authoring` and `prose:technical-writing`.
 
 ## 1. Identify changes
 
-Check for uncommitted changes in `.docs/`:
-
-```bash
-cd .docs && git diff --stat
-```
-
-If there are no changes, inform the user and stop.
+Check for uncommitted changes in `.docs/`. If there are no changes, inform the
+user and stop.
 
 ## 2. Start preview server
 
-Start the local development server:
-
-```bash
-cd .docs && bun run dev
-```
-
-Tell the user the preview is available at `http://localhost:4321` and that they
-can check the rendered output while you continue with the review.
+Start the local development server in `.docs/`. Tell the user the preview is
+available at `http://localhost:4321` and that they can check the rendered output
+while you continue with the review.
 
 ## 3. Check documentation completeness
 
