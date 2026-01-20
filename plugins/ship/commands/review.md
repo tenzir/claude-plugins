@@ -102,23 +102,44 @@ Template:
 
 Wait for all reviewers to complete.
 
-## 4. Collect and Display Findings
+## 4. Synthesize Findings
 
-Read all `<review_dir>/*.md` files. These contain the complete review with all
-findings. Parse findings by extracting lines matching `### P{n} · title · {n}%`.
+Read all `<review_dir>/*.md` files. You now have context that individual
+reviewers lacked: all findings together, project context, and user intent.
 
-### Parsing
+Use this to distill actionable items:
 
-Extract from each finding header:
+### Deduplicate
 
-- **Severity**: `P1`, `P2`, `P3`, or `P4` from `### P{n}`
-- **Title**: Text between the two dots
-- **Confidence**: Percentage from `· {n}%`
-- **Reviewer**: Derived from filename (e.g., `security.md` → `security`)
+Merge findings that flag the same location from different reviewers. Multiple
+reviewers flagging the same area signals importance—note this when presenting.
 
-### Severity Emoji
+### Correlate
 
-Map severity directly to color:
+Group related findings that touch the same subsystem or share a root cause.
+Addressing one may resolve others.
+
+### Prioritize
+
+Given the project context and scope, determine what matters most:
+
+- P1/P2 findings generally take precedence
+- High confidence (90%+) signals strong evidence
+- Multiple reviewers flagging related issues amplifies priority
+- Consider user's likely intent from the review scope
+
+### Select
+
+Choose the top findings to present. Not everything needs action—filter noise,
+keep signal. Aim for a focused list the user can reasonably address.
+
+## 5. Display Findings
+
+Present the synthesized findings.
+
+### Emoji Reference
+
+Severity:
 
 | Severity | Emoji |
 | -------- | ----- |
@@ -127,7 +148,7 @@ Map severity directly to color:
 | P3       | 🟡    |
 | P4       | ⚪    |
 
-### Category Emoji
+Category:
 
 | Category    | Emoji |
 | ----------- | ----- |
@@ -141,38 +162,38 @@ Map severity directly to color:
 
 ### Display Format
 
-Filter to confidence 80+ and display as compact inline format:
-
 ```markdown
-## Review Findings
+## Review Summary
 
-🟡 P3 🧪 Missing edge case for empty input (82%)
-🔴 P1 🛡️ SQL injection in user input handler (92%)
-⚪ P4 👁️ Unclear variable name obscures intent (80%)
-🟠 P2 🛡️ Missing authentication check (88%)
-🟡 P3 🏗️ Inconsistent error handling (85%)
+**4 findings** to address (7 total from 5 reviewers)
 
-Severity: 🔴 P1 · 🟠 P2 · 🟡 P3 · ⚪ P4
-Categories: 🛡️ security · 🏗️ arch · 🧪 tests · 🎨 ux · 👁️ readability · 📖 docs · 🚀 perf
+🔴 P1 · 🛡️ SEC-1 · SQL injection vulnerability (95%) · src/db.ts:45
+🟠 P2 · 🏗️ ARC-1 · Circular dependency (88%) · src/modules/a.ts:12
+🟠 P2 · 👁️ RDY-1 · Unclear function name (82%) · src/utils.ts:30
+🟡 P3 · 🧪 TST-1 · Missing edge case (85%) · src/handler.ts:78
+
+🔴 P1 · 🟠 P2 · 🟡 P3 · ⚪ P4
+🛡️ security · 🏗️ arch · 🧪 tests · 🎨 ux · 👁️ readability · 📖 docs · 🚀 perf
 ```
 
-Format: `{severity_emoji} {severity} {category_emoji} {finding} ({confidence}%)`
+Format: `{severity_emoji} {severity} · {category_emoji} {id} · {title} ({confidence}%) · {file}:{lines}`
 
-### Sorting
+Sort by urgency: severity (P1→P4), then confidence (descending).
 
-Sort findings by urgency:
+## 6. Prompt to Address
 
-1. Severity: P1 → P2 → P3 → P4
-2. Confidence: descending
+If **findings exist**:
 
-## 5. Report Results
+> Address these? (yes to enter plan mode)
 
-If **actionable findings exist** (confidence 80+):
+If user responds **yes**:
 
-- Display the findings summary
-- Report the review directory path where full reviews are saved
+1. Enter plan mode with findings as context
+2. Re-read full reviewer outputs (`<review_dir>/*.md`) for reasoning, evidence,
+   and suggestions—the summary is a distillation, not the full picture
+3. Generate implementation plan ordered by severity (P1 first)
+4. Group fixes by file to minimize context switches
 
-If **no actionable findings**:
+If user responds **no** or **no findings**:
 
-- Display "No actionable findings" message
-- Report the review directory path where full reviews are saved
+> Review complete. Full findings saved to: `<review_dir>/`

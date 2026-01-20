@@ -12,5 +12,5 @@ date_dir=$(date +%Y-%m-%d)
 session_id="${CLAUDE_SESSION_ID:-$(date +%H%M%S)}"
 review_dir=".reviews/$date_dir/$session_id"
 
-[[ -d "$review_dir" ]] || mkdir -p "$review_dir"
+mkdir -p "$review_dir"
 echo "Review directory: $review_dir"

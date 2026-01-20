@@ -62,35 +62,85 @@ Deduct points for:
 
 ## Output Format
 
-Write findings to a markdown file (e.g., `.review/tests.md`):
+Write findings to a markdown file (e.g., `.review/tests.md`).
 
-```markdown
-# <Aspect> Review
+### Issue IDs
 
-## Summary
+Each finding gets a unique ID with a 3-letter prefix and sequence number:
 
-Brief overall assessment (2-3 sentences).
+| Reviewer    | Prefix | Example |
+| ----------- | ------ | ------- |
+| security    | SEC    | SEC-1   |
+| arch        | ARC    | ARC-1   |
+| tests       | TST    | TST-1   |
+| ux          | UXD    | UXD-1   |
+| readability | RDY    | RDY-1   |
+| docs        | DOC    | DOC-1   |
+| perf        | PRF    | PRF-1   |
 
-## Findings
+Number findings sequentially starting at 1.
 
-### P1 · SQL injection vulnerability · 95%
+### File Structure
 
-- **File**: `path/to/file.ts:45-52`
-- **Severity**: P1 — Critical
-- **Confidence**: 95%
-- **Issue**: User input passed directly to SQL query
-- **Suggestion**: Use parameterized queries
+    # <Aspect> Review
 
-### P3 · Missing null check · 85%
+    ## Summary
 
-- **File**: `path/to/file.ts:120`
-- **Severity**: P3 — Minor
-- **Confidence**: 85%
-- **Issue**: Description
-- **Suggestion**: Recommendation
-```
+    Brief overall assessment (2-3 sentences).
 
-The `### P{n} · title · {n}%` pattern enables automated parsing and filtering.
+    ## Findings
+
+    ### SEC-1 · P1 · SQL injection vulnerability · 95%
+
+    - **File**: `path/to/file.ts:45-52`
+    - **Issue**: User input passed directly to SQL query
+    - **Reasoning**: Variable `userInput` from request body is string-concatenated
+      into the SQL query at line 47 without sanitization or parameterization.
+    - **Evidence**:
+      ```ts
+      const query = "SELECT * FROM users WHERE id = " + userInput;
+      ```
+      This pattern allows arbitrary SQL injection via the `id` parameter.
+    - **Suggestion**: Use parameterized queries with `$1` placeholder.
+
+    ### SEC-2 · P3 · Missing null check · 85%
+
+    - **File**: `path/to/file.ts:120`
+    - **Issue**: Function assumes `config.timeout` is always defined
+    - **Reasoning**: `config` comes from user input via `loadConfig()` which returns
+      partial objects. The `timeout` property is optional per the type definition.
+    - **Evidence**:
+      ```ts
+      const delay = config.timeout * 1000; // crashes if timeout is undefined
+      ```
+      Type shows: `interface Config { timeout?: number }` — optional field.
+    - **Suggestion**: Add nullish coalescing: `(config.timeout ?? 30) * 1000`
+
+### Required Fields
+
+Each finding **must** include:
+
+| Field          | Purpose                                            |
+| -------------- | -------------------------------------------------- |
+| **File**       | Location with line numbers                         |
+| **Issue**      | What's wrong (one sentence)                        |
+| **Reasoning**  | Why this is a problem (logical argument)           |
+| **Evidence**   | Concrete proof (code snippet, type info, behavior) |
+| **Suggestion** | How to fix it                                      |
+
+The `### {ID} · P{n} · title · {n}%` header pattern enables tracking and filtering.
+
+### Evidence Quality
+
+Confidence score directly reflects evidence strength:
+
+| Confidence | Evidence Quality                                      |
+| ---------- | ----------------------------------------------------- |
+| 91-100     | Definitive proof (code snippet + demonstrated impact) |
+| 81-90      | Strong evidence (code shows the pattern clearly)      |
+| 71-80      | Moderate (reasoning sound but evidence indirect)      |
+
+If you cannot provide concrete evidence, reconsider whether to report the finding.
 
 ## Actionability Criteria
 
