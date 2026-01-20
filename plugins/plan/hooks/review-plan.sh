@@ -3,7 +3,7 @@
 # PostToolUse hook for ExitPlanMode - Reviews plans with external AI tools.
 #
 # This hook executes AFTER Claude calls ExitPlanMode. It receives JSON on stdin
-# containing tool_input and tool_output from the ExitPlanMode call.
+# containing tool_input and tool_response from the ExitPlanMode call.
 #
 # Output:
 #   - Exit 0 with JSON: Review approved, systemMessage contains results
@@ -61,8 +61,19 @@ fi
 # Parse stdin to get context
 stdin_data=$(cat)
 
-# Find the plan file from ExitPlanMode input
-PLAN_FILE=$(echo "$stdin_data" | jq -r '.tool_input.planFile // empty' 2>/dev/null)
+# Skip review unless the plan was explicitly approved by the user.
+# PostToolUse fires regardless of approval/rejection, but tool_response differs:
+# on approval it contains the plan content, on rejection it's empty or missing.
+# Debug: uncomment to inspect actual hook input structure
+# echo "$stdin_data" | jq . >> /tmp/exitplanmode-debug.log
+has_plan=$(echo "$stdin_data" | jq -r '.tool_response.plan // empty' 2>/dev/null)
+if [[ -z "$has_plan" ]]; then
+  echo '{"continue": true}'
+  exit 0
+fi
+
+# Find the plan file from ExitPlanMode response
+PLAN_FILE=$(echo "$stdin_data" | jq -r '.tool_response.filePath // .tool_input.planFile // empty' 2>/dev/null)
 
 if [[ -z "$PLAN_FILE" || ! -f "$PLAN_FILE" ]]; then
   # Fallback: find most recently modified plan file (within 5 minutes)
