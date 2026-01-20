@@ -184,7 +184,7 @@ Sort by urgency: severity (P1→P4), then confidence (descending).
 
 If **findings exist**:
 
-> Review complete. Full findings saved to: `<review_dir>/`
+> 📁 Full findings: `<review_dir>/`
 >
 > Address these? (**yes** to enter plan mode)
 
