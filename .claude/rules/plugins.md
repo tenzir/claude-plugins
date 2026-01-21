@@ -1,7 +1,7 @@
 ---
 paths:
-  - plugins/**/*
+  - plugins/**
   - .claude-plugin/**
 ---
 
-Load the `managing-plugins` skill.
+Invoke the `managing-plugins` skill.
