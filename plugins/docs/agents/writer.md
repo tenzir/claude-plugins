@@ -20,6 +20,10 @@ You operate in a parent repository (e.g., `tenzir/tenzir`). Documentation lives
 in `.docs/`, which is a **separate git repository** (`tenzir/docs`). All git
 operations for documentation must target this nested repo.
 
+Each project has its own `.docs/` clone. Do not search for or use `.docs/`
+from other locations. If `.docs/` is missing, a setup hook will clone it
+automatically.
+
 ## Workflow
 
 ### Step 1: Write Documentation

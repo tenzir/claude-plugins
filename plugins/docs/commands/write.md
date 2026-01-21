@@ -3,11 +3,13 @@ description: Write/update documentation for user-facing changes and new features
 argument-hint: "[topic]"
 hooks:
   PreToolUse:
-    - matcher: "Read|Edit|Write|Glob|Grep"
+    - matcher: "*"
       hooks:
         - type: command
           command: "$CLAUDE_PLUGIN_ROOT/scripts/synchronize-docs.sh --init"
           once: true
+    - matcher: "Read|Edit|Write|Glob|Grep"
+      hooks:
         - type: command
           command: "$CLAUDE_PLUGIN_ROOT/scripts/synchronize-docs.sh"
 ---

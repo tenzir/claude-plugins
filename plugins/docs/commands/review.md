@@ -2,11 +2,13 @@
 description: Review documentation changes for completeness and style
 hooks:
   PreToolUse:
-    - matcher: "Read|Edit|Write|Glob|Grep"
+    - matcher: "*"
       hooks:
         - type: command
           command: "$CLAUDE_PLUGIN_ROOT/scripts/synchronize-docs.sh --init"
           once: true
+    - matcher: "Read|Edit|Write|Glob|Grep"
+      hooks:
         - type: command
           command: "$CLAUDE_PLUGIN_ROOT/scripts/synchronize-docs.sh"
 ---

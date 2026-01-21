@@ -33,8 +33,10 @@ fi
 if [[ "${1:-}" == "--init" ]]; then
   if [[ ! -d "$DOCS_DIR/.git" ]]; then
     echo "Cloning docs repository to $DOCS_DIR..." >&2
-    git clone "$DOCS_REPO" "$DOCS_DIR"
-    date +%s > "$SYNC_STATE_FILE"
+    if ! git clone "$DOCS_REPO" "$DOCS_DIR"; then
+      block "Failed to clone docs repository. Check SSH keys and network."
+    fi
+    date +%s >"$SYNC_STATE_FILE"
   fi
   exit 0
 fi
