@@ -19,6 +19,38 @@ Examples:
 - Instead of instructing "run `git diff --cached`", output the diff command
 - Instead of expecting the model to construct a path, output the full path
 
+## Configuration
+
+**Omit `matcher` to match all tools.** When a hook should run for any tool call,
+omit the `matcher` field entirely rather than using `"*"`:
+
+```yaml
+hooks:
+  PreToolUse:
+    - hooks:
+        - type: command
+          command: "$CLAUDE_PLUGIN_ROOT/scripts/my-hook.sh"
+          once: true
+```
+
+## Making Output Visible to Claude
+
+**Plain stdout is NOT visible to Claude for most hooks.** Only `UserPromptSubmit`
+and `SessionStart` hooks have their stdout added to context automatically.
+
+For `PreToolUse` and `PostToolUse` hooks, use JSON output with `additionalContext`
+to inject data into Claude's context:
+
+```bash
+jq -n \
+  --arg hookEventName "PreToolUse" \
+  --arg additionalContext "Your context here" \
+  '{hookSpecificOutput: $ARGS.named}'
+```
+
+Without this JSON format, Claude cannot see hook output and may fall back to
+running commands manually to obtain the same information.
+
 ## Script Guidelines
 
 - Use portable shebang: `#!/usr/bin/env bash`
