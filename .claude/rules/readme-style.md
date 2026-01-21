@@ -4,6 +4,41 @@ paths: "**/README.md"
 
 Plugin READMEs describe **usage**, not implementation.
 
+## Template
+
+Every plugin **must** have a `README.md` with the following structure:
+
+```markdown
+# Plugin Name
+
+Two to three sentences describing what the plugin does and why it exists. This
+introductory paragraph appears in the documentation, so keep it informative and
+up to date whenever the plugin changes.
+
+## ✨ Features
+
+Explain the motivation. If this is a workaround for a missing feature, link to
+the relevant issue and note when it will become obsolete.
+
+- 🦄 **Highlight 1**: Describe the highlight here
+- 🖤 **Highlight 2**: Describe the highlight here
+- 🏆 **Highlight 3**: Describe the highlight here
+
+## 🔧 Configuration
+
+Optional section. Document any configuration options if applicable.
+
+## 🚀 Usage
+
+Focus on **how to use** the plugin, not implementation details. For each
+component:
+
+- **Commands**: Show invocation (`/plugin:command`) and describe _what it does
+  for the user_, not internal steps
+- **Skills**: Explain _when_ they activate and _what guidance_ they provide
+- **Subagents**: Describe _when to use them_ and _what they accomplish_
+```
+
 ## Documentation Script Requirements
 
 The docs script extracts these sections from README files:
@@ -16,7 +51,6 @@ The docs script extracts these sections from README files:
    - Must be separated from heading by a blank line
    - Should be 2-3 sentences ending with `.`, `!`, or `?`
    - No fallback—will be empty if missing
-   - **Keep this up to date when the plugin changes**
 
 3. **Features section**: `## ✨ Features` (required)
    - Bullet-point highlights of what the plugin provides
