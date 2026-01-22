@@ -17,18 +17,6 @@ plugin:excalidraw:
   - changed-files:
       - any-glob-to-any-file: plugins/excalidraw/**
 
-plugin:formatter:
-  - changed-files:
-      - any-glob-to-any-file: plugins/formatter/**
-
-plugin:git:
-  - changed-files:
-      - any-glob-to-any-file: plugins/git/**
-
-plugin:plan:
-  - changed-files:
-      - any-glob-to-any-file: plugins/plan/**
-
 plugin:python:
   - changed-files:
       - any-glob-to-any-file: plugins/python/**
