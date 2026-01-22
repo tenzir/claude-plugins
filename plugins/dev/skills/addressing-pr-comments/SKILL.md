@@ -1,6 +1,6 @@
 ---
 name: addressing-pr-comments
-description: Address review feedback in comments of a GitHub pull request (PR). Use when working through PR feedback, resolving review threads, or applying fixes based on reviewer suggestions.
+description: Address GitHub PR review comments with commits. Use when working through PR feedback, resolving review threads, or fixing code based on reviewer suggestions.
 ---
 
 ---

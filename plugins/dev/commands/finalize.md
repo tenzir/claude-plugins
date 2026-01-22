@@ -1,5 +1,5 @@
 ---
-description: Add changelog entry, commit, and push
+description: Add changelog entry, commit, and push. Use when finishing a feature, preparing for merge, or completing PR work.
 context: fork
 model: sonnet
 ---

@@ -1,6 +1,6 @@
 ---
 name: pr-maker
-description: Create a pull request on GitHub for current changes.
+description: Create a pull request on GitHub for current changes. Use when opening a PR, pushing a topic branch, or submitting changes for review.
 tools: Read, Glob, Grep, Bash, Write, Skill, Task
 model: haiku
 color: blue

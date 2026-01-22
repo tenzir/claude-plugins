@@ -1,6 +1,6 @@
 ---
 name: readability
-description: Review naming quality, idiomatic patterns, and code clarity.
+description: Review naming quality, idiomatic patterns, and code clarity. Use when checking variable names, code style, or comprehension.
 tools: Read, Glob, Grep, Bash, Write
 model: haiku
 color: green

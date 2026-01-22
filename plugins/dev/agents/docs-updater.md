@@ -1,6 +1,6 @@
 ---
 name: docs-updater
-description: Update the official Tenzir documentation.
+description: Update the official Tenzir documentation. Use when documenting code changes, writing guides or tutorials, or syncing docs with code.
 tools: Read, Glob, Grep, Bash, Edit, Write, Skill
 model: opus
 color: blue

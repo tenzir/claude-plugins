@@ -1,6 +1,6 @@
 ---
 name: arch
-description: Review API design, modularity, and complexity.
+description: Review API design, modularity, and complexity. Use when evaluating coupling, SOLID principles, or code organization.
 tools: Read, Glob, Grep, Bash, Write
 model: opus
 color: purple

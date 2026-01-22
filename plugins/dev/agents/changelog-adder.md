@@ -1,6 +1,6 @@
 ---
 name: changelog-adder
-description: Create a changelog entry for PR changes. Use for non-interactive CI automation.
+description: Create a changelog entry for PR changes. Use when adding changelog entries, running tenzir-ship, or automating CI workflows.
 tools: Read, Glob, Grep, Bash, Write, Skill
 model: haiku
 color: green

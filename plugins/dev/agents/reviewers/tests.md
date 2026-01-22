@@ -1,6 +1,6 @@
 ---
 name: tests
-description: Review test coverage, edge cases, and behavioral testing.
+description: Review test coverage, edge cases, and behavioral testing. Use when checking test quality, missing assertions, or test isolation.
 tools: Read, Glob, Grep, Bash, Write
 model: haiku
 color: cyan

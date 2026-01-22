@@ -1,5 +1,5 @@
 ---
-description: Run parallel code review on changes
+description: Run parallel code review on changes. Use when reviewing a PR, checking code quality, or auditing changes.
 context: fork
 model: sonnet
 hooks:

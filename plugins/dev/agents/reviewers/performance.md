@@ -1,6 +1,6 @@
 ---
 name: performance
-description: Review performance, complexity, and resource efficiency.
+description: Review performance, complexity, and resource efficiency. Use when checking big O complexity, memory usage, or N+1 queries.
 tools: Read, Glob, Grep, Bash, Write
 model: sonnet
 color: orange

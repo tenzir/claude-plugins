@@ -1,6 +1,6 @@
 ---
 name: ux
-description: Review user experience, clarity, and discoverability.
+description: Review user experience, clarity, and discoverability. Use when checking error messages, CLI help text, or user feedback.
 tools: Read, Glob, Grep, Bash, Write
 model: haiku
 color: yellow

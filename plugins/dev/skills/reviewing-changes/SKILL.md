@@ -1,6 +1,6 @@
 ---
 name: reviewing-changes
-description: Review methodology for code changes with confidence scoring.
+description: Review methodology for code changes with confidence scoring. Use when spawning reviewer agents, rating issue severity (P1-P4), or scoring review confidence.
 ---
 
 # Reviewing Changes

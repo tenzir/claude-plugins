@@ -1,6 +1,6 @@
 ---
 name: security
-description: Review input validation, injection risks, and secrets exposure.
+description: Review input validation, injection risks, and secrets exposure. Use when checking for SQL injection, XSS, command injection, or credential leaks.
 tools: Read, Glob, Grep, Bash, Write
 model: sonnet
 color: red

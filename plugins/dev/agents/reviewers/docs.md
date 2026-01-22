@@ -1,6 +1,6 @@
 ---
 name: docs
-description: Review documentation quality, accuracy, and completeness.
+description: Review documentation quality, accuracy, and completeness. Use when checking docstrings, README accuracy, or API docs.
 tools: Read, Glob, Grep, Bash, Write
 model: sonnet
 color: blue

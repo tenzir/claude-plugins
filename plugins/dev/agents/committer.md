@@ -1,6 +1,6 @@
 ---
 name: committer
-description: Commit changes autonomously for automated workflows.
+description: Commit changes autonomously for automated workflows. Use when staging files, creating commits, or automating git workflows.
 tools: Read, Glob, Grep, Bash, Write, Skill
 model: haiku
 color: green
