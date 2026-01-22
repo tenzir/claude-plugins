@@ -1,6 +1,0 @@
-created: 2025-12-15
-title: TQL Plugin v1.0.0
-intro: >-
-  This is the initial stable release of the TQL plugin. It provides a skill for building
-  TQL pipelines with the Tenzir MCP server and uses tenzir-mcp@latest to ensure users
-  always have the most recent MCP server version.

@@ -14,16 +14,13 @@ on:
         default: |
           brand@tenzir
           cpp@tenzir
-          docs@tenzir
+          dev@tenzir
           excalidraw@tenzir
           formatter@tenzir
           git@tenzir
-          ocsf@tenzir
           plan@tenzir
-          prose@tenzir
           python@tenzir
-          ship@tenzir
-          tql@tenzir
+          tenzir@tenzir
     secrets:
       anthropic_api_key:
         required: false
@@ -54,13 +51,10 @@ jobs:
             https://github.com/tenzir/claude-plugins.git
           plugins: ${{ inputs.plugins || 'brand@tenzir
             cpp@tenzir
-            docs@tenzir
+            dev@tenzir
             excalidraw@tenzir
             formatter@tenzir
             git@tenzir
-            ocsf@tenzir
             plan@tenzir
-            prose@tenzir
             python@tenzir
-            ship@tenzir
-            tql@tenzir' }}
+            tenzir@tenzir' }}

@@ -9,9 +9,9 @@ plugin:cpp:
   - changed-files:
       - any-glob-to-any-file: plugins/cpp/**
 
-plugin:docs:
+plugin:dev:
   - changed-files:
-      - any-glob-to-any-file: plugins/docs/**
+      - any-glob-to-any-file: plugins/dev/**
 
 plugin:excalidraw:
   - changed-files:
@@ -33,17 +33,9 @@ plugin:plan:
   - changed-files:
       - any-glob-to-any-file: plugins/plan/**
 
-plugin:prose:
-  - changed-files:
-      - any-glob-to-any-file: plugins/prose/**
-
 plugin:python:
   - changed-files:
       - any-glob-to-any-file: plugins/python/**
-
-plugin:ship:
-  - changed-files:
-      - any-glob-to-any-file: plugins/ship/**
 
 plugin:tql:
   - changed-files:

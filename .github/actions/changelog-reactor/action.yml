@@ -103,16 +103,15 @@ runs:
           ${{ steps.extract.outputs.entry_content }}
 
           The user was not satisfied with the previous changelog entry.
-          Analyze the PR again and run /ship:add to create a DIFFERENT entry.
+          Analyze the PR again and create a DIFFERENT entry.
           Try a different angle, different wording, or focus on different aspects.
 
           IMPORTANT: Do NOT commit anything. Just create the changelog entry file.
-        claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Skill"
+        claude_args: "--agent dev:changelog-adder --allowedTools Read,Glob,Grep,Bash,Write,Skill"
         plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
         plugins: |
-          ship@tenzir
+          dev@tenzir
           git@tenzir
-          prose@tenzir
 
     - name: Modify style (more technical)
       if: inputs.action == 'more-technical'
@@ -126,16 +125,15 @@ runs:
           ${{ steps.extract.outputs.entry_content }}
 
           Rewrite this changelog entry to be MORE TECHNICAL.
-          Run /ship:add with enhanced technical depth - mention specific APIs,
+          Create an entry with enhanced technical depth - mention specific APIs,
           components, or implementation details.
 
           IMPORTANT: Do NOT commit anything. Just create the changelog entry file.
-        claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Skill"
+        claude_args: "--agent dev:changelog-adder --allowedTools Read,Glob,Grep,Bash,Write,Skill"
         plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
         plugins: |
-          ship@tenzir
+          dev@tenzir
           git@tenzir
-          prose@tenzir
 
     - name: Modify style (less technical)
       if: inputs.action == 'less-technical'
@@ -149,16 +147,15 @@ runs:
           ${{ steps.extract.outputs.entry_content }}
 
           Rewrite this changelog entry to be SIMPLER and LESS TECHNICAL.
-          Run /ship:add with user-friendly language - focus on benefits,
+          Create an entry with user-friendly language - focus on benefits,
           not implementation details. Make it accessible to non-developers.
 
           IMPORTANT: Do NOT commit anything. Just create the changelog entry file.
-        claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Skill"
+        claude_args: "--agent dev:changelog-adder --allowedTools Read,Glob,Grep,Bash,Write,Skill"
         plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
         plugins: |
-          ship@tenzir
+          dev@tenzir
           git@tenzir
-          prose@tenzir
 
     - name: Modify style (more cynical)
       if: inputs.action == 'more-cynical'
@@ -172,16 +169,15 @@ runs:
           ${{ steps.extract.outputs.entry_content }}
 
           Rewrite this changelog entry with MORE CYNICAL wit and dry humor.
-          Run /ship:add but write it like a seasoned engineer who's seen it all.
+          Create an entry but write it like a seasoned engineer who's seen it all.
           Keep it informative but add subtle edge.
 
           IMPORTANT: Do NOT commit anything. Just create the changelog entry file.
-        claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Skill"
+        claude_args: "--agent dev:changelog-adder --allowedTools Read,Glob,Grep,Bash,Write,Skill"
         plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
         plugins: |
-          ship@tenzir
+          dev@tenzir
           git@tenzir
-          prose@tenzir
 
     - name: Update comment after regenerate/style change
       if: inputs.action == 'regenerate' || contains(fromJSON('["more-technical", "less-technical", "more-cynical"]'), inputs.action)

@@ -1,0 +1,13 @@
+{
+  "name": "dev",
+  "version": "2.2.2",
+  "description": "Developer utilities including documentation, changelogs, code review, and releases",
+  "author": {
+    "name": "Tenzir",
+    "email": "engineering@tenzir.com",
+    "url": "https://github.com/tenzir"
+  },
+  "homepage": "https://github.com/tenzir/claude-plugins",
+  "repository": "https://github.com/tenzir/claude-plugins",
+  "license": "Apache-2.0"
+}

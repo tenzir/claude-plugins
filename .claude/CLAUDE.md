@@ -80,7 +80,7 @@ jq -n \
 
 1. Make your changes
 2. Keep the README description up to date when the plugin changes
-3. Add changelog entry: `/ship:add`
+3. Add changelog entry: spawn `@dev:changelog-adder`
 
 ### Renaming or Removing a Plugin
 

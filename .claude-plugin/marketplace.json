@@ -20,9 +20,9 @@
       "source": "./plugins/cpp"
     },
     {
-      "name": "docs",
-      "description": "Documentation workflows for Tenzir projects",
-      "source": "./plugins/docs"
+      "name": "dev",
+      "description": "Developer utilities including documentation, changelogs, code review, and releases",
+      "source": "./plugins/dev"
     },
     {
       "name": "excalidraw",
@@ -40,19 +40,9 @@
       "source": "./plugins/git"
     },
     {
-      "name": "ocsf",
-      "description": "Understand the OCSF schema structure",
-      "source": "./plugins/ocsf"
-    },
-    {
       "name": "plan",
       "description": "Review plans with external AI tools before implementation",
       "source": "./plugins/plan"
-    },
-    {
-      "name": "prose",
-      "description": "Style guidelines for technical prose",
-      "source": "./plugins/prose"
     },
     {
       "name": "python",
@@ -60,14 +50,9 @@
       "source": "./plugins/python"
     },
     {
-      "name": "ship",
-      "description": "Release engineering with tenzir-ship",
-      "source": "./plugins/ship"
-    },
-    {
-      "name": "tql",
-      "description": "Build TQL pipelines with expert language guidance",
-      "source": "./plugins/tql"
+      "name": "tenzir",
+      "description": "Build TQL pipelines and OCSF mappings with expert guidance",
+      "source": "./plugins/tenzir"
     }
   ]
 }

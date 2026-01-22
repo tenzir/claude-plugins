@@ -1,6 +1,0 @@
-created: 2026-01-08
-title: Enhanced Documentation and Schema Updates
-intro: >-
-  This release improves OCSF documentation synchronization with content-based change
-  detection and transitions to pre-committed schema references. The guide agent now
-  uses Claude Sonnet for enhanced reasoning on complex schema questions.
