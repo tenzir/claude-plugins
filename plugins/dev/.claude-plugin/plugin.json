@@ -1,7 +1,7 @@
 {
-  "name": "docs",
+  "name": "dev",
   "version": "2.2.2",
-  "description": "Documentation workflows for Tenzir projects",
+  "description": "Developer utilities for Tenzir projects",
   "author": {
     "name": "Tenzir",
     "email": "engineering@tenzir.com",

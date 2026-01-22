@@ -5,7 +5,7 @@ model: sonnet
 argument-hint: "[breaking|feature|bugfix|change]"
 ---
 
-Begin by invoking the `prose:technical-writing` skill and reading about the
+Begin by invoking the `dev:technical-writing` skill and reading about the
 `tenzir-ship` CLI here:
 
 - <https://docs.tenzir.com/reference/ship-framework.md>
@@ -50,7 +50,7 @@ Do not create placeholder entries.
 
 ### Writing Style
 
-Follow the `prose:technical-writing` skill. Additional guidance for changelog entries:
+Follow the `dev:technical-writing` skill. Additional guidance for changelog entries:
 
 #### Titles
 

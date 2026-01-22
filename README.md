@@ -11,11 +11,10 @@ commands, agents, hooks, skills, and MCP servers tailored for working with
 | ------------ | ---------------------------------------------------------- |
 | `brand`      | Tenzir brand and style guidelines for frontend development |
 | `cpp`        | C++ language support, tooling, and coding conventions      |
-| `docs`       | Documentation workflows for Tenzir projects                |
+| `dev`        | Developer utilities for Tenzir projects                    |
 | `excalidraw` | Create Excalidraw diagrams with proper JSON structure      |
 | `formatter`  | Auto-format files after Claude edits                       |
 | `git`        | Git workflows for Tenzir repositories                      |
-| `prose`      | Style guidelines for technical prose                       |
 | `python`     | Python coding conventions for Tenzir projects              |
 | `ship`       | Release engineering with tenzir-ship                       |
 | `tenzir`     | Build TQL pipelines and OCSF mappings with expert guidance |

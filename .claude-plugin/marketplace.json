@@ -20,9 +20,9 @@
       "source": "./plugins/cpp"
     },
     {
-      "name": "docs",
-      "description": "Documentation workflows for Tenzir projects",
-      "source": "./plugins/docs"
+      "name": "dev",
+      "description": "Developer utilities for Tenzir projects",
+      "source": "./plugins/dev"
     },
     {
       "name": "excalidraw",
@@ -43,11 +43,6 @@
       "name": "plan",
       "description": "Review plans with external AI tools before implementation",
       "source": "./plugins/plan"
-    },
-    {
-      "name": "prose",
-      "description": "Style guidelines for technical prose",
-      "source": "./plugins/prose"
     },
     {
       "name": "python",

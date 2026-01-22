@@ -19,7 +19,7 @@ Abort if there are no unreleased changelog entries.
 
 ## Agent setup
 
-Bootstrap your knowledge by invoking the `prose:technical-writing` skill and
+Bootstrap your knowledge by invoking the `dev:technical-writing` skill and
 reading about the `tenzir-ship` CLI here:
 
 - <https://docs.tenzir.com/reference/ship-framework.md>
