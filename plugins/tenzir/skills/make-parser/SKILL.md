@@ -37,20 +37,79 @@ changelog entries to a package, spawn the `dev:changelog-adder` subagent.
 
 ## Workflow
 
-Fetch the complete workflow from:
+Follow ALL phases in EXACT order. You MUST state "Phase N complete" before
+proceeding to the next phase.
 
-<https://docs.tenzir.com/reference/workflows/generate-a-parser-package.md>
+### Phase 1: Input Schema Analysis
 
-Follow ALL phases in EXACT order. The workflow defines 5 phases:
+**Objective**: Learn about the input data and understand its structure.
 
-1. **Input Schema Analysis**: Learn about the input data and understand its
-   structure
-2. **Package Scaffolding**: Create the package structure for iterative
-   development
-3. **Iterate & Test**: Refine the parser until all fields are parsed and
-   properly typed
-4. **Bootstrap Sampling**: Create additional input samples to expand test
-   coverage
-5. **Summarize**: Provide a final summary of the parser's functionality
+**Steps**:
 
-You MUST state "Phase N complete" before proceeding to the next phase.
+1. Ask the user to provide sample log data (file path or pasted content)
+2. Identify the data source format (CSV, JSON, YAML, syslog, etc.)
+3. Identify vendor and product that may have generated this data
+4. Document the complete input schema in terms of fields and types
+
+**Completion**: State "Phase 1 complete" before proceeding.
+
+### Phase 2: Package Scaffolding
+
+**Objective**: Create the package structure for iterative development.
+
+**Steps**:
+
+1. Confirm the package ID with the user (typically vendor name, e.g., `fortinet`,
+   `cisco`, `microsoft`). In the instructions below, replace `<pkg>` with the
+   chosen package ID.
+2. Create the package directory structure as described in the Write a Package
+   tutorial. Include `operators/parse.tql`, `tests/parse.tql`, and
+   `tests/inputs/sample.txt`.
+3. Create `package.yaml` with the package metadata.
+4. Create the initial `parse` operator in `operators/parse.tql` with just
+   `read_lines` as a starting point.
+5. Create a test file `tests/parse.tql` that reads from the input:
+
+   ```tql
+   from_file f"{env("TENZIR_INPUTS")}/sample.txt" {
+     <pkg>::parse
+   }
+   ```
+
+6. Save the sample log data to `tests/inputs/sample.txt`.
+7. Create the initial baseline: `uvx tenzir-test --root <pkg> -u --summary`
+
+**Completion**: State "Phase 2 complete" before proceeding.
+
+### Phase 3: Iterate and Test
+
+**Objective**: Refine the parser until all fields are parsed and properly typed.
+
+**Prerequisites**: Read these guides for transformation patterns:
+
+- <https://docs.tenzir.com/guides/data-shaping/transform-basic-values.md> - Type conversion, null handling, sentinel values
+- <https://docs.tenzir.com/guides/data-shaping/extract-structured-data-from-text.md> - Nested structures, delimited data
+- <https://docs.tenzir.com/guides/data-shaping/manipulate-strings.md> - String cleanup, splitting, extraction
+
+Loop until all fields are properly parsed:
+
+1. Make ONE modification to the `parse` operator. Work through these categories:
+   - **Type conversion**: Parse timestamps, IPs, subnets (see `transform-basic-values`)
+   - **Structure extraction**: Parse nested JSON, CSV, key-value pairs (see `extract-structured-data-from-text`)
+   - **Data cleaning**: Normalize sentinel values to null, trim whitespace, extract substrings (see `transform-basic-values` and `manipulate-strings`)
+2. Observe the impact of your change by re-running:
+   - `uvx tenzir-test --root <pkg> --summary`
+3. If the diff looks good, update the baseline: `uvx tenzir-test --root <pkg> -u --summary`
+4. Go back to Step 1 and continue with the next modification
+
+**Completion**: State "Phase 3 complete" before proceeding.
+
+### Phase 4: Summarize
+
+Provide a final summary of the parser's functionality:
+
+- **Input**: Description of the input format and source
+- **TQL**: The complete parsing logic
+- **Output**: Description of the parsed schema with types
+- **Package structure**: Tree view of the package
+- **Noteworthy findings**: Any interesting discoveries or caveats
