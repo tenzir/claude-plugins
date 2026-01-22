@@ -1,0 +1,19 @@
+created: 2026-01-22
+title: Plugin Consolidation
+intro: >-
+  This release consolidates several plugins into unified packages. The dev plugin
+
+  now includes documentation, technical writing, git workflows, plan review, and
+
+  auto-formatting. The tenzir plugin combines TQL and OCSF functionality.
+
+
+  A new emoji reaction-based changelog workflow lets you approve, reject, or
+
+  modify changelog suggestions directly in PR comments using GitHub reactions.
+modules:
+  brand: v1.0.0
+  cpp: v0.2.0
+  dev: v3.0.0
+  excalidraw: v0.1.1
+  python: v1.1.1
