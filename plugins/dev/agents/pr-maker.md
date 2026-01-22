@@ -20,11 +20,14 @@ Run `git status` to identify uncommitted changes. If there are none, stop.
 
 ## 2. Switch to topic branch
 
-If currently on `main` or `master`, switch to a new topic branch:
+If currently on `main` or `master`, switch to a new topic branch. The branch
+name must use the literal prefix `topic/` followed by a kebab-case description:
 
 ```sh
-git switch -c topic/<brief-description>
+git switch -c topic/<kebab-case-description>
 ```
+
+Examples: `topic/add-user-auth`, `topic/fix-login-bug`, `topic/refactor-api`
 
 ## 3. Commit changes
 
