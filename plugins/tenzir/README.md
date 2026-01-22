@@ -6,6 +6,8 @@ for schema navigation.
 
 ## ✨ Features
 
+- **Documentation Access**: Complete Tenzir documentation available as a skill,
+  auto-synced from the latest release
 - **Parser Creation**: Guided workflow for building parsing pipelines from
   raw log data with iterative testing
 - **OCSF Mapping**: Transform parsed events into OCSF-compliant format with
@@ -14,6 +16,16 @@ for schema navigation.
   `tenzir:ocsf` subagent
 
 ## 🚀 Usage
+
+### `tenzir:docs` skill
+
+Provides the complete Tenzir documentation as context. The documentation is
+automatically downloaded from the latest GitHub release and cached locally.
+Syncs every 24 hours to stay current.
+
+The skill covers deployment, configuration, TQL (Tenzir Query Language),
+operators, functions, formats, connectors, integrations, and the Tenzir
+Platform.
 
 ### `/tenzir:make-parser` skill
 

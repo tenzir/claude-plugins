@@ -1,0 +1,3 @@
+# Dynamically synced docs skill content
+skills/docs/*
+!skills/docs/.gitkeep
