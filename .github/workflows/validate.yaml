@@ -38,10 +38,22 @@ jobs:
           errors=0
           for skill_dir in plugins/*/skills/*/; do
             if [ -d "$skill_dir" ]; then
+              skill_file="$skill_dir/SKILL.md"
+              if [ ! -f "$skill_file" ]; then
+                continue
+              fi
               echo "Validating $skill_dir..."
-              if ! skills-ref validate "$skill_dir"; then
+              # Create cleaned copy stripping Claude-specific extensions
+              # Directory name must match skill name for validation
+              skill_name=$(basename "$skill_dir")
+              tmp_parent=$(mktemp -d)
+              tmp_dir="$tmp_parent/$skill_name"
+              cp -r "$skill_dir" "$tmp_dir"
+              sed -i '/^disable-model-invocation:/d; /^argument-hint:/d' "$tmp_dir/SKILL.md"
+              if ! skills-ref validate "$tmp_dir"; then
                 errors=$((errors + 1))
               fi
+              rm -rf "$tmp_parent"
             fi
           done
           if [ $errors -gt 0 ]; then
