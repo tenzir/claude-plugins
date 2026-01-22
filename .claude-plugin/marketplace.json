@@ -21,7 +21,7 @@
     },
     {
       "name": "dev",
-      "description": "Developer utilities for Tenzir projects",
+      "description": "Developer utilities including documentation, changelogs, code review, and releases",
       "source": "./plugins/dev"
     },
     {
@@ -48,11 +48,6 @@
       "name": "python",
       "description": "Python coding conventions for Tenzir projects",
       "source": "./plugins/python"
-    },
-    {
-      "name": "ship",
-      "description": "Release engineering with tenzir-ship",
-      "source": "./plugins/ship"
     },
     {
       "name": "tenzir",

@@ -37,10 +37,6 @@ plugin:python:
   - changed-files:
       - any-glob-to-any-file: plugins/python/**
 
-plugin:ship:
-  - changed-files:
-      - any-glob-to-any-file: plugins/ship/**
-
 plugin:tql:
   - changed-files:
       - any-glob-to-any-file: plugins/tql/**

@@ -20,7 +20,6 @@ on:
           git@tenzir
           plan@tenzir
           python@tenzir
-          ship@tenzir
           tenzir@tenzir
     secrets:
       anthropic_api_key:
@@ -58,5 +57,4 @@ jobs:
             git@tenzir
             plan@tenzir
             python@tenzir
-            ship@tenzir
             tenzir@tenzir' }}

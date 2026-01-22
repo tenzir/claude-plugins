@@ -1,6 +1,0 @@
-created: 2025-12-22
-title: Improved Context Gathering
-intro: >-
-  This release improves the changelog entry creation workflow by providing clearer
-  guidance for determining which commits to include when adding entries outside of a
-  pull request context.

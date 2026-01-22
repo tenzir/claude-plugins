@@ -33,8 +33,7 @@ Read the following pages to understand packages and testing:
 - <https://docs.tenzir.com/guides/testing/write-tests.md>
 
 The `tenzir-ship` framework manages the `changelog/` directory. When adding
-changelog entries to a package, spawn the `ship:adder` subagent or run
-`/ship:add` directly.
+changelog entries to a package, spawn the `dev:changelog-adder` subagent.
 
 ## Workflow
 

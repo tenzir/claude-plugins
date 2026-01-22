@@ -56,7 +56,7 @@ runs:
       run: |
         find . -path "*/changelog/unreleased/*.md" -type f 2>/dev/null | sort > /tmp/changelog-before.txt
 
-    # Step 3: Run /ship:add to generate the entry (but don't commit)
+    # Step 3: Run create a changelog entry to generate the entry (but don't commit)
     - name: Generate changelog entry
       if: steps.check.outputs.skipped != 'true'
       uses: anthropics/claude-code-action@v1
@@ -68,17 +68,16 @@ runs:
           PR NUMBER: ${{ github.event.pull_request.number }}
           AUTHOR: ${{ github.event.pull_request.user.login }}
 
-          Analyze this PR and run /ship:add if there are user-facing changes.
+          Analyze this PR and run create a changelog entry if there are user-facing changes.
 
           IMPORTANT: Do NOT commit anything. Just create the changelog entry file.
           If there are no user-facing changes, do nothing.
-        claude_args: "--agent ship:adder --allowedTools Read,Glob,Grep,Bash,Write,Skill"
+        claude_args: "--agent dev:changelog-adder --allowedTools Read,Glob,Grep,Bash,Write,Skill"
         show_full_output: true
         plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
         plugins: |
-          ship@tenzir
+          dev@tenzir
           git@tenzir
-          prose@tenzir
 
     # Step 4: Detect and stash the new entry file
     - name: Detect new entry

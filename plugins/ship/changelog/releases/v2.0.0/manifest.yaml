@@ -1,7 +1,0 @@
-created: 2026-01-09
-title: Plugin Rebrand
-intro: >-
-  This major release rebrands the plugin from "changelog" to "ship" to better reflect
-  its broader focus on release engineering. Commands have been updated from `/changelog:add`
-  and `/changelog:release` to `/ship:add` and `/ship:release`, and all CLI invocations
-  now use `tenzir-ship` instead of `tenzir-changelog`.
