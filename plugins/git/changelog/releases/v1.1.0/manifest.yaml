@@ -1,8 +1,0 @@
-created: 2025-12-28
-title: Pull Request Workflow
-intro: >-
-  This release adds the new `/git:pr` command for creating GitHub pull requests directly
-  from Claude Code. The command integrates with `/git:commit` to streamline the workflow
-  from staging changes to opening a PR. Additionally, `/git:commit` has been simplified
-  by removing changelog and version bump steps, which are now handled separately via
-  `/changelog:add` and `/changelog:release`.

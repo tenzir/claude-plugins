@@ -4,7 +4,7 @@ description: Update the official Tenzir documentation.
 tools: Read, Glob, Grep, Bash, Edit, Write, Skill
 model: opus
 color: blue
-skills: dev:docs-authoring, dev:technical-writing, git:writing-commit-messages
+skills: dev:docs-authoring, dev:technical-writing, dev:writing-commit-messages
 hooks:
   PreToolUse:
     - matcher: "*"
@@ -71,7 +71,7 @@ Run linting in `.docs/` and fix any formatting issues.
 
 ### 5. Create pull request
 
-Change directory to `.docs/` and execute `/git:pr`.
+Change directory to `.docs/` and spawn the `@dev:pr-maker` agent.
 
 If a PR exists in the main/parent project:
 

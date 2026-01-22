@@ -1,5 +1,10 @@
 ---
-description: Create a pull request on GitHub for current changes
+name: pr-maker
+description: Create a pull request on GitHub for current changes.
+tools: Read, Glob, Grep, Bash, Write, Skill, Task
+model: haiku
+color: blue
+skills: dev:writing-commit-messages
 ---
 
 # Create Pull Request
@@ -8,8 +13,6 @@ description: Create a pull request on GitHub for current changes
 > PR. Check `CLAUDE.md` or project documentation for required linting,
 > formatting, type checking, and build steps. Run these first and fix any
 > failures.
-
-At any step, if there are errors, report them and stop.
 
 ## 1. Verify changes
 
@@ -23,16 +26,13 @@ If currently on `main` or `master`, switch to a new topic branch:
 git switch -c topic/<brief-description>
 ```
 
-Use a descriptive branch name based on the changes (e.g.,
-`topic/add-user-validation`, `topic/fix-memory-leak`).
-
 ## 3. Commit changes
 
-Execute `/git:commit` to stage and commit the changes.
+Use `@dev:committer` to stage and commit the changes.
 
 ## 4. Create PR
 
-Push the branch to origin, then create the PR:
+Push and create the PR:
 
 ```sh
 git push -u origin HEAD

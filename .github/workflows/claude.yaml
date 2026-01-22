@@ -16,9 +16,6 @@ on:
           cpp@tenzir
           dev@tenzir
           excalidraw@tenzir
-          formatter@tenzir
-          git@tenzir
-          plan@tenzir
           python@tenzir
           tenzir@tenzir
     secrets:
@@ -53,8 +50,5 @@ jobs:
             cpp@tenzir
             dev@tenzir
             excalidraw@tenzir
-            formatter@tenzir
-            git@tenzir
-            plan@tenzir
             python@tenzir
             tenzir@tenzir' }}

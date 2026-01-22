@@ -111,7 +111,6 @@ runs:
         plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
         plugins: |
           dev@tenzir
-          git@tenzir
 
     - name: Modify style (more technical)
       if: inputs.action == 'more-technical'
@@ -133,7 +132,6 @@ runs:
         plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
         plugins: |
           dev@tenzir
-          git@tenzir
 
     - name: Modify style (less technical)
       if: inputs.action == 'less-technical'
@@ -155,7 +153,6 @@ runs:
         plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
         plugins: |
           dev@tenzir
-          git@tenzir
 
     - name: Modify style (more cynical)
       if: inputs.action == 'more-cynical'
@@ -177,7 +174,6 @@ runs:
         plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
         plugins: |
           dev@tenzir
-          git@tenzir
 
     - name: Update comment after regenerate/style change
       if: inputs.action == 'regenerate' || contains(fromJSON('["more-technical", "less-technical", "more-cynical"]'), inputs.action)

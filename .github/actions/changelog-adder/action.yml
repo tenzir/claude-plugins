@@ -77,7 +77,6 @@ runs:
         plugin_marketplaces: "https://github.com/tenzir/claude-plugins.git"
         plugins: |
           dev@tenzir
-          git@tenzir
 
     # Step 4: Detect and stash the new entry file
     - name: Detect new entry

@@ -1,9 +1,0 @@
-created: 2026-01-08
-title: Autonomous Commit Workflows
-intro: >-
-  This release introduces autonomous commit workflows that automatically split unrelated
-  changes into separate commits without prompting. The new `/git:address-pr-comments`
-  command systematically addresses GitHub PR review comments, creating commits and
-  resolving threads automatically. The commit workflow now includes expanded static
-  checks (linters, type checkers, formatters) before staging changes. Several bugfixes
-  improve multi-line review comment handling and branch pushing reliability.

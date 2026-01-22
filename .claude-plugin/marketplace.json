@@ -21,7 +21,7 @@
     },
     {
       "name": "dev",
-      "description": "Developer utilities including documentation, changelogs, code review, and releases",
+      "description": "Developer utilities including documentation, changelogs, code review, plan review, git workflows, auto-formatting, and releases",
       "source": "./plugins/dev"
     },
     {
@@ -30,28 +30,13 @@
       "source": "./plugins/excalidraw"
     },
     {
-      "name": "formatter",
-      "description": "Auto-format files after Claude edits",
-      "source": "./plugins/formatter"
-    },
-    {
-      "name": "git",
-      "description": "Git workflows for Tenzir repositories",
-      "source": "./plugins/git"
-    },
-    {
-      "name": "plan",
-      "description": "Review plans with external AI tools before implementation",
-      "source": "./plugins/plan"
-    },
-    {
       "name": "python",
       "description": "Python coding conventions for Tenzir projects",
       "source": "./plugins/python"
     },
     {
       "name": "tenzir",
-      "description": "Build TQL pipelines and OCSF mappings with expert guidance",
+      "description": "Authoritative Tenzir documentation, user guides, and workflows",
       "source": "./plugins/tenzir"
     }
   ]

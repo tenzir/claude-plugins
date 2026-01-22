@@ -1,5 +1,0 @@
-created: 2026-01-04
-title: EditorConfig Support
-intro: >-
-  This release improves shell script formatting by adding EditorConfig support, ensuring
-  formatting aligns with repository-specific conventions.

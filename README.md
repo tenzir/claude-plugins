@@ -7,17 +7,14 @@ commands, agents, hooks, skills, and MCP servers tailored for working with
 
 ## Plugins
 
-| Plugin       | Description                                                |
-| ------------ | ---------------------------------------------------------- |
-| `brand`      | Tenzir brand and style guidelines for frontend development |
-| `cpp`        | C++ language support, tooling, and coding conventions      |
-| `dev`        | Developer utilities for Tenzir projects                    |
-| `excalidraw` | Create Excalidraw diagrams with proper JSON structure      |
-| `formatter`  | Auto-format files after Claude edits                       |
-| `git`        | Git workflows for Tenzir repositories                      |
-| `python`     | Python coding conventions for Tenzir projects              |
-| `ship`       | Release engineering with tenzir-ship                       |
-| `tenzir`     | Build TQL pipelines and OCSF mappings with expert guidance |
+| Plugin       | Description                                                                                         |
+| ------------ | --------------------------------------------------------------------------------------------------- |
+| `brand`      | Tenzir brand and style guidelines for frontend development                                          |
+| `cpp`        | C++ language support, tooling, and coding conventions                                               |
+| `dev`        | Developer utilities including documentation, changelogs, code review, git workflows, and formatting |
+| `excalidraw` | Create Excalidraw diagrams with proper JSON structure                                               |
+| `python`     | Python coding conventions for Tenzir projects                                                       |
+| `tenzir`     | Authoritative Tenzir documentation, user guides, and workflows                                      |
 
 ## 🛠️ Development
 

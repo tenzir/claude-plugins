@@ -1,9 +1,11 @@
 # Dev
 
-Developer utilities including documentation, changelogs, code review, and
-releases. Provides documentation workflows with the Diataxis framework,
-technical writing guidance based on Google's style guide, changelog management
-with tenzir-ship, and parallel code review with specialized reviewers.
+Developer utilities including documentation, changelogs, code review, plan
+review, git workflows, auto-formatting, and releases. Provides documentation
+workflows with the Diataxis framework, technical writing guidance based on
+Google's style guide, changelog management with tenzir-ship, parallel code
+review with specialized reviewers, automated plan review with external AI tools,
+git commit/PR workflows, and automatic file formatting after edits.
 
 ## ✨ Features
 
@@ -17,6 +19,16 @@ with tenzir-ship, and parallel code review with specialized reviewers.
   analyze changes with confidence-scored findings
 - 🚀 **Release Command**: Guides through releasing a project with tenzir-ship
 - 🔄 **Finalize Command**: Adds changelog entry, commits, and pushes changes
+- 🔬 **Plan Review Hooks**: Automatically reviews implementation plans with
+  external AI tools (Codex, Gemini) before approval
+- 📦 **Committer Agent**: Stages and commits changes with cohesion analysis and
+  automatic splitting of unrelated changes
+- 🔀 **PR Maker Agent**: Creates GitHub pull requests with proper branching
+  and commit workflows
+- 💬 **PR Comments Skill**: Guidance for addressing GitHub PR review comments
+  with commits
+- 🔧 **Auto-Formatting Hook**: Automatically formats files after every Write or
+  Edit operation using language-specific formatters
 
 ## 🚀 Usage
 
@@ -70,7 +82,38 @@ Add changelog, commit, and push in one command:
 /dev:finalize
 ```
 
+### Committing changes
+
+For automated workflows, use the committer agent:
+
+```
+@dev:committer
+```
+
+The agent gathers context, runs static checks, analyzes change cohesion (auto-
+splitting orthogonal changes into separate commits), and commits with proper
+messages.
+
+### Creating pull requests
+
+Use the PR maker agent:
+
+```
+@dev:pr-maker
+```
+
+The agent verifies changes, creates a topic branch if needed, commits changes
+using `@dev:committer`, pushes, and creates the PR on GitHub.
+
+### Addressing PR comments
+
+The `dev:addressing-pr-comments` skill activates when working through PR
+feedback. It guides you through fetching unresolved review threads, grouping
+related comments, making fixes, and replying with commit SHAs.
+
 ## 🔧 Configuration
+
+### Documentation repository
 
 The plugin clones `github.com/tenzir/docs` to `.docs/` in your project root if
 it doesn't exist yet.
@@ -78,6 +121,47 @@ it doesn't exist yet.
 A sync hook keeps `.docs/` up-to-date when editing documentation files. It
 fetches updates at most once per day and blocks on merge conflicts so Claude can
 help resolve them.
+
+### Plan review
+
+Plan review runs automatically when exiting plan mode. Configure with environment
+variables:
+
+| Variable              | Default        | Description                     |
+| --------------------- | -------------- | ------------------------------- |
+| `PLAN_REVIEW_SKIP`    | `false`        | Skip review entirely            |
+| `PLAN_REVIEW_TOOLS`   | `codex,gemini` | Comma-separated review tools    |
+| `PLAN_REVIEW_TIMEOUT` | `120`          | Per-tool timeout in seconds     |
+| `PLAN_REVIEW_BLOCK`   | `true`         | Block on P1/P2 findings         |
+| `PLAN_REVIEW_DIR`     | `.plans`       | Directory containing plan files |
+
+Reviews categorize findings by severity:
+
+- **P1 (Critical)**: Blocks approval - fundamental flaws
+- **P2 (Major)**: Requires revision - significant issues
+
+### Auto-formatting
+
+The plugin auto-formats files after every Write or Edit operation. Install the
+formatters you need:
+
+| File Type                                    | Tool         | Config Required |
+| -------------------------------------------- | ------------ | --------------- |
+| `.cpp`, `.hpp`, `.*pp.in`                    | clang-format | No              |
+| `.cmake`, `CMakeLists.txt`                   | cmake-format | No              |
+| `.sh`, `.bash`                               | shfmt        | No              |
+| `.md`, `.mdx`                                | markdownlint | No              |
+| `.md`, `.mdx`                                | prettier     | No              |
+| `.json`                                      | biome        | Yes             |
+| `.json`                                      | prettier     | Yes             |
+| `.yaml`, `.yml`                              | yamllint     | No              |
+| `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs`, `.cjs` | biome        | Yes             |
+| `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs`, `.cjs` | eslint       | Yes             |
+| `.js`, `.jsx`, `.ts`, `.tsx`, `.mjs`, `.cjs` | prettier     | Yes             |
+
+For JS/TS and JSON files, the hook searches for config files (`biome.json`,
+`eslint.config.*`, `.prettierrc*`) from the edited file's directory upward. If
+no config is found, formatting is skipped for these file types.
 
 ## Documentation sections
 

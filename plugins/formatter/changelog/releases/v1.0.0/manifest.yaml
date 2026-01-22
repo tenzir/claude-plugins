@@ -1,6 +1,0 @@
-created: 2025-12-15
-title: Formatter Plugin v1.0.0
-intro: >-
-  This is the first stable release of the formatter plugin. It improves portability
-  with a standard shebang and adds support for MDX file formatting to prevent lint
-  failures in projects using MDX.

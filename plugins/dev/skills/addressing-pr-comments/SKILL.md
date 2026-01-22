@@ -1,12 +1,13 @@
 ---
-description: Address GitHub PR review comments with commits
-argument-hint: "[pr-number]"
+name: addressing-pr-comments
+description: Address GitHub PR review comments with commits. Use when working through PR feedback, resolving review threads, or fixing code based on reviewer suggestions.
 ---
 
 # Address PR Review Comments
 
-Work through GitHub PR review comments, creating one commit per comment (or group
-of related comments), then reply with the commit SHA and resolve the thread.
+Work through GitHub PR review comments, creating one commit per comment (or
+group of related comments), then reply with the commit SHA and resolve the
+thread.
 
 ## 1. Identify the PR
 
@@ -87,7 +88,7 @@ Apply the requested changes to the file(s).
 
 ### 4.3 Commit and push the fix
 
-Use the @git:committer agent to commit the fix, then push immediately:
+Use the @dev:committer agent to commit the fix, then push immediately:
 
 ```sh
 git push
