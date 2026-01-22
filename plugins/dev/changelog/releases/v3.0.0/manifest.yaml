@@ -1,0 +1,17 @@
+created: 2026-01-22
+title: Unified Developer Utilities
+intro: >-
+  This release consolidates developer utilities into a unified plugin. The docs,
+
+  prose, and ship plugins have merged into dev, providing changelog management,
+
+  code review, and documentation workflows in one place.
+
+
+  The new `/dev:review` command spawns seven specialized reviewers in parallel to
+
+  analyze code changes with confidence-scored findings. Release workflows moved to
+
+  `/dev:release` and `/dev:finalize`. Documentation synchronization now works
+
+  across all doc commands with automatic worktree isolation.

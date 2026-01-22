@@ -1,6 +1,6 @@
 {
   "name": "dev",
-  "version": "2.2.2",
+  "version": "3.0.0",
   "description": "Developer utilities including documentation, changelogs, code review, plan review, git workflows, auto-formatting, and releases",
   "author": {
     "name": "Tenzir",
