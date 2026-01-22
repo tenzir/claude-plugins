@@ -14,7 +14,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 echo "Updating changelog comment for PR #$PR_NUMBER after $ACTION"
 
-# Detect the new entry file created by /ship:add
+# Detect the new changelog entry.
 find . -path "*/changelog/unreleased/*.md" -type f 2>/dev/null | sort > /tmp/changelog-after.txt
 new_file=$(comm -13 /tmp/changelog-before.txt /tmp/changelog-after.txt | head -1)
 
