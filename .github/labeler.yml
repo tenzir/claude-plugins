@@ -25,10 +25,6 @@ plugin:git:
   - changed-files:
       - any-glob-to-any-file: plugins/git/**
 
-plugin:ocsf:
-  - changed-files:
-      - any-glob-to-any-file: plugins/ocsf/**
-
 plugin:plan:
   - changed-files:
       - any-glob-to-any-file: plugins/plan/**
@@ -37,7 +33,7 @@ plugin:python:
   - changed-files:
       - any-glob-to-any-file: plugins/python/**
 
-plugin:tql:
+plugin:tenzir:
   - changed-files:
-      - any-glob-to-any-file: plugins/tql/**
+      - any-glob-to-any-file: plugins/tenzir/**
 
