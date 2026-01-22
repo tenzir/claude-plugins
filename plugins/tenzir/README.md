@@ -27,29 +27,29 @@ The skill covers deployment, configuration, TQL (Tenzir Query Language),
 operators, functions, formats, connectors, integrations, and the Tenzir
 Platform.
 
-### `/tenzir:make-parser` skill
+### `/tenzir:managing-packages` skill
 
 Guided workflow for creating a TQL parsing pipeline package from sample log
-data. Walks through 5 phases: input analysis, package scaffolding, iterative
-testing, sample synthesis, and summarization.
+data. Walks through 4 phases: input analysis, package scaffolding, iterative
+testing, and summarization.
 
 **Usage:**
 
 ```
-/tenzir:make-parser
+/tenzir:managing-packages
 ```
 
 Then provide sample log data when prompted.
 
-### `/tenzir:make-ocsf-mapping` skill
+### `/tenzir:mapping-to-ocsf` skill
 
 Adds OCSF (Open Cybersecurity Schema Framework) mapping to an existing parser
-package. If no parser exists, it will invoke `/tenzir:make-parser` first.
+package. If no parser exists, it will invoke `/tenzir:managing-packages` first.
 
 **Usage:**
 
 ```
-/tenzir:make-ocsf-mapping
+/tenzir:mapping-to-ocsf
 ```
 
 Then provide the package directory or sample log data when prompted.

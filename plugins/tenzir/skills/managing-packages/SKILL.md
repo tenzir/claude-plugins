@@ -1,11 +1,11 @@
 ---
-name: make-parser
-description: Create a TQL parsing pipeline package from sample log data
+name: managing-packages
+description: Create and manage TQL parsing pipeline packages. Use when creating parser packages, setting up package structure, or iterating on parsing logic.
 disable-model-invocation: true
 argument-hint: "[sample-file-or-data]"
 ---
 
-# Create a TQL Parsing Pipeline
+# Create a TQL Parsing Pipeline Package
 
 Guide the user through creating a Tenzir package that parses raw log data into
 structured events.

@@ -1,6 +1,6 @@
 ---
-name: make-ocsf-mapping
-description: Create an OCSF mapping inside a Tenzir package
+name: mapping-to-ocsf
+description: Add OCSF mapping to a TQL parsing pipeline. Use when normalizing events to OCSF, creating OCSF operators, or validating OCSF compliance.
 disable-model-invocation: true
 argument-hint: "[package-directory]"
 ---
@@ -49,7 +49,7 @@ proceeding to the next phase.
 1. Ask the user for the package directory or sample log data
 2. If a parser package exists (has `operators/parse.tql`), note the package
    directory and identifier, then proceed to Phase 1
-3. If no parser exists, invoke `/tenzir:make-parser` first
+3. If no parser exists, invoke `/tenzir:managing-packages` first
 
 **Completion**: State "Phase 0 complete" with the package ID.
 
