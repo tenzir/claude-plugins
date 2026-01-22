@@ -1,0 +1,8 @@
+created: 2026-01-22
+title: Expanded Conventions Guidance
+intro: >-
+  This release expands the Python conventions skill with guidance on default
+
+  libraries (pydantic, FastAPI, Click), package structure best practices, and
+
+  testing patterns with pytest.
