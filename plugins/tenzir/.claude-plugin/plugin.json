@@ -1,7 +1,7 @@
 {
-  "name": "ocsf",
-  "version": "0.1.1",
-  "description": "Understand the OCSF schema structure",
+  "name": "tenzir",
+  "version": "0.0.0",
+  "description": "Build TQL pipelines and OCSF mappings with expert guidance",
   "author": {
     "name": "Tenzir",
     "email": "engineering@tenzir.com",

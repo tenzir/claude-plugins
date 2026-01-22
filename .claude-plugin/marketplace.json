@@ -40,11 +40,6 @@
       "source": "./plugins/git"
     },
     {
-      "name": "ocsf",
-      "description": "Understand the OCSF schema structure",
-      "source": "./plugins/ocsf"
-    },
-    {
       "name": "plan",
       "description": "Review plans with external AI tools before implementation",
       "source": "./plugins/plan"
@@ -65,9 +60,9 @@
       "source": "./plugins/ship"
     },
     {
-      "name": "tql",
-      "description": "Build TQL pipelines with expert language guidance",
-      "source": "./plugins/tql"
+      "name": "tenzir",
+      "description": "Build TQL pipelines and OCSF mappings with expert guidance",
+      "source": "./plugins/tenzir"
     }
   ]
 }

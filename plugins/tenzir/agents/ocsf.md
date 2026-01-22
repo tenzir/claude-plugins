@@ -1,5 +1,5 @@
 ---
-name: guide
+name: ocsf
 description: Answer questions about the OCSF (Open Cyber Security Schema Framework). Use when the user asks about OCSF classes, objects, attributes, profiles, or event normalization.
 tools: WebFetch
 model: haiku
