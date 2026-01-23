@@ -66,11 +66,16 @@ The GitHub reviewer uses `gh` CLI which inherits your authentication. Only run
 on repositories you trust. If `GITHUB_TOKEN` is set (e.g., in CI), the reviewer
 gains those permissions.
 
-### Launch Reviewers
+### Select Reviewers
 
-Launch reviewer agents in parallel using the Task tool (GitHub reviewer only if
-PR exists). Pass the project context from the Explore agent, file list, and
-review directory:
+Run the diff command from the hook output to see the actual changes. Based on
+what you observe, select which reviewers to spawn:
+
+- Skip reviewers that clearly have nothing to review
+- When uncertain, include the reviewer—false negatives are worse than extra reviews
+- Always include `github` if a PR exists
+
+### Available Reviewers
 
 - `@dev:reviewers:ux` - User experience, clarity, discoverability
 - `@dev:reviewers:docs` - Documentation quality, accuracy
@@ -80,6 +85,11 @@ review directory:
 - `@dev:reviewers:readability` - Naming quality, idiomatic patterns, clarity
 - `@dev:reviewers:performance` - Performance, complexity, resource efficiency
 - `@dev:reviewers:github` - GitHub PR comments from humans and bots (only if PR exists)
+
+### Launch Reviewers
+
+Launch selected reviewer agents in parallel using the Task tool. Pass the
+project context from the Explore agent, file list, and review directory.
 
 Pass each reviewer a prompt constructed from hook outputs:
 

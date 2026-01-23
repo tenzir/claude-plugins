@@ -1,6 +1,7 @@
 ---
-name: plan-reviewer
+name: plan
 description: Review implementation plans via external models. Use when validating plans before execution.
+argument-hint: "[model: codex|gemini|opus|provider/model]"
 tools: Bash
 model: haiku
 color: yellow

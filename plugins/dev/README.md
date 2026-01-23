@@ -127,7 +127,7 @@ help resolve them.
 Use the plan reviewer agent to validate implementation plans with external models:
 
 ```
-@dev:plan-reviewer
+@dev:reviewers:plan
 ```
 
 The agent supports model shortcuts:
