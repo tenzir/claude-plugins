@@ -32,6 +32,19 @@ has_config() {
   find_config_file "$@" &>/dev/null
 }
 
+# Run a PyPI tool, falling back to uv tool run if not installed
+run_pypi_tool() {
+  local tool="$1"
+  shift
+  if has_cmd "$tool"; then
+    "$tool" "$@"
+  elif has_cmd uv; then
+    uv tool run "$tool" "$@"
+  else
+    return 1
+  fi
+}
+
 get_clang_format_required_version() {
   local file="$1"
   local version_file
@@ -87,11 +100,7 @@ if [[ "$FILE_PATH" =~ \.(cpp|hpp|cpp\.in|hpp\.in)$ ]]; then
 fi
 
 if [[ "$FILE_PATH" =~ \.(cmake|CMakeLists\.txt)$ ]]; then
-  if has_cmd cmake-format; then
-    cmake-format --in-place "$FILE_PATH" || true
-  elif has_cmd uv; then
-    uv tool run cmake-format --in-place "$FILE_PATH" >/dev/null || true
-  fi
+  run_pypi_tool cmake-format --in-place "$FILE_PATH" >/dev/null || true
 fi
 
 if [[ "$FILE_PATH" =~ \.(md|mdx)$ ]]; then
@@ -141,9 +150,12 @@ if [[ "$FILE_PATH" =~ \.(sh|bash)$ ]]; then
 fi
 
 if [[ "$FILE_PATH" =~ \.(yaml|yml)$ ]]; then
-  if has_cmd yamllint; then
-    yamllint "$FILE_PATH" >/dev/null || true
-  fi
+  run_pypi_tool yamllint "$FILE_PATH" >/dev/null || true
+fi
+
+if [[ "$FILE_PATH" =~ \.(py)$ ]]; then
+  run_pypi_tool ruff format "$FILE_PATH" || true
+  run_pypi_tool ruff check --fix "$FILE_PATH" >/dev/null || true
 fi
 
 if [[ "$FILE_PATH" =~ \.(js|jsx|ts|tsx|mjs|cjs)$ ]]; then
