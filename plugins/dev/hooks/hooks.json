@@ -9,26 +9,6 @@
             "command": "$CLAUDE_PLUGIN_ROOT/hooks/format-hook.sh"
           }
         ]
-      },
-      {
-        "matcher": "EnterPlanMode",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$CLAUDE_PLUGIN_ROOT/hooks/notify-plan-review.sh",
-            "timeout": 10
-          }
-        ]
-      },
-      {
-        "matcher": "ExitPlanMode",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "$CLAUDE_PLUGIN_ROOT/hooks/review-plan.sh",
-            "timeout": 600
-          }
-        ]
       }
     ]
   }

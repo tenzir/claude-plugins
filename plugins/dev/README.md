@@ -19,8 +19,8 @@ git commit/PR workflows, and automatic file formatting after edits.
   analyze changes with confidence-scored findings
 - 🚀 **Release Command**: Guides through releasing a project with tenzir-ship
 - 🔄 **Finalize Command**: Adds changelog entry, commits, and pushes changes
-- 🔬 **Plan Review Hooks**: Automatically reviews implementation plans with
-  external AI tools (Codex, Gemini) before approval
+- 🔬 **Plan Reviewer Agent**: Reviews implementation plans using external AI
+  models (Codex, Gemini, Opus) with structured evaluation methodology
 - 📦 **Committer Agent**: Stages and commits changes with cohesion analysis and
   automatic splitting of unrelated changes
 - 🔀 **PR Maker Agent**: Creates GitHub pull requests with proper branching
@@ -124,21 +124,26 @@ help resolve them.
 
 ### Plan review
 
-Plan review runs automatically when exiting plan mode. Configure with environment
-variables:
+Use the plan reviewer agent to validate implementation plans with external models:
 
-| Variable              | Default        | Description                     |
-| --------------------- | -------------- | ------------------------------- |
-| `PLAN_REVIEW_SKIP`    | `false`        | Skip review entirely            |
-| `PLAN_REVIEW_TOOLS`   | `codex,gemini` | Comma-separated review tools    |
-| `PLAN_REVIEW_TIMEOUT` | `120`          | Per-tool timeout in seconds     |
-| `PLAN_REVIEW_BLOCK`   | `true`         | Block on P1/P2 findings         |
-| `PLAN_REVIEW_DIR`     | `.plans`       | Directory containing plan files |
+```
+@dev:plan-reviewer
+```
 
-Reviews categorize findings by severity:
+The agent supports model shortcuts:
 
-- **P1 (Critical)**: Blocks approval - fundamental flaws
-- **P2 (Major)**: Requires revision - significant issues
+| Shortcut | Model                     |
+| -------- | ------------------------- |
+| `codex`  | OpenAI GPT-5.2 Codex      |
+| `gemini` | Google Gemini Flash       |
+| `opus`   | Anthropic Claude Opus 4.5 |
+
+Reviews evaluate plans across five dimensions (completeness, correctness,
+feasibility, risk, clarity) and return a verdict:
+
+- **BLOCK**: Critical (P1) findings - fundamental flaws
+- **REVISE**: Major (P2) findings - significant issues
+- **APPROVE**: No P1 or P2 findings
 
 ### Auto-formatting
 
