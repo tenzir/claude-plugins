@@ -6,7 +6,7 @@ model: sonnet
 
 # Fix Review Findings
 
-Work through review findings one-by-one, creating a commit for each fix.
+Work through review findings one-by-one, spawning `@dev:fixer` for each fix.
 
 ## 1. Locate Review Directory
 
@@ -30,7 +30,7 @@ Collect for each finding:
 - Issue description
 - Reasoning and evidence
 - Suggestion
-- Thread ID (for GIT-* findings only)
+- Thread ID (for GIT-\* findings only)
 
 If no findings exist, report "No findings to fix" and stop.
 
@@ -43,9 +43,9 @@ Sort findings:
 
 Present the prioritized list to the user before starting.
 
-## 4. Fix Each Finding
+## 4. Process Each Finding
 
-Process findings in priority order. For each finding:
+For each finding in priority order:
 
 ### 4.1 Show Finding
 
@@ -70,50 +70,38 @@ Use AskUserQuestion to ask how to proceed:
 - **Skip** — Move to next finding
 - **Stop** — End fixing session
 
-### 4.3 Make the Fix
+### 4.3 Spawn Fixer
 
-If user chose to fix (apply or modify), make the changes to the file(s).
+If user chose to fix (apply or modify), spawn `@dev:fixer` with the finding:
 
-### 4.4 Commit and Push
+```markdown
+## Finding
 
-Spawn `@dev:committer` to stage and commit the fix. Then push:
+- **ID**: SEC-1
+- **File**: src/db.ts:45-52
+- **Issue**: User input passed directly to SQL query
+- **Suggestion**: Use parameterized queries with prepared statements
+- **Thread ID**: (include if GIT-\* finding)
 
-```sh
-git push
+## Instructions
+
+Apply the suggestion.
 ```
 
-### 4.5 Resolve GitHub Threads
+Or with custom instructions:
 
-For findings with a GIT-* ID that have a thread ID, reply and resolve:
+```markdown
+## Instructions
 
-**Reply with commit SHA:**
-
-```sh
-gh api graphql -f query='
-mutation {
-  addPullRequestReviewThreadReply(input: {
-    pullRequestReviewThreadId: "THREAD_ID"
-    body: "Addressed in COMMIT_SHA."
-  }) { comment { id } }
-}'
+User's custom approach here...
 ```
 
-**Resolve the thread:**
+Wait for the agent to complete. Record the result (commit SHA, success/failure).
 
-```sh
-gh api graphql -f query='
-mutation {
-  resolveReviewThread(input: {
-    threadId: "THREAD_ID"
-  }) { thread { isResolved } }
-}'
-```
+### 4.4 Continue
 
-If the fix doesn't fully address the comment, ask the user whether to resolve.
-
-### 4.6 Continue or Stop
-
-After each finding, check if user wants to continue or stop early.
+After each finding, proceed to the next. The user can choose "Stop" at any
+finding to end early.
 
 ## 5. Report Summary
 
@@ -124,6 +112,14 @@ After all findings are processed (or user stops), display:
 
 Fixed: 5 findings
 Skipped: 2 findings
-Commits: 4 (some findings grouped)
+Commits: 5
 Threads resolved: 3 (GitHub)
+```
+
+List the commits created:
+
+```
+- abc1234 Fix SQL injection vulnerability
+- def5678 Add missing error handling
+- ...
 ```
