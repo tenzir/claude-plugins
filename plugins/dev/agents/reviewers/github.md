@@ -102,6 +102,7 @@ Brief summary of feedback themes (2-3 sentences).
 
 ### GIT-1 · P3 · Missing error handling · 100%
 
+- **Thread**: `PRT_kwDOExample1`
 - **Author**: @alice
 - **File**: `src/api.ts:45`
 - **Issue**: Function doesn't handle network errors
@@ -112,6 +113,7 @@ Brief summary of feedback themes (2-3 sentences).
 
 ### GIT-2 · P3 · Unclear variable name · 100%
 
+- **Thread**: `PRT_kwDOExample2`
 - **Author**: @bob
 - **File**: `src/utils.ts:12`
 - **Issue**: Variable `x` should have a descriptive name
@@ -126,6 +128,8 @@ Brief summary of feedback themes (2-3 sentences).
 See the `reviewing-changes` skill for the canonical finding format. Notes below
 cover GitHub-specific variations only.
 
+- **Thread**: The GraphQL thread ID from the API response (the `id` field of
+  the reviewThread node). Required for `/fix` to reply and resolve.
 - **Severity**: Default to P3 (suggestions) unless the reviewer explicitly flags
   something as critical or blocking
 - **Confidence**: Default to 100% for clear, actionable human feedback. Use

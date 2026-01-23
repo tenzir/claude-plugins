@@ -223,7 +223,16 @@ If **findings exist**:
 
 > 📁 Full findings: `<review_dir>/`
 >
-> Address these? (**yes** to enter plan mode)
+> Options:
+>
+> - `/fix` — Fix findings one-by-one with commits (resolves GitHub threads)
+> - **yes** — Enter plan mode to fix in bulk
+
+If user runs `/fix`:
+
+The `/fix` command reads findings from the review directory and processes
+them interactively, creating a commit for each fix. For GitHub findings, it
+also replies and resolves threads.
 
 If user responds **yes**:
 
@@ -232,5 +241,27 @@ If user responds **yes**:
    and suggestions—the summary is a distillation, not the full picture
 3. Generate implementation plan ordered by severity (P1 first)
 4. Group fixes by file to minimize context switches
+5. After fixes are pushed, resolve GitHub threads for any GIT-\* findings:
+
+   For each GIT-\* finding with a thread ID, reply and resolve:
+
+   ```sh
+   gh api graphql -f query='
+   mutation {
+     addPullRequestReviewThreadReply(input: {
+       pullRequestReviewThreadId: "THREAD_ID"
+       body: "Addressed in COMMIT_SHA."
+     }) { comment { id } }
+   }'
+   ```
+
+   ```sh
+   gh api graphql -f query='
+   mutation {
+     resolveReviewThread(input: {
+       threadId: "THREAD_ID"
+     }) { thread { isResolved } }
+   }'
+   ```
 
 If user responds **no** or **no findings**:
