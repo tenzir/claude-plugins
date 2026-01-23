@@ -17,6 +17,8 @@ git commit/PR workflows, and automatic file formatting after edits.
   suitable for CI automation
 - 🔍 **Code Review Command**: Spawns specialized reviewers in parallel to
   analyze changes with confidence-scored findings
+- 🔧 **Fix Command**: Addresses review findings one-by-one, spawning an Opus
+  agent per fix with automatic GitHub thread resolution
 - 🚀 **Release Command**: Guides through releasing a project with tenzir-ship
 - 🔄 **Finalize Command**: Adds changelog entry, commits, and pushes changes
 - 🔬 **Plan Reviewer Agent**: Reviews implementation plans using external AI
@@ -25,8 +27,8 @@ git commit/PR workflows, and automatic file formatting after edits.
   automatic splitting of unrelated changes
 - 🔀 **PR Maker Agent**: Creates GitHub pull requests with proper branching
   and commit workflows
-- 💬 **PR Comments Skill**: Guidance for addressing GitHub PR review comments
-  with commits
+- 🤖 **Fixer Agent**: Opus-powered agent that fixes a single finding, commits,
+  and resolves GitHub threads
 - 🔧 **Auto-Formatting Hook**: Automatically formats files after every Write or
   Edit operation using language-specific formatters
 
@@ -66,6 +68,55 @@ This spawns specialized reviewers (security, architecture, tests, UX,
 readability, docs, performance) that analyze your changes in parallel and report
 findings with confidence scores.
 
+After reviewing, fix findings with `/fix` (iterative) or plan mode (bulk):
+
+```
+/dev:review
+    │
+    ├─► Detect scope (staged/unstaged/branch)
+    ├─► Check for PR, gather project context
+    │
+    ├─► Spawn reviewers in parallel:
+    │   ├─► @dev:reviewers:security    → .reviews/<session>/security.md
+    │   ├─► @dev:reviewers:arch        → .reviews/<session>/arch.md
+    │   ├─► @dev:reviewers:tests       → .reviews/<session>/tests.md
+    │   ├─► @dev:reviewers:ux          → .reviews/<session>/ux.md
+    │   ├─► @dev:reviewers:readability → .reviews/<session>/readability.md
+    │   ├─► @dev:reviewers:docs        → .reviews/<session>/docs.md
+    │   ├─► @dev:reviewers:performance → .reviews/<session>/performance.md
+    │   └─► @dev:reviewers:github      → .reviews/<session>/github.md (if PR)
+    │
+    ├─► Synthesize: deduplicate, correlate, prioritize
+    ├─► Display: 🔴 P1 · 🛡️ SEC-1 · SQL injection (95%) · src/db.ts:45
+    │
+    └─► Options: /fix or plan mode
+            │
+            ├───────────────────────────────┐
+            ▼                               ▼
+        /dev:fix                       Plan mode
+            │                               │
+            ├─► For each finding:           ├─► Plan all fixes
+            │   ├─► Show + ask user         ├─► Implement
+            │   └─► @dev:fixer (Opus):      ├─► Commit + push
+            │       ├─► Make fix            └─► Resolve threads
+            │       ├─► Commit + push
+            │       └─► Resolve thread
+            │
+            └─► Summary
+```
+
+### Fixing findings
+
+After `/review`, use `/fix` to address findings one-by-one:
+
+```
+/dev:fix
+```
+
+Each fix spawns an `@dev:fixer` agent (Opus) with fresh context. For GitHub
+findings (GIT-\*), it automatically replies with the commit SHA and resolves
+the thread.
+
 ### Releasing
 
 Guide through a release:
@@ -104,12 +155,6 @@ Use the PR maker agent:
 
 The agent verifies changes, creates a topic branch if needed, commits changes
 using `@dev:committer`, pushes, and creates the PR on GitHub.
-
-### Addressing PR comments
-
-The `dev:addressing-pr-comments` skill activates when working through PR
-feedback. It guides you through fetching unresolved review threads, grouping
-related comments, making fixes, and replying with commit SHAs.
 
 ## 🔧 Configuration
 
