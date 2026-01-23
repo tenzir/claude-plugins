@@ -45,6 +45,36 @@ run_pypi_tool() {
   fi
 }
 
+# Get changed line ranges from staged git diff for hunk-based formatting
+get_changed_lines() {
+  local file="$1"
+  git diff --cached --unified=0 -- "$file" 2>/dev/null | \
+    sed -n 's/^@@ .* +\([0-9]*\),\{0,1\}\([0-9]*\) @@.*/\1 \2/p' | \
+    while read -r start count; do
+      count=${count:-1}
+      if [[ "$count" -gt 0 ]]; then
+        echo "$start:$((start + count - 1))"
+      fi
+    done
+}
+
+# Run clang-format, using --lines for staged hunks when available
+run_clang_format() {
+  local file="$1"
+  local lines range
+  local -a args
+  lines=$(get_changed_lines "$file")
+  if [[ -n "$lines" ]]; then
+    args=()
+    while IFS= read -r range; do
+      [[ -n "$range" ]] && args+=("--lines=$range")
+    done <<< "$lines"
+    clang-format "${args[@]}" -i "$file"
+  else
+    clang-format -i "$file"
+  fi
+}
+
 get_clang_format_required_version() {
   local file="$1"
   local version_file
@@ -85,13 +115,13 @@ if [[ "$FILE_PATH" =~ \.(cpp|hpp|cpp\.in|hpp\.in)$ ]]; then
   if has_cmd clang-format; then
     required_version=$(get_clang_format_required_version "$FILE_PATH")
     if [[ -z "$required_version" ]]; then
-      clang-format -i "$FILE_PATH" || true
+      run_clang_format "$FILE_PATH" || true
     elif [[ "$required_version" == "invalid" ]]; then
       echo ".clang-format-version is invalid, skipping auto-formatting" >&2
     else
       clang_format_version=$(clang-format --version 2>/dev/null | sed -E 's/.*version ([0-9]+).*/\1/')
       if [[ "$clang_format_version" == "$required_version" ]]; then
-        clang-format -i "$FILE_PATH" || true
+        run_clang_format "$FILE_PATH" || true
       else
         echo "clang-format version mismatch (have ${clang_format_version}, need ${required_version}), skipping" >&2
       fi
