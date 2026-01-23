@@ -1,6 +1,13 @@
 ---
 name: reviewing-changes
 description: Review methodology for code changes with confidence scoring. Use when spawning reviewer agents, rating issue severity (P1-P4), or scoring review confidence.
+hooks:
+  PreToolUse:
+    - matcher: "*"
+      hooks:
+        - type: command
+          command: "$CLAUDE_PLUGIN_ROOT/scripts/create-review-dir.sh"
+          once: true
 ---
 
 # Reviewing Changes
@@ -62,7 +69,7 @@ Deduct points for:
 
 ## Output Format
 
-Write findings to a markdown file (e.g., `.review/tests.md`).
+Write findings to a markdown file in the review directory.
 
 ### Issue IDs
 
@@ -77,6 +84,7 @@ Each finding gets a unique ID with a 3-letter prefix and sequence number:
 | readability | RDY    | RDY-1   |
 | docs        | DOC    | DOC-1   |
 | performance | PRF    | PRF-1   |
+| github      | GIT    | GIT-1   |
 
 Number findings sequentially starting at 1.
 

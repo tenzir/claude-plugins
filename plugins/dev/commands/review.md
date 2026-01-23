@@ -9,30 +9,38 @@ hooks:
         - type: command
           command: "$CLAUDE_PLUGIN_ROOT/scripts/detect-review-scope.sh"
           once: true
-        - type: command
-          command: "$CLAUDE_PLUGIN_ROOT/scripts/create-review-dir.sh"
-          once: true
 ---
 
 # Review Changes
 
 Spawn specialized reviewers in parallel to analyze changes.
 
-## 1. Setup (via hooks)
+## 1. Setup (via hook)
 
-Two hooks run automatically before the first tool call:
+A scope detection hook runs automatically before the first tool call. It outputs:
 
-1. **Scope detection** → outputs scope, diff command, and files:
-   - `Scope: <description>` — what's being reviewed
-   - `Diff: <command>` — git diff command base (append files to run)
-   - File list, one per line
-2. **Review directory** → creates and outputs the path:
-   - `Review directory: <path>` — where reviewers write findings
+- `Scope: <description>` — what's being reviewed
+- `Diff: <command>` — git diff command base (append files to run)
+- File list, one per line
 
-Use the hook outputs for scope, diff command, file list, and review directory.
+The review directory is created automatically when the first reviewer starts
+writing findings (via a hook in the `reviewing-changes` skill).
+
 To review a different scope, stage or unstage changes and run the command again.
 
-## 2. Explore Project Context
+## 2. Detect PR and Explore Context
+
+### Check for PR
+
+Check if the current branch has an associated pull request:
+
+```sh
+gh pr view --json number --jq '.number' 2>/dev/null
+```
+
+Note whether a PR exists—this determines if the GitHub reviewer should be spawned.
+
+### Explore Project Context
 
 Launch the Explore agent to gather project context before spawning reviewers.
 
@@ -52,8 +60,17 @@ Wait for the agent to complete and capture its output.
 
 ## 3. Spawn Reviewers
 
-Launch all reviewer agents in parallel using the Task tool. Pass the project
-context from the Explore agent, file list, and review directory:
+### Security Note
+
+The GitHub reviewer uses `gh` CLI which inherits your authentication. Only run
+on repositories you trust. If `GITHUB_TOKEN` is set (e.g., in CI), the reviewer
+gains those permissions.
+
+### Launch Reviewers
+
+Launch reviewer agents in parallel using the Task tool (GitHub reviewer only if
+PR exists). Pass the project context from the Explore agent, file list, and
+review directory:
 
 - `@dev:reviewers:ux` - User experience, clarity, discoverability
 - `@dev:reviewers:docs` - Documentation quality, accuracy
@@ -62,6 +79,7 @@ context from the Explore agent, file list, and review directory:
 - `@dev:reviewers:security` - Input validation, injection, secrets
 - `@dev:reviewers:readability` - Naming quality, idiomatic patterns, clarity
 - `@dev:reviewers:performance` - Performance, complexity, resource efficiency
+- `@dev:reviewers:github` - GitHub PR comments from humans and bots (only if PR exists)
 
 Pass each reviewer a prompt constructed from hook outputs:
 
@@ -111,13 +129,18 @@ Use this to distill actionable items:
 
 ### Deduplicate
 
-Merge findings that flag the same location from different reviewers. Multiple
-reviewers flagging the same area signals importance—note this when presenting.
+You should merge findings that flag the same location from different reviewers.
+Multiple reviewers flagging the same area signals importance—note this when
+presenting.
 
 ### Correlate
 
-Group related findings that touch the same subsystem or share a root cause.
-Addressing one may resolve others.
+You should group related findings that touch the same subsystem or share a root
+cause. Addressing one may resolve others.
+
+When GitHub reviewer feedback (GIT findings) aligns with automated reviewer
+findings, this signals higher priority—human reviewers independently identified
+the same concern.
 
 ### Prioritize
 
@@ -159,24 +182,28 @@ Category:
 | readability | 👁️    |
 | docs        | 📖    |
 | performance | 🚀    |
+| github      | 💬    |
 
 ### Display Format
 
 ```markdown
 ## Review Summary
 
-**4 findings** to address (7 total from 5 reviewers)
+**5 findings** to address (8 total from 6 reviewers)
 
 🔴 P1 · 🛡️ SEC-1 · SQL injection vulnerability (95%) · src/db.ts:45
 🟠 P2 · 🏗️ ARC-1 · Circular dependency (88%) · src/modules/a.ts:12
 🟠 P2 · 👁️ RDY-1 · Unclear function name (82%) · src/utils.ts:30
 🟡 P3 · 🧪 TST-1 · Missing edge case (85%) · src/handler.ts:78
+🟡 P3 · 💬 GIT-1 · Missing error handling (@alice) · src/api.ts:45
 
 🔴 P1 · 🟠 P2 · 🟡 P3 · ⚪ P4
-🛡️ security · 🏗️ arch · 🧪 tests · 🎨 ux · 👁️ readability · 📖 docs · 🚀 performance
+🛡️ security · 🏗️ arch · 🧪 tests · 🎨 ux · 👁️ readability · 📖 docs · 🚀 performance · 💬 github
 ```
 
 Format: `{severity_emoji} {severity} · {category_emoji} {id} · {title} ({confidence}%) · {file}:{lines}`
+
+For GitHub findings, include author attribution: `💬 GIT-1 · {title} (@{author})`
 
 Sort by urgency: severity (P1→P4), then confidence (descending).
 
