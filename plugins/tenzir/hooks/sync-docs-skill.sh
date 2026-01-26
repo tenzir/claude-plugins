@@ -53,8 +53,8 @@ sync_skill() {
     return 1
   fi
 
-  # Clear old content (preserve .gitkeep)
-  find "$SKILL_DIR" -mindepth 1 -not -name '.gitkeep' -exec rm -rf {} + 2>/dev/null || true
+  # Clear old content
+  find "$SKILL_DIR" -mindepth 1 -exec rm -rf {} + 2>/dev/null || true
 
   # Extract new content
   tar -xzf "$temp_dir/skill.tar.gz" -C "$SKILL_DIR"

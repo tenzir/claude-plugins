@@ -1,5 +1,0 @@
-# This directory is dynamically populated by sync-docs-skill.sh
-# The SKILL.md and documentation content are downloaded from:
-# https://github.com/tenzir/docs/releases/tag/latest
-#
-# Do not manually edit files in this directory - they will be overwritten.

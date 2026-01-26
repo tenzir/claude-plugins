@@ -50,6 +50,8 @@ jobs:
               tmp_dir="$tmp_parent/$skill_name"
               cp -r "$skill_dir" "$tmp_dir"
               sed -i '/^disable-model-invocation:/d; /^argument-hint:/d' "$tmp_dir/SKILL.md"
+              # Strip multi-line hooks: block (Claude Code extension)
+              awk '/^hooks:/{skip=1; next} /^[^ ]/{skip=0} skip==0' "$tmp_dir/SKILL.md" > "$tmp_dir/SKILL.md.tmp" && mv "$tmp_dir/SKILL.md.tmp" "$tmp_dir/SKILL.md"
               if ! skills-ref validate "$tmp_dir"; then
                 errors=$((errors + 1))
               fi

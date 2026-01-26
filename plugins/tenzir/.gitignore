@@ -1,3 +1,2 @@
-# Dynamically synced docs skill content
-skills/docs/*
-!skills/docs/.gitkeep
+# Dynamically synced docs skill content (created by sync-docs-skill.sh)
+skills/docs/
