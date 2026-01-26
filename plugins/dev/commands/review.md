@@ -86,10 +86,42 @@ what you observe, select which reviewers to spawn:
 - `@dev:reviewers:performance` - Performance, complexity, resource efficiency
 - `@dev:reviewers:github` - GitHub PR comments from humans and bots (only if PR exists)
 
+### Create Reviewer Tasks
+
+Before launching, create a task for each selected reviewer using TaskCreate:
+
+- **subject**: `Review: {reviewer}` (e.g., "Review: security")
+- **description**: `Run {reviewer} review on {file_count} files`
+- **activeForm**: `Running {reviewer} review` (displays in status line while task is in progress)
+
+The `activeForm` text provides real-time progress visibility to the user.
+
+After creating tasks, display a summary: "Created N reviewer tasks." This
+confirms the operation succeeded and anchors users to the next step.
+
 ### Launch Reviewers
 
 Launch selected reviewer agents in parallel using the Task tool. Pass the
 project context from the Explore agent, file list, and review directory.
+
+For each reviewer:
+
+1. Call TaskUpdate to mark task as `in_progress` before spawning
+2. Spawn with Task tool
+3. Call TaskUpdate to mark task as `completed` when Task returns
+4. If reviewer fails, call TaskUpdate to mark completed with `metadata: {failed: true, error: "..."}`
+
+**Task metadata fields:**
+
+- `failed` (boolean): Set to `true` when a reviewer encounters an error
+- `error` (string): Brief description of what went wrong (e.g., "Agent timeout", "No files to review")
+
+**Error handling:**
+
+1. Mark task as completed with error metadata (`failed: true`, `error: "..."`)
+2. Continue with remaining reviewers—do not abort the review
+3. During synthesis, check for failed reviewer tasks and notify user of any missing reviews
+4. Proceed with available findings only
 
 Pass each reviewer a prompt constructed from hook outputs:
 
@@ -131,6 +163,14 @@ Template:
 Wait for all reviewers to complete.
 
 ## 4. Synthesize Findings
+
+Create a synthesis task using TaskCreate:
+
+- **subject**: `Synthesize findings`
+- **description**: `Merge, correlate, and prioritize findings from all reviewers`
+- **activeForm**: `Synthesizing findings`
+
+Mark it `in_progress` and proceed.
 
 Read all `<review_dir>/*.md` files. You now have context that individual
 reviewers lacked: all findings together, project context, and user intent.
@@ -217,6 +257,10 @@ For GitHub findings, include author attribution: `💬 GIT-1 · {title} (@{autho
 
 Sort by urgency: severity (P1→P4), then confidence (descending).
 
+After displaying the findings summary above, mark the synthesis task as
+`completed`. This signals that synthesis is done before prompting the user for
+next steps in section 6.
+
 ## 6. Prompt to Address
 
 If **findings exist**:
@@ -225,12 +269,15 @@ If **findings exist**:
 >
 > Options:
 >
-> - `/fix` — Fix findings one-by-one with commits (resolves GitHub threads)
+> - `/dev:fix` — Fix findings one-by-one with commits (resolves GitHub threads)
 > - **yes** — Enter plan mode to fix in bulk
+>
+> Note: The command is invoked as `/dev:fix`. If slash command auto-completion
+> is enabled, you may type `/fix` for brevity; otherwise, use the full path.
 
-If user runs `/fix`:
+If user runs `/dev:fix`:
 
-The `/fix` command reads findings from the review directory and processes
+The `/dev:fix` command reads findings from the review directory and processes
 them interactively, creating a commit for each fix. For GitHub findings, it
 also replies and resolves threads.
 

@@ -18,6 +18,37 @@ ls -td .reviews/*/* 2>/dev/null | head -1
 
 If no review directory exists, inform the user to run `/review` first and stop.
 
+## 1a. Check for Existing Session
+
+Check for pending fix tasks from a previous session:
+
+```
+Call TaskList to retrieve all tasks. Filter results where subject starts with "Fix:"
+```
+
+**TaskList returns** an array of task objects with `id`, `subject`, `status` (`pending`, `in_progress`, or `completed`), and `metadata`.
+
+If pending tasks with status `pending` or `in_progress` exist:
+
+- Count remaining tasks (not `completed`)
+- Use AskUserQuestion to ask: "Found N pending fixes from a previous session"
+  - **Resume** — Continue from where you left off
+  - **Start fresh** — Begin a new fixing session
+
+If user chooses **Resume**:
+
+- Re-read findings from review directory to restore context
+- Present remaining tasks (not completed) with their status
+- For `in_progress` tasks: ask user whether to retry or skip
+- For `pending` tasks: process normally starting from section 4.1
+
+If user chooses **Start fresh**:
+
+- Mark all old fix tasks as `completed` with `metadata: {abandoned: true}`
+- Continue to section 2
+
+If no pending tasks exist, continue normally.
+
 ## 2. Read Findings
 
 Read all `*.md` files in the review directory. Parse findings from each file.
@@ -32,8 +63,6 @@ Collect for each finding:
 - Suggestion
 - Thread ID (for GIT-\* findings only)
 
-If no findings exist, report "No findings to fix" and stop.
-
 ## 3. Prioritize
 
 Sort findings:
@@ -42,6 +71,45 @@ Sort findings:
 2. Within same severity, group by file to reduce context switches
 
 Present the prioritized list to the user before starting.
+
+## 3a. Create Finding Tasks
+
+If no findings exist, report "No findings to fix" and stop.
+
+Create a task for each finding using TaskCreate. Parameters:
+
+- **subject** (string, required): Short title displayed in task list.
+  Use: `Fix: {id} - {title_truncated}` (e.g., "Fix: SEC-1 - SQL injection")
+- **description** (string, optional): Detailed context for the task.
+  Use: `{severity} · {file}:{lines}\n\n{issue}\n\n{suggestion}`
+- **activeForm** (string, optional): Text shown in status line while task is in progress.
+  Use: `Fixing {id}`
+- **addBlockedBy** (array of task IDs, optional): Tasks that must complete before this one.
+- **metadata** (object, optional): Arbitrary key-value data attached to the task.
+  Use:
+  - `finding_id`: `{id}`
+  - `severity`: `{severity}`
+  - `file`: `{file}`
+
+**TaskCreate returns** the created task object with its assigned `id`.
+
+### Same-File Dependencies
+
+Findings in the same file should be processed sequentially to prevent merge
+conflicts. Use `addBlockedBy` to chain tasks for the same file:
+
+```
+SEC-1 (src/db.ts)  → task #1, no blockedBy
+RDY-1 (src/db.ts)  → task #2, blockedBy: [#1]
+ARC-1 (src/api.ts) → task #3, no blockedBy
+TST-1 (src/db.ts)  → task #4, blockedBy: [#2]
+```
+
+Each file maintains its own dependency chain. Tasks for different files can
+run independently (though in practice we process them one-by-one for user
+interaction).
+
+After creating all tasks, display a summary: "Created N tasks."
 
 ## 4. Process Each Finding
 
@@ -70,9 +138,29 @@ Use AskUserQuestion to ask how to proceed:
 - **Skip** — Move to next finding
 - **Stop** — End fixing session
 
-### 4.3 Spawn Fixer
+### 4.3 Update Task and Spawn Fixer
 
-If user chose to fix (apply or modify), spawn `@dev:fixer` with the finding:
+Use TaskUpdate to change task state. Parameters:
+
+- **id** (string, required): The task ID returned by TaskCreate.
+- **status** (string, optional): New status: `pending`, `in_progress`, or `completed`.
+- **metadata** (object, optional): Additional key-value data to merge into existing metadata.
+
+**If user chose Skip**:
+
+- Mark task as `completed` with `metadata: {skipped: true}`
+- Proceed to next finding
+
+**If user chose Stop**:
+
+- Leave current and remaining tasks as `pending`
+- Jump to section 5 (Report Summary)
+- Note: Pending tasks enable session resumption on next `/fix` run
+
+**If user chose to fix (Apply or Modify)**:
+
+- Call TaskUpdate to mark task as `in_progress`
+- Spawn `@dev:fixer` with the finding:
 
 ```markdown
 ## Finding
@@ -96,12 +184,20 @@ Or with custom instructions:
 User's custom approach here...
 ```
 
-Wait for the agent to complete. Record the result (commit SHA, success/failure).
+- Wait for the agent to complete
+- On success: Call TaskUpdate to mark as `completed` with `metadata: {commit: "sha"}`
+- On failure:
+  - Keep task as `in_progress`
+  - Display the error from the fixer agent
+  - Use AskUserQuestion with options:
+    - **Retry** — Run fixer again with same instructions
+    - **Skip** — Mark completed with `metadata: {skipped: true, error: "..."}`, move to next
+    - **Stop** — Leave as `in_progress`, end session (enables retry on resume)
 
 ### 4.4 Continue
 
 After each finding, proceed to the next. The user can choose "Stop" at any
-finding to end early.
+finding to end early. Remaining tasks stay `pending` for future resumption.
 
 ## 5. Report Summary
 
