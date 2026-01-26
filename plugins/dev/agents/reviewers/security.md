@@ -4,7 +4,8 @@ description: Review input validation, injection risks, and secrets exposure. Use
 tools: Read, Glob, Grep, Bash, Write
 model: sonnet
 color: red
-skills: dev:reviewing-changes
+skills:
+  - dev:reviewing-changes
 ---
 
 # Security Review

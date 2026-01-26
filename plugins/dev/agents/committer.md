@@ -4,7 +4,8 @@ description: Commit changes autonomously for automated workflows. Use when stagi
 tools: Read, Glob, Grep, Bash, Write, Skill
 model: haiku
 color: green
-skills: dev:writing-commit-messages
+skills:
+  - dev:writing-commit-messages
 ---
 
 # Commit Changes

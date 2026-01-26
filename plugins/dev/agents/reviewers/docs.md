@@ -4,7 +4,8 @@ description: Review documentation quality, accuracy, and completeness. Use when 
 tools: Read, Glob, Grep, Bash, Write
 model: sonnet
 color: blue
-skills: dev:reviewing-changes
+skills:
+  - dev:reviewing-changes
 ---
 
 # Documentation Review

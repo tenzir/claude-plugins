@@ -4,7 +4,8 @@ description: Review test coverage, edge cases, and behavioral testing. Use when 
 tools: Read, Glob, Grep, Bash, Write
 model: haiku
 color: cyan
-skills: dev:reviewing-changes
+skills:
+  - dev:reviewing-changes
 ---
 
 # Test Review

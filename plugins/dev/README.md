@@ -4,8 +4,9 @@ Developer utilities including documentation, changelogs, code review, plan
 review, git workflows, auto-formatting, and releases. Provides documentation
 workflows with the Diataxis framework, technical writing guidance based on
 Google's style guide, changelog management with tenzir-ship, parallel code
-review with specialized reviewers, automated plan review with external AI tools,
-git commit/PR workflows, and automatic file formatting after edits.
+review with specialized reviewers and automated fix execution, plan review with
+external AI tools, git commit/PR workflows, and automatic file formatting after
+edits.
 
 ## ✨ Features
 
@@ -15,10 +16,8 @@ git commit/PR workflows, and automatic file formatting after edits.
   documentation following Google's developer documentation style guide
 - 📝 **Changelog Adder Agent**: Creates changelog entries for PR changes,
   suitable for CI automation
-- 🔍 **Code Review Command**: Spawns specialized reviewers in parallel to
-  analyze changes with confidence-scored findings
-- 🔧 **Fix Command**: Addresses review findings one-by-one, spawning an Opus
-  agent per fix with automatic GitHub thread resolution
+- 🔍 **Code Review Command**: Spawns specialized reviewers in parallel, triages
+  findings, creates fix tasks, and executes fixes with GitHub thread resolution
 - 🚀 **Release Command**: Guides through releasing a project with tenzir-ship
 - 🔄 **Finalize Command**: Adds changelog entry, commits, and pushes changes
 - 🔬 **Plan Reviewer Agent**: Reviews implementation plans using external AI
@@ -27,8 +26,13 @@ git commit/PR workflows, and automatic file formatting after edits.
   automatic splitting of unrelated changes
 - 🔀 **PR Maker Agent**: Creates GitHub pull requests with proper branching
   and commit workflows
-- 🤖 **Fixer Agent**: Opus-powered agent that fixes a single finding. In PR mode,
-  commits, pushes, and resolves GitHub threads. In batch mode, applies fixes only
+- 🤖 **Fixer Agent**: Opus-powered agent that fixes findings. In PR mode,
+  commits, pushes, and resolves GitHub threads. In batch mode, applies fixes
+  without individual commits
+- 🎯 **Triager Agent**: Filters low-confidence findings, groups related issues,
+  and deduplicates cross-reviewer overlap for focused review
+- 📋 **Planner Agent**: Creates ordered fix tasks with file-level dependencies
+  to prevent merge conflicts
 - 🔧 **Auto-Formatting Hook**: Automatically formats files after every Write or
   Edit operation using language-specific formatters
 
@@ -64,19 +68,16 @@ Run parallel code review on your changes:
 /dev:review
 ```
 
-This spawns specialized reviewers (security, architecture, tests, UX,
-readability, docs, performance) that analyze your changes in parallel and report
-findings with confidence scores.
-
-After reviewing, fix findings with `/fix` (iterative) or plan mode (bulk):
+This runs a complete review workflow with four phases:
 
 ```
 /dev:review
     │
-    ├─► Detect scope (staged/unstaged/branch)
-    ├─► Check for PR, gather project context
+    ├─► Hook: detect-review-scope.sh (scope detection)
+    ├─► Hook: detect-pr-context.sh (PR/Batch mode)
     │
-    ├─► Spawn reviewers in parallel:
+    ├─► Phase 1: Review
+    │   Spawn reviewers in parallel:
     │   ├─► @dev:reviewers:security    → .reviews/<session>/security.md
     │   ├─► @dev:reviewers:arch        → .reviews/<session>/arch.md
     │   ├─► @dev:reviewers:tests       → .reviews/<session>/tests.md
@@ -86,48 +87,60 @@ After reviewing, fix findings with `/fix` (iterative) or plan mode (bulk):
     │   ├─► @dev:reviewers:performance → .reviews/<session>/performance.md
     │   └─► @dev:reviewers:github      → .reviews/<session>/github.md (if PR)
     │
-    ├─► Synthesize: deduplicate, correlate, prioritize
-    ├─► Display: 🔴 P1 · 🛡️ SEC-1 · SQL injection (95%) · src/db.ts:45
+    ├─► Phase 2: Triage
+    │   Filter noise, group related issues, deduplicate cross-reviewer overlap.
+    │   @dev:triager:
+    │   ├─► Filter false positives (confidence < 70%)
+    │   ├─► Group related findings (same root cause)
+    │   ├─► Deduplicate cross-reviewer overlap
+    │   └─► Write to .reviews/<session>/triaged/
     │
-    └─► Options: /fix or plan mode
-            │
-            ├───────────────────────────────┐
-            ▼                               ▼
-        /dev:fix                       Plan mode
-            │                               │
-    ┌───────┴───────┐                       ├─► Plan all fixes
-    │               │                       ├─► Implement
-    ▼               ▼                       ├─► Commit + push
-PR mode        Batch mode                   └─► Resolve threads
-    │               │
-    ├─► Per-finding │
-    │   prompts     ├─► Autonomous
-    │               │   processing
-    ├─► @dev:fixer: │
-    │   ├─► Fix     ├─► @dev:fixer:
-    │   ├─► Commit  │   └─► Fix only
-    │   ├─► Push    │
-    │   └─► Resolve ├─► Single commit
-    │       thread  │   at end
-    │               │
-    └─► Summary     └─► Summary
-```
-
-### Fixing findings
-
-After `/review`, use `/fix` to address findings:
-
-```
-/dev:fix
+    │   ════════════════════════════════════════
+    │   Review: Are groups logical? Should any filtered finding be restored?
+    │   User approval: Continue / Abort
+    │   ════════════════════════════════════════
+    │
+    ├─► Phase 3: Plan
+    │   @dev:planner:
+    │   ├─► Read triaged findings
+    │   ├─► Determine task granularity
+    │   ├─► Set dependencies (same-file, refactor order)
+    │   └─► Create tasks via TaskCreate
+    │
+    │   ════════════════════════════════════════
+    │   Review: Is task order correct? Are dependencies sensible?
+    │   User approval: Execute / Modify / Abort
+    │   ════════════════════════════════════════
+    │
+    └─► Phase 4: Execute
+        Process task list:
+        │
+        ┌───────┴───────┐
+        │               │
+        ▼               ▼
+    PR mode        Batch mode
+        │               │
+        ├─► Per-task    ├─► Fully autonomous
+        │   prompts     │
+        ├─► @dev:fixer: ├─► @dev:fixer:
+        │   ├─► Fix     │   └─► Fix only
+        │   ├─► Commit  │
+        │   ├─► Push    ├─► Single commit
+        │   └─► Resolve │   at end
+        │       thread  │
+        └─► Summary     └─► Summary
 ```
 
 The command detects whether you're in a PR and adapts its behavior:
 
-- **PR mode**: Interactive per-finding prompts. Each fix spawns `@dev:fixer`
-  (Opus) which commits, pushes, and resolves GitHub threads (GIT-\* findings).
-- **Batch mode**: Autonomous processing after initial confirmation. Fixes are
-  applied without individual commits, with a single summary commit offered at
-  the end.
+- **PR mode**: Per-task prompts. Each fix spawns `@dev:fixer` (Opus) which
+  commits, pushes, and resolves GitHub threads.
+- **Batch mode**: Autonomous execution after plan approval. All fixes applied
+  without individual commits. User is offered a single summary commit at the
+  end. On failure, error is logged and execution continues.
+
+Session resumption: If interrupted during Phase 4, running `/dev:review` again
+offers to resume from where you left off.
 
 ### Releasing
 

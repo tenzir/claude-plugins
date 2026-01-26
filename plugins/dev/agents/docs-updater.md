@@ -4,7 +4,10 @@ description: Update the official Tenzir documentation. Use when documenting code
 tools: Read, Glob, Grep, Bash, Edit, Write, Skill
 model: opus
 color: blue
-skills: dev:docs-authoring, dev:technical-writing, dev:writing-commit-messages
+skills:
+  - dev:docs-authoring
+  - dev:technical-writing
+  - dev:writing-commit-messages
 hooks:
   PreToolUse:
     - matcher: "*"

@@ -4,7 +4,8 @@ description: Create a pull request on GitHub for current changes. Use when openi
 tools: Read, Glob, Grep, Bash, Write, Skill, Task
 model: haiku
 color: blue
-skills: dev:writing-commit-messages
+skills:
+  - dev:writing-commit-messages
 ---
 
 # Create Pull Request

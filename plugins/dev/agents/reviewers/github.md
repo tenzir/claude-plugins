@@ -4,7 +4,8 @@ description: Extract GitHub PR review comments as findings. Use when processing 
 tools: Bash, Write
 model: haiku
 color: purple
-skills: dev:reviewing-changes
+skills:
+  - dev:reviewing-changes
 ---
 
 # GitHub Review
