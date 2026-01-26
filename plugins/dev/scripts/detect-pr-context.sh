@@ -3,18 +3,18 @@
 # Detect whether we're in PR mode or batch mode.
 # Runs once at startup via PreToolUse hook.
 #
-# Output format:
-#   Mode: PR
-#   PR: #123
+# Output format (JSON for reliable parsing):
+#   {"mode": "PR", "pr": "123"}
 # or:
-#   Mode: Batch
+#   {"mode": "Batch"}
 
 set -euo pipefail
 
 # Check if current branch has an associated pull request
 if pr_number=$(gh pr view --json number --jq '.number' 2>/dev/null); then
-  echo "Mode: PR"
-  echo "PR: #$pr_number"
+  jq -n --arg mode "PR" --arg pr "$pr_number" \
+    '{mode: $mode, pr: $pr}'
 else
-  echo "Mode: Batch"
+  jq -n --arg mode "Batch" \
+    '{mode: $mode}'
 fi

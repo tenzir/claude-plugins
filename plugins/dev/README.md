@@ -29,6 +29,10 @@ edits.
 - 🤖 **Fixer Agent**: Opus-powered agent that fixes findings. In PR mode,
   commits, pushes, and resolves GitHub threads. In batch mode, applies fixes
   without individual commits
+- 🎯 **Triager Agent**: Filters low-confidence findings, groups related issues,
+  and deduplicates cross-reviewer overlap for focused review
+- 📋 **Planner Agent**: Creates ordered fix tasks with file-level dependencies
+  to prevent merge conflicts
 - 🔧 **Auto-Formatting Hook**: Automatically formats files after every Write or
   Edit operation using language-specific formatters
 
@@ -84,6 +88,7 @@ This runs a complete review workflow with four phases:
     │   └─► @dev:reviewers:github      → .reviews/<session>/github.md (if PR)
     │
     ├─► Phase 2: Triage
+    │   Filter noise, group related issues, deduplicate cross-reviewer overlap.
     │   @dev:triager:
     │   ├─► Filter false positives (confidence < 70%)
     │   ├─► Group related findings (same root cause)
@@ -91,6 +96,7 @@ This runs a complete review workflow with four phases:
     │   └─► Write to .reviews/<session>/triaged/
     │
     │   ════════════════════════════════════════
+    │   Review: Are groups logical? Should any filtered finding be restored?
     │   User approval: Continue / Abort
     │   ════════════════════════════════════════
     │
@@ -102,6 +108,7 @@ This runs a complete review workflow with four phases:
     │   └─► Create tasks via TaskCreate
     │
     │   ════════════════════════════════════════
+    │   Review: Is task order correct? Are dependencies sensible?
     │   User approval: Execute / Modify / Abort
     │   ════════════════════════════════════════
     │
@@ -128,8 +135,9 @@ The command detects whether you're in a PR and adapts its behavior:
 
 - **PR mode**: Per-task prompts. Each fix spawns `@dev:fixer` (Opus) which
   commits, pushes, and resolves GitHub threads.
-- **Batch mode**: Fully autonomous after plan approval. Fixes are applied
-  without individual commits, with a single summary commit at the end.
+- **Batch mode**: Autonomous execution after plan approval. All fixes applied
+  without individual commits. User is offered a single summary commit at the
+  end. On failure, error is logged and execution continues.
 
 Session resumption: If interrupted during Phase 4, running `/dev:review` again
 offers to resume from where you left off.

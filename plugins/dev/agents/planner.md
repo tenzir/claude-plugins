@@ -45,7 +45,8 @@ Order tasks by:
 
 1. Severity (P1 → P2 → P3 → P4)
 2. Within same severity, group by file to reduce context switches
-3. Groups containing P1 findings come before standalone P1 findings
+3. Grouped findings (GRP-\*) containing P1 issues come before standalone P1
+   findings
 
 ### 4. Create Tasks
 
@@ -53,8 +54,10 @@ Use TaskCreate for each task. Required parameters:
 
 **For grouped findings:**
 
+Include the finding count in the subject to signal scope at a glance:
+
 ```
-subject: "Fix: GRP-1 - Input validation issues"
+subject: "Fix: GRP-1 (3 findings) - Input validation issues"
 description: |
   P1 · src/db.ts, src/api.ts
 
@@ -76,6 +79,8 @@ metadata: {
 ```
 
 **For standalone findings:**
+
+Use the finding ID directly:
 
 ```
 subject: "Fix: SEC-2 - Credential in logs"

@@ -57,6 +57,17 @@ findings, groups related issues, and deduplicates cross-reviewer overlap.
 Present the triage summary to the user. Ask whether to continue to planning or
 abort (keeping findings for manual review).
 
+### Triage Error Recovery
+
+If the triager fails or returns incomplete results:
+
+1. Check `.claude/reviews/<session>/` for partial output
+2. Raw findings remain in reviewer files (security.md, arch.md, etc.)
+3. Options:
+   - Re-run `@dev:triager` with the review directory
+   - Manually move findings to `triaged/` subdirectory
+   - Skip triage and proceed directly to manual planning
+
 ## Phase 3: Plan
 
 Spawn `@dev:planner` with the triaged directory and mode (PR or Batch). The

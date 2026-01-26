@@ -56,8 +56,9 @@ For grouped findings:
 
 ### 3. Commit and Push (PR mode only)
 
-**Skip this step in batch mode.** In batch mode, the `/dev:review` command will
-offer a single commit after all fixes are applied.
+**Skip this step in batch mode.** In batch mode, the fixer does not commit after
+each fix. Instead, the orchestrating `/dev:review` command offers the user a
+single summary commit after all fixes are applied.
 
 **In PR mode:**
 
