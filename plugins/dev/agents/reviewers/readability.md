@@ -4,7 +4,8 @@ description: Review naming quality, idiomatic patterns, and code clarity. Use wh
 tools: Read, Glob, Grep, Bash, Write
 model: haiku
 color: green
-skills: dev:reviewing-changes
+skills:
+  - dev:reviewing-changes
 ---
 
 # Readability Review

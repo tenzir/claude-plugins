@@ -37,6 +37,16 @@ description: <What the skill does>. Use when <trigger1>, <trigger2>, or <trigger
 
 Good triggers: file types, commands, actions, topics.
 
+### Referencing Skills from Agents
+
+Use array notation for the `skills:` frontmatter field in agents:
+
+```yaml
+skills:
+  - dev:writing-commit-messages
+  - dev:addressing-reviews
+```
+
 ## Slash Commands
 
 Prefer skills over slash commands.

@@ -4,7 +4,8 @@ description: Review performance, complexity, and resource efficiency. Use when c
 tools: Read, Glob, Grep, Bash, Write
 model: sonnet
 color: orange
-skills: dev:reviewing-changes
+skills:
+  - dev:reviewing-changes
 ---
 
 # Performance Review

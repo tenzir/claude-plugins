@@ -4,7 +4,9 @@ description: Fix review findings with commits. Use when addressing findings from
 tools: Read, Glob, Grep, Bash, Edit, Write, Skill
 model: opus
 color: green
-skills: dev:writing-commit-messages, dev:addressing-reviews
+skills:
+  - dev:writing-commit-messages
+  - dev:addressing-reviews
 ---
 
 # Fix Finding

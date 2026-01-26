@@ -4,7 +4,8 @@ description: Review user experience, clarity, and discoverability. Use when chec
 tools: Read, Glob, Grep, Bash, Write
 model: haiku
 color: yellow
-skills: dev:reviewing-changes
+skills:
+  - dev:reviewing-changes
 ---
 
 # UX Review

@@ -4,7 +4,8 @@ description: Review API design, modularity, and complexity. Use when evaluating 
 tools: Read, Glob, Grep, Bash, Write
 model: opus
 color: purple
-skills: dev:reviewing-changes
+skills:
+  - dev:reviewing-changes
 ---
 
 # Architecture Review
