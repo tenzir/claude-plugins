@@ -1,6 +1,6 @@
 ---
 name: fixer
-description: Fix a single review finding. In PR mode, commits and pushes. In batch mode, just applies the fix.
+description: Fix a single review finding with commits. Use when addressing one finding from /dev:review.
 tools: Read, Glob, Grep, Bash, Edit, Write, Skill
 model: opus
 color: green

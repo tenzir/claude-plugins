@@ -28,7 +28,8 @@ git commit/PR workflows, and automatic file formatting after edits.
 - 🔀 **PR Maker Agent**: Creates GitHub pull requests with proper branching
   and commit workflows
 - 🤖 **Fixer Agent**: Opus-powered agent that fixes a single finding. In PR mode,
-  commits, pushes, and resolves GitHub threads. In batch mode, applies fixes only
+  commits, pushes, and resolves GitHub threads. In batch mode, applies fixes
+  without individual commits
 - 🔧 **Auto-Formatting Hook**: Automatically formats files after every Write or
   Edit operation using language-specific formatters
 
@@ -68,7 +69,7 @@ This spawns specialized reviewers (security, architecture, tests, UX,
 readability, docs, performance) that analyze your changes in parallel and report
 findings with confidence scores.
 
-After reviewing, fix findings with `/fix` (iterative) or plan mode (bulk):
+After reviewing, fix findings with `/dev:fix` or plan mode:
 
 ```
 /dev:review
@@ -115,7 +116,7 @@ PR mode        Batch mode                   └─► Resolve threads
 
 ### Fixing findings
 
-After `/review`, use `/fix` to address findings:
+After `/dev:review`, use `/dev:fix` to address findings:
 
 ```
 /dev:fix

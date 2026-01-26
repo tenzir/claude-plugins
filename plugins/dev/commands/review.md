@@ -265,23 +265,22 @@ next steps in section 6.
 
 If **findings exist**:
 
-> 📁 Full findings: `<review_dir>/`
->
-> Options:
->
-> - `/dev:fix` — Fix findings one-by-one with commits (resolves GitHub threads)
-> - **yes** — Enter plan mode to fix in bulk
->
-> Note: The command is invoked as `/dev:fix`. If slash command auto-completion
-> is enabled, you may type `/fix` for brevity; otherwise, use the full path.
+Display the findings directory location:
 
-If user runs `/dev:fix`:
+> 📁 Full findings: `<review_dir>/`
+
+Use AskUserQuestion to ask: "How would you like to address these findings?"
+
+- **Plan mode** — Create an implementation plan, apply all fixes together, commit and push once
+- **Iterative mode (/dev:fix)** — Fix findings one-by-one with individual commits (resolves GitHub threads)
+
+If user chooses **Iterative mode (/dev:fix)**:
 
 The `/dev:fix` command reads findings from the review directory and processes
 them interactively, creating a commit for each fix. For GitHub findings, it
 also replies and resolves threads.
 
-If user responds **yes**:
+If user chooses **Plan mode (bulk fixes) (Recommended)**:
 
 1. Enter plan mode with findings as context
 2. Re-read full reviewer outputs (`<review_dir>/*.md`) for reasoning, evidence,

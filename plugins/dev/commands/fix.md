@@ -18,7 +18,7 @@ Find the most recent review directory:
 ls -td .reviews/*/* 2>/dev/null | head -1
 ```
 
-If no review directory exists, inform the user to run `/review` first and stop.
+If no review directory exists, inform the user to run `/dev:review` first and stop.
 
 ### PR Scope Detection
 
@@ -38,6 +38,8 @@ This determines the **fix mode**:
 Store the mode for use throughout the workflow.
 
 ## 1a. Check for Existing Session
+
+The fix command tracks progress with tasks, enabling session resumption if interrupted.
 
 Check for pending fix tasks from a previous session:
 
@@ -103,7 +105,7 @@ Create a task for each finding using TaskCreate. Parameters:
   Use: `{severity} · {file}:{lines}\n\n{issue}\n\n{suggestion}`
 - **activeForm** (string, optional): Text shown in status line while task is in progress.
   Use: `Fixing {id}`
-- **addBlockedBy** (array of task IDs, optional): Tasks that must complete before this one.
+- **addBlockedBy** (array of task IDs, optional): Task IDs this task waits for (i.e., must complete first).
 - **metadata** (object, optional): Arbitrary key-value data attached to the task.
   Use:
   - `finding_id`: `{id}`
