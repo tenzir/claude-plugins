@@ -6,9 +6,11 @@ model: sonnet
 
 # Fix Review Findings
 
-Work through review findings one-by-one, spawning `@dev:fixer` for each fix.
+Work through review findings, spawning `@dev:fixer` for each fix.
 
-## 1. Locate Review Directory
+## 1. Locate Review Directory and Detect Scope
+
+### Review Directory
 
 Find the most recent review directory:
 
@@ -17,6 +19,23 @@ ls -td .reviews/*/* 2>/dev/null | head -1
 ```
 
 If no review directory exists, inform the user to run `/review` first and stop.
+
+### PR Scope Detection
+
+Check if the current branch has an associated pull request:
+
+```sh
+gh pr view --json number --jq '.number' 2>/dev/null
+```
+
+This determines the **fix mode**:
+
+- **PR mode** (PR exists): Commit and push each fix individually, resolve GitHub
+  threads. Interactive per-finding confirmation.
+- **Batch mode** (no PR): Apply all fixes without individual commits. Single
+  commit offered at the end. Autonomous processing after initial confirmation.
+
+Store the mode for use throughout the workflow.
 
 ## 1a. Check for Existing Session
 
@@ -129,14 +148,17 @@ Evidence: `query("SELECT * FROM users WHERE id = " + userId)`
 Suggestion: Use parameterized queries with prepared statements
 ```
 
-### 4.2 Ask User
+### 4.2 Ask User (PR mode only)
 
-Use AskUserQuestion to ask how to proceed:
+**In PR mode**, use AskUserQuestion to ask how to proceed for each finding:
 
 - **Apply suggestion** — Implement the suggested fix
 - **Modify** — Let user describe a different approach
 - **Skip** — Move to next finding
 - **Stop** — End fixing session
+
+**In batch mode**, skip this step—apply the suggestion for all findings
+automatically. The user already confirmed the prioritized list in section 3.
 
 ### 4.3 Update Task and Spawn Fixer
 
@@ -157,10 +179,10 @@ Use TaskUpdate to change task state. Parameters:
 - Jump to section 5 (Report Summary)
 - Note: Pending tasks enable session resumption on next `/fix` run
 
-**If user chose to fix (Apply or Modify)**:
+**If user chose to fix (Apply or Modify)** (PR mode), or **for all findings** (batch mode):
 
 - Call TaskUpdate to mark task as `in_progress`
-- Spawn `@dev:fixer` with the finding:
+- Spawn `@dev:fixer` with the finding and mode:
 
 ```markdown
 ## Finding
@@ -171,12 +193,16 @@ Use TaskUpdate to change task state. Parameters:
 - **Suggestion**: Use parameterized queries with prepared statements
 - **Thread ID**: (include if GIT-\* finding)
 
+## Mode
+
+PR (or: Batch)
+
 ## Instructions
 
 Apply the suggestion.
 ```
 
-Or with custom instructions:
+Or with custom instructions (PR mode only):
 
 ```markdown
 ## Instructions
@@ -185,7 +211,8 @@ User's custom approach here...
 ```
 
 - Wait for the agent to complete
-- On success: Call TaskUpdate to mark as `completed` with `metadata: {commit: "sha"}`
+- **PR mode success**: Call TaskUpdate to mark as `completed` with `metadata: {commit: "sha"}`
+- **Batch mode success**: Call TaskUpdate to mark as `completed` (no commit SHA)
 - On failure:
   - Keep task as `in_progress`
   - Display the error from the fixer agent
@@ -203,6 +230,8 @@ finding to end early. Remaining tasks stay `pending` for future resumption.
 
 After all findings are processed (or user stops), display:
 
+### PR Mode Summary
+
 ```
 ## Summary
 
@@ -219,3 +248,38 @@ List the commits created:
 - def5678 Add missing error handling
 - ...
 ```
+
+### Batch Mode Summary
+
+```
+## Summary
+
+Fixed: 5 findings
+Skipped: 0 findings
+```
+
+Then offer to create a single commit:
+
+> Changes are ready. Create a commit?
+>
+> - **Yes** — Commit all fixes with a summary message
+> - **No** — Leave changes uncommitted
+
+If user chooses **Yes**:
+
+1. Stage all modified files
+2. Create a commit summarizing all fixes (use `dev:writing-commit-messages` skill)
+3. Example message:
+
+   ```
+   Address review findings
+
+   Fix 5 issues identified during code review:
+   - SEC-1: SQL injection vulnerability
+   - RDY-1: Unclear variable naming
+   - ...
+
+   Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
+   ```
+
+4. Do NOT push (user can push when ready)

@@ -1,6 +1,6 @@
 ---
 name: fixer
-description: Fix a single review finding with a commit. Use when addressing one finding from /review.
+description: Fix a single review finding. In PR mode, commits and pushes. In batch mode, just applies the fix.
 tools: Read, Glob, Grep, Bash, Edit, Write, Skill
 model: opus
 color: green
@@ -9,7 +9,8 @@ skills: dev:writing-commit-messages
 
 # Fix Finding
 
-Fix a single review finding, commit, push, and resolve GitHub thread if applicable.
+Fix a single review finding. In PR mode, commit, push, and resolve GitHub
+threads. In batch mode, just apply the fix without committing.
 
 ## Input
 
@@ -20,6 +21,7 @@ Your prompt contains a finding to fix:
 - **Issue**: What's wrong
 - **Suggestion**: How to fix it
 - **Thread ID**: GitHub thread ID (only for GIT-\* findings)
+- **Mode**: `PR` or `Batch`
 - **Instructions**: User's approach (apply suggestion or custom instructions)
 
 ## Workflow
@@ -38,7 +40,12 @@ Apply the fix according to the user's instructions:
 
 Keep changes minimal and focused on the finding.
 
-### 3. Commit and Push
+### 3. Commit and Push (PR mode only)
+
+**Skip this step in batch mode.** In batch mode, the `/dev:fix` command will
+offer a single commit after all fixes are applied.
+
+**In PR mode:**
 
 Stage and commit the fix. Use the `dev:writing-commit-messages` skill for the
 commit message. Reference the finding ID in the commit body.
@@ -62,9 +69,11 @@ Push immediately after committing:
 git push
 ```
 
-### 4. Resolve GitHub Thread
+### 4. Resolve GitHub Thread (PR mode only)
 
-If the finding has a thread ID (GIT-\* findings), reply and resolve:
+**Skip this step in batch mode.**
+
+**In PR mode**, if the finding has a thread ID (GIT-\* findings), reply and resolve:
 
 Get the commit SHA:
 
@@ -99,6 +108,13 @@ mutation {
 
 Return a brief summary:
 
+**PR mode:**
+
 - What was fixed
 - Commit SHA
 - Whether thread was resolved (for GIT-\* findings)
+
+**Batch mode:**
+
+- What was fixed
+- Files modified

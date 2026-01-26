@@ -27,8 +27,8 @@ git commit/PR workflows, and automatic file formatting after edits.
   automatic splitting of unrelated changes
 - 🔀 **PR Maker Agent**: Creates GitHub pull requests with proper branching
   and commit workflows
-- 🤖 **Fixer Agent**: Opus-powered agent that fixes a single finding, commits,
-  and resolves GitHub threads
+- 🤖 **Fixer Agent**: Opus-powered agent that fixes a single finding. In PR mode,
+  commits, pushes, and resolves GitHub threads. In batch mode, applies fixes only
 - 🔧 **Auto-Formatting Hook**: Automatically formats files after every Write or
   Edit operation using language-specific formatters
 
@@ -95,27 +95,39 @@ After reviewing, fix findings with `/fix` (iterative) or plan mode (bulk):
             ▼                               ▼
         /dev:fix                       Plan mode
             │                               │
-            ├─► For each finding:           ├─► Plan all fixes
-            │   ├─► Show + ask user         ├─► Implement
-            │   └─► @dev:fixer (Opus):      ├─► Commit + push
-            │       ├─► Make fix            └─► Resolve threads
-            │       ├─► Commit + push
-            │       └─► Resolve thread
-            │
-            └─► Summary
+    ┌───────┴───────┐                       ├─► Plan all fixes
+    │               │                       ├─► Implement
+    ▼               ▼                       ├─► Commit + push
+PR mode        Batch mode                   └─► Resolve threads
+    │               │
+    ├─► Per-finding │
+    │   prompts     ├─► Autonomous
+    │               │   processing
+    ├─► @dev:fixer: │
+    │   ├─► Fix     ├─► @dev:fixer:
+    │   ├─► Commit  │   └─► Fix only
+    │   ├─► Push    │
+    │   └─► Resolve ├─► Single commit
+    │       thread  │   at end
+    │               │
+    └─► Summary     └─► Summary
 ```
 
 ### Fixing findings
 
-After `/review`, use `/fix` to address findings one-by-one:
+After `/review`, use `/fix` to address findings:
 
 ```
 /dev:fix
 ```
 
-Each fix spawns an `@dev:fixer` agent (Opus) with fresh context. For GitHub
-findings (GIT-\*), it automatically replies with the commit SHA and resolves
-the thread.
+The command detects whether you're in a PR and adapts its behavior:
+
+- **PR mode**: Interactive per-finding prompts. Each fix spawns `@dev:fixer`
+  (Opus) which commits, pushes, and resolves GitHub threads (GIT-\* findings).
+- **Batch mode**: Autonomous processing after initial confirmation. Fixes are
+  applied without individual commits, with a single summary commit offered at
+  the end.
 
 ### Releasing
 
