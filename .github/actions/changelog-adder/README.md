@@ -2,8 +2,25 @@
 
 Generate changelog entry suggestions for PRs using Claude Code with the
 `dev:changelog-adder` agent. Suggestions are posted as PR comments for human
-review—use [changelog-reactor](../changelog-reactor/README.md) to process
-reactions.
+review.
+
+## Reaction Interface
+
+React to the suggestion comment to control the entry:
+
+| Emoji | Action                            |
+| ----- | --------------------------------- |
+| 👍    | Accept and commit the entry       |
+| 👎    | Reject (no changelog needed)      |
+| 😕    | Regenerate a different entry      |
+| 🚀    | Rewrite with more technical depth |
+| 👀    | Simplify for general audience     |
+| 😄    | Add dry wit                       |
+
+Reactions are processed instantly by the [changelog-bot][changelog-bot] GitHub
+App. Install the app on your repository to enable reaction handling.
+
+[changelog-bot]: https://github.com/apps/tenzir-changelog-bot
 
 ## Usage
 
@@ -56,8 +73,7 @@ jobs:
 2. Runs Claude with the `dev:changelog-adder` agent to generate an entry
 3. Posts a PR comment with:
    - The suggested changelog entry
-   - Reaction buttons for accept (👍), reject (👎), regenerate (😕), and style changes
-   - Embedded metadata for the reactor action
+   - Embedded metadata for the changelog-bot
 4. Cleans up the generated file (entry is recreated on accept)
 
 If no user-facing changes are detected, the action exits silently.
