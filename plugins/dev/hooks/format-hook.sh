@@ -45,6 +45,24 @@ run_pypi_tool() {
   fi
 }
 
+# Run a Go tool, falling back to go run if not installed
+# Pinned to v3.10.0 for reproducibility (released 2024-10-01)
+SHFMT_MODULE="mvdan.cc/sh/v3/cmd/shfmt@v3.10.0"
+
+run_go_tool() {
+  local tool="$1"
+  local module="$2"
+  shift 2
+  if has_cmd "$tool"; then
+    "$tool" "$@"
+  elif has_cmd go; then
+    go run "$module" "$@"
+  else
+    # Neither tool nor Go available - skip silently (consistent with other formatters)
+    return 1
+  fi
+}
+
 # Get changed line ranges from staged git diff for hunk-based formatting
 get_changed_lines() {
   local file="$1"
@@ -154,28 +172,27 @@ if [[ "$FILE_PATH" =~ \.(json)$ ]]; then
 fi
 
 if [[ "$FILE_PATH" =~ \.(sh|bash)$ ]]; then
-  if has_cmd shfmt; then
-    # Find .editorconfig by walking up from the file's directory to cwd
-    dir=$(dirname "$FILE_PATH")
-    cwd=$(pwd)
-    has_editorconfig=false
-    while [[ "$dir" == "$cwd"/* || "$dir" == "$cwd" ]]; do
-      if [[ -f "$dir/.editorconfig" ]]; then
-        has_editorconfig=true
-        break
-      fi
-      dir=$(dirname "$dir")
-    done
-    if $has_editorconfig; then
-      # Let shfmt use .editorconfig settings
-      shfmt -w "$FILE_PATH" || true
-    else
-      # Fallback defaults:
-      # -i 2: indent with 2 spaces
-      # -ci: indent switch cases
-      # -bn: binary ops may start a line
-      shfmt -i 2 -ci -bn -w "$FILE_PATH" || true
+  # Find .editorconfig by walking up from the file's directory to cwd
+  dir=$(dirname "$FILE_PATH")
+  cwd=$(pwd)
+  has_editorconfig=false
+  while [[ "$dir" == "$cwd"/* || "$dir" == "$cwd" ]]; do
+    if [[ -f "$dir/.editorconfig" ]]; then
+      has_editorconfig=true
+      break
     fi
+    dir=$(dirname "$dir")
+  done
+  if $has_editorconfig; then
+    # Let shfmt use .editorconfig settings
+    # Note: shfmt uses absolute paths for .editorconfig lookup, works with go run
+    run_go_tool shfmt "$SHFMT_MODULE" -w "$FILE_PATH" || true
+  else
+    # Fallback defaults:
+    # -i 2: indent with 2 spaces
+    # -ci: indent switch cases
+    # -bn: binary ops may start a line
+    run_go_tool shfmt "$SHFMT_MODULE" -i 2 -ci -bn -w "$FILE_PATH" || true
   fi
 fi
 
