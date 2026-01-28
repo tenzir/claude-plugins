@@ -1,5 +1,6 @@
 ---
 description: Run parallel code review on changes. Use when reviewing a PR, checking code quality, or auditing changes.
+argument-hint: "[reviewers...]"
 context: fork
 model: sonnet
 hooks:
@@ -18,6 +19,23 @@ hooks:
 
 Run parallel code review with triage, planning, and execution phases.
 
+## Arguments
+
+Optional reviewer filter: `/dev:review [reviewers...]`
+
+| Example                     | Effect                                 |
+| --------------------------- | -------------------------------------- |
+| `/dev:review`               | Auto-select reviewers based on changes |
+| `/dev:review github`        | Only GitHub PR comments                |
+| `/dev:review security arch` | Only security and architecture         |
+| `/dev:review tests docs`    | Only tests and documentation           |
+
+Valid reviewer names: `ux`, `docs`, `tests`, `arch`, `security`, `readability`, `performance`, `github`
+
+**Requested reviewers:** $ARGUMENTS
+
+When arguments are provided, run only those reviewers. When empty, auto-select based on changes.
+
 ## Session Resumption
 
 Check if there are pending fix tasks from a previous session. If found, offer to
@@ -32,7 +50,8 @@ does, key characteristics relevant to review).
 
 ### Select and Launch Reviewers
 
-Run the diff to see actual changes. Select relevant reviewers based on the
+If `$ARGUMENTS` is non-empty, run only the specified reviewers. Otherwise, run
+the diff to see actual changes and select relevant reviewers based on the
 changes—skip those with nothing to review, but when uncertain include them.
 
 Available reviewers:
@@ -54,8 +73,82 @@ command, and review directory path.
 Spawn `@dev:triager` with the review directory. The triager filters low-confidence
 findings, groups related issues, and deduplicates cross-reviewer overlap.
 
-Present the triage summary to the user. Ask whether to continue to planning or
-abort (keeping findings for manual review).
+Present the triage summary to the user using the emoji display format below.
+Ask whether to continue to planning or abort (keeping findings for manual
+review).
+
+### Display Format
+
+Transform triaged findings into an emoji-based summary table for display.
+
+#### Severity Indicators
+
+| Emoji | Level | Meaning           |
+| ----- | ----- | ----------------- |
+| 🔴    | P1    | Critical/Blocking |
+| 🟠    | P2    | Important         |
+| 🟡    | P3    | Should fix        |
+| ⚪    | P4    | Nice to have      |
+
+#### Category Icons
+
+| Emoji | ID Prefix | Category    |
+| ----- | --------- | ----------- |
+| 🛡️    | SEC       | security    |
+| 🏗️    | ARC       | arch        |
+| 🧪    | TST       | tests       |
+| 🎨    | UXD       | ux          |
+| 👁️    | RDY       | readability |
+| 📖    | DOC       | docs        |
+| 🚀    | PRF       | performance |
+| 💬    | GIT       | github      |
+| 📦    | GRP       | group       |
+
+#### Format
+
+Each finding displays as:
+
+```
+{severity_emoji} {severity} · {category_emoji} {id} · {title} ({confidence}%) · {file}:{line}
+```
+
+Examples:
+
+```
+🔴 P1 · 🛡️ SEC-1 · SQL injection vulnerability (95%) · src/db.ts:45
+🟠 P2 · 🏗️ ARC-1 · Circular dependency (88%) · src/modules/a.ts:12
+🟡 P3 · 🧪 TST-2 · Missing edge case test (82%) · tests/api.test.ts:78
+```
+
+For GitHub findings, append the author:
+
+```
+🟠 P2 · 💬 GIT-1 · Consider using constants (90%) · src/config.ts:23 (@reviewer)
+```
+
+For grouped findings, use box drawing with the group header and indented children.
+The group severity is the highest severity among its children:
+
+```
+┌─ 🟠 P2 · 📦 GRP-1 · Inconsistent error handling (3 findings)
+│  🟠 P2 · 👁️ RDY-1 · Missing error check (85%) · src/api.ts:23
+│  🟡 P3 · 👁️ RDY-2 · Silent failure (82%) · src/api.ts:45
+└─ 🟡 P3 · 👁️ RDY-3 · No error logging (80%) · src/api.ts:67
+```
+
+#### Sorting
+
+1. By severity: P1 first, then P2, P3, P4
+2. Within severity: by confidence (highest first)
+
+#### Legend
+
+Include legend rows at the bottom:
+
+```
+Severity: 🔴 P1 Critical · 🟠 P2 Important · 🟡 P3 Should fix · ⚪ P4 Nice to have
+Category: 🛡️ Security · 🏗️ Arch · 🧪 Tests · 🎨 UX · 👁️ Readability · 📖 Docs · 🚀 Perf · 💬 GitHub · 📦 Group
+```
 
 ### Triage Error Recovery
 
