@@ -18,6 +18,16 @@ plugins/<plugin-name>/
 └── agents/            # Subagent definitions
 ```
 
+## Naming Conventions
+
+Always prefix skills, slash commands, and agents with their plugin name:
+
+- Skills: `dev:writing-commit-messages`, `brand:styling-tenzir-ui`
+- Commands: `/dev:review`, `/dev:finalize`
+- Agents: `@dev:fixer`, `@dev:changelog-adder`
+
+Use this format in documentation, changelog entries, and code references.
+
 ## Skills
 
 Consult the [the Claude Skill docs](https://code.claude.com/docs/en/skills.md)
