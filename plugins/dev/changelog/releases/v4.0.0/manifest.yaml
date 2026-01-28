@@ -1,0 +1,17 @@
+created: 2026-01-28
+title: Unified Code Review Workflow
+intro: >-
+  This release introduces a unified code review and fix workflow that consolidates
+  the review, triage, planning, and execution phases into a single `/dev:review`
+  command. The workflow spawns specialized reviewers in parallel, filters findings
+  by confidence, plans fixes with proper dependencies, and executes them with
+  automatic GitHub thread resolution.
+
+  Other highlights include hunk-based C++ formatting that only applies
+  `clang-format` to changed lines, Python formatting support via `ruff`, and a
+  `go run` fallback for `shfmt` when the binary isn't installed.
+
+  **Breaking change**: The `dev:addressing-pr-comments` skill has been replaced by
+  the `@dev:reviewers:github` agent. Use the GitHub reviewer agent instead, or run
+  `/dev:review` on a branch with an open PR. The new `dev:addressing-reviews` skill
+  provides best practices for responding to review comments and resolving threads.
