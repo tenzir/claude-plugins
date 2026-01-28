@@ -1,8 +1,8 @@
 # Tenzir
 
 Build TQL pipelines and OCSF mappings with expert guidance. Provides workflow
-skills for creating parser packages and OCSF mappings, plus an OCSF subagent
-for schema navigation.
+skills for creating parser packages and OCSF mappings, plus subagents for
+documentation lookup and OCSF schema navigation.
 
 ## ✨ Features
 
@@ -12,6 +12,8 @@ for schema navigation.
   raw log data with iterative testing
 - **OCSF Mapping**: Transform parsed events into OCSF-compliant format with
   validation
+- **Documentation Guide**: Fast answers to Tenzir questions via the
+  `tenzir:guide` subagent
 - **OCSF Schema Navigation**: Fast answers to OCSF schema questions via the
   `tenzir:ocsf` subagent
 
@@ -64,4 +66,16 @@ Delegate OCSF questions for fast, accurate answers:
 @tenzir:ocsf What's the difference between actor and user objects?
 
 @tenzir:ocsf Which profile adds container context to events?
+```
+
+### `tenzir:guide` subagent
+
+Delegate Tenzir questions for fast, accurate answers from the documentation:
+
+```
+@tenzir:guide How do I parse JSON logs?
+
+@tenzir:guide What operators filter events by field value?
+
+@tenzir:guide How do I deploy a node on AWS?
 ```
