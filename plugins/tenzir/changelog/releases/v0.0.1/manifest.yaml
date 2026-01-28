@@ -1,0 +1,5 @@
+created: 2026-01-28
+title: Guide Subagent
+intro: >-
+  This release introduces the `tenzir:guide` subagent for fast documentation lookups
+  and adds dynamic documentation syncing from the latest Tenzir release.
