@@ -20,6 +20,10 @@ project_dir="${CLAUDE_PROJECT_DIR:-$(pwd)}"
 mkdir -p "$project_dir"
 project_dir=$(cd "$project_dir" && pwd)
 
+# Track what was copied for structured output
+copied_skills=()
+copied_agents=()
+
 # Check if a file has hooks in its YAML frontmatter
 has_hooks() {
   local file="$1"
@@ -109,7 +113,7 @@ process_plugin() {
       update_name_field "$target/SKILL.md" "$skill_name" "$prefixed_name"
       fix_plugin_root_paths "$target/SKILL.md" "$plugin_dir"
 
-      echo "Copied skill: $prefixed_name"
+      copied_skills+=("$prefixed_name")
     done
   fi
 
@@ -140,8 +144,24 @@ process_plugin() {
       update_name_field "$target" "$base_name" "$prefixed_name"
       fix_plugin_root_paths "$target" "$plugin_dir"
 
-      echo "Copied agent: $prefixed_name"
+      copied_agents+=("$prefixed_name")
     done < <(find "$agents_dir" -name "*.md" -type f -print0)
+  fi
+}
+
+# Output result for Claude Code hooks
+output_result() {
+  if [[ ${#copied_skills[@]} -gt 0 || ${#copied_agents[@]} -gt 0 ]]; then
+    local display="Copied:"
+    for skill in "${copied_skills[@]}"; do
+      display+=" $skill"
+    done
+    for agent in "${copied_agents[@]}"; do
+      display+=" $agent"
+    done
+    echo "$display"
+  else
+    echo "Plugin components up to date"
   fi
 }
 
@@ -154,3 +174,5 @@ else
   echo "Error: No plugin directory specified" >&2
   exit 1
 fi
+
+output_result

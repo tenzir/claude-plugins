@@ -12,7 +12,7 @@ set -euo pipefail
 SKILL_DIR="${CLAUDE_PLUGIN_ROOT}/skills/docs"
 CACHE_FILE="${SKILL_DIR}/.last-sync"
 TARBALL_URL="https://github.com/tenzir/docs/releases/download/latest/tenzir-skill.tar.gz"
-MAX_AGE_SECONDS=$((24 * 3600))  # 24 hours
+MAX_AGE_SECONDS=$((24 * 3600)) # 24 hours
 
 # Parse arguments
 NON_BLOCKING=false
@@ -39,7 +39,10 @@ else
 fi
 
 if [[ "$needs_sync" != "true" ]]; then
-  # Skill is up to date, no action needed
+  # Skill is up to date - report last sync time
+  last_sync=$(cat "$CACHE_FILE" 2>/dev/null || echo "0")
+  last_sync_date=$(date -r "$last_sync" "+%Y-%m-%d %H:%M:%S" 2>/dev/null || echo "unknown")
+  echo "Docs skill up to date (last synced: $last_sync_date)"
   exit 0
 fi
 
@@ -66,35 +69,23 @@ sync_skill() {
   fi
 
   # Update timestamp
-  date +%s > "$CACHE_FILE"
+  date +%s >"$CACHE_FILE"
 }
 
 if [[ "$NON_BLOCKING" == "true" ]]; then
   # Background sync - fork and exit immediately
   (sync_skill 2>/dev/null &)
-  jq -n '{
-    "continue": true,
-    "additionalContext": "Docs skill sync started in background."
-  }'
+  echo "Docs skill sync started in background"
 else
   # Blocking sync - wait for completion
   if sync_skill; then
-    jq -n '{
-      "continue": true,
-      "additionalContext": "Docs skill synced from latest release."
-    }'
+    echo "Docs skill synced from latest release"
   else
     # Network failure - use cached version if available
     if [[ -f "${SKILL_DIR}/SKILL.md" ]]; then
-      jq -n '{
-        "continue": true,
-        "additionalContext": "Warning: Could not sync docs skill (network error). Using cached version."
-      }'
+      echo "Warning: Could not sync docs skill (network error). Using cached version."
     else
-      jq -n '{
-        "continue": true,
-        "additionalContext": "Warning: Could not download docs skill (network error). The tenzir:docs skill is unavailable."
-      }'
+      echo "Warning: Could not download docs skill (network error). The tenzir:docs skill is unavailable."
     fi
   fi
 fi
