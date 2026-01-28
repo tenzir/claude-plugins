@@ -142,6 +142,42 @@ The command detects whether you're in a PR and adapts its behavior:
 Session resumption: If interrupted during Phase 4, running `/dev:review` again
 offers to resume from where you left off.
 
+### GitHub thread resolution
+
+When running `/dev:review github` on a PR, thread IDs flow through the pipeline:
+
+```
+@dev:reviewers:github
+│
+│  Fetches unresolved threads via GraphQL
+│  Outputs GIT-* findings with **Thread**: PRT_kwDO...
+│
+▼
+@dev:triager
+│
+│  Preserves thread IDs through grouping
+│
+▼
+@dev:planner
+│
+│  Stores thread_ids in task metadata
+│
+▼
+@dev:fixer (PR mode)
+│
+│  1. Apply fix
+│  2. Commit + push → get SHA
+│  3. Reply "Fixed in {SHA}" + resolve thread
+│
+▼
+Thread resolved on GitHub
+```
+
+The `dev:addressing-reviews` skill is loaded by `@dev:fixer` via the `skills:`
+frontmatter field. It provides response guidelines (when to reply vs just
+resolve, communication tone, etc.) and is only active for GIT-\* findings that
+have thread IDs.
+
 ### Releasing
 
 Guide through a release:
