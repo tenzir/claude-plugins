@@ -65,33 +65,7 @@ single summary commit after all fixes are applied.
 **In PR mode:**
 
 Stage and commit the fix. Use the `dev:writing-commit-messages` skill for the
-commit message. Reference the finding ID(s) in the commit body.
-
-Example commit message for single finding:
-
-```
-Fix SQL injection vulnerability in user query
-
-Use parameterized queries instead of string concatenation to prevent
-SQL injection attacks.
-
-Finding: SEC-1
-
-Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
-```
-
-Example for grouped findings:
-
-```
-Fix input validation issues in database layer
-
-Add parameterized queries and improve error handling to address
-multiple related validation concerns.
-
-Findings: SEC-1, RDY-3, TST-2
-
-Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
-```
+commit message.
 
 Push immediately after committing:
 
