@@ -126,14 +126,16 @@ For GitHub findings, append the author:
 🟠 P2 · 💬 GIT-1 · Consider using constants (90%) · src/config.ts:23 (@reviewer)
 ```
 
-For grouped findings, use box drawing with the group header and indented children.
+For grouped findings, use a rounded box header with children connected at the corner.
 The group severity is the highest severity among its children:
 
 ```
-┌─ 🟠 P2 · 📦 GRP-1 · Inconsistent error handling (3 findings)
-│  🟠 P2 · 👁️ RDY-1 · Missing error check (85%) · src/api.ts:23
-│  🟡 P3 · 👁️ RDY-2 · Silent failure (82%) · src/api.ts:45
-└─ 🟡 P3 · 👁️ RDY-3 · No error logging (80%) · src/api.ts:67
+╭──────────────────────────────────────────────────────────────────────────╮
+│ 🟠 P2 · 📦 GRP-1 · Inconsistent error handling (3 findings)              │
+╰┬─────────────────────────────────────────────────────────────────────────╯
+ ├─ 🟠 P2 · 👁️ RDY-1 · Missing error check (85%) · src/api.ts:23
+ ├─ 🟡 P3 · 👁️ RDY-2 · Silent failure (82%) · src/api.ts:45
+ └─ 🟡 P3 · 👁️ RDY-3 · No error logging (80%) · src/api.ts:67
 ```
 
 #### Sorting
