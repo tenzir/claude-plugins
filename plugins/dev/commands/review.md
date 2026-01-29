@@ -74,8 +74,15 @@ Spawn `@dev:triager` with the review directory. The triager filters low-confiden
 findings, groups related issues, and deduplicates cross-reviewer overlap.
 
 Present the triage summary to the user using the emoji display format below.
-Ask whether to continue to planning or abort (keeping findings for manual
-review).
+
+After displaying the findings summary, use the `AskUserQuestion` tool:
+
+- Question: "How would you like to proceed with these findings?"
+- Header: "Findings"
+- Options:
+  1. **Fix all findings (Recommended)** - Plan and execute fixes for all findings
+  2. **Select which to fix** - Specify findings to skip before proceeding
+  3. **Abort** - Keep findings for manual review
 
 ### Display Format
 
@@ -168,24 +175,37 @@ If the triager fails or returns incomplete results:
 Spawn `@dev:planner` with the triaged directory and mode (PR or Batch). The
 planner creates fix tasks with appropriate dependencies.
 
-Present the plan to the user. Ask whether to execute, modify, or abort.
-
-If modifying: let user skip tasks, reorder, or switch modes.
+Planning proceeds automatically after the user approves findings in Phase 2.
 
 ## Phase 4: Execute
 
 Process fix tasks in dependency order.
 
-| Mode  | Behavior                                                |
-| ----- | ------------------------------------------------------- |
-| PR    | Per-task prompts, individual commits, thread resolution |
-| Batch | Fully autonomous, single commit at end                  |
+| Mode  | Behavior                                      |
+| ----- | --------------------------------------------- |
+| PR    | Individual commits per fix, thread resolution |
+| Batch | Fully autonomous, single commit at end        |
 
-### PR Mode
+### Automated Findings
 
-For each task:
+For findings from automated reviewers (`@dev:reviewers:*` except `github`),
+execute fixes without per-task prompts. Spawn `@dev:fixer` for each finding.
 
-1. Display the finding details
+### GitHub Review Comments
+
+If the review includes GitHub PR comments (`@dev:reviewers:github` findings),
+prompt separately after automated fixes complete using `AskUserQuestion`:
+
+- Question: "How would you like to handle GitHub review comments?"
+- Header: "GitHub"
+- Options:
+  1. **Address all & resolve threads (Recommended)** - Fix and resolve automatically
+  2. **Review each comment** - Prompt before each GitHub finding
+  3. **Skip GitHub comments** - Leave for manual handling
+
+When user selects "Review each comment", for each GitHub finding:
+
+1. Display the finding details and reviewer comment
 2. Ask: Apply suggestion / Modify / Skip / Stop
 3. If fixing, spawn `@dev:fixer` with finding details and `Mode: PR`
 
