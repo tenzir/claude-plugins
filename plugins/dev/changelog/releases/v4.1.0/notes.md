@@ -1,0 +1,35 @@
+This release improves workflow automation for changelog creation and code review. The changelog-adder agent now auto-detects changed files and provides clearer guidance for writing user-focused entries. The review command streamlines decision points, reducing prompts while maintaining control over important choices.
+
+## 🔧 Changes
+
+### Automated scope detection and improved changelog guidance in changelog-adder agent
+
+The changelog-adder agent now automatically injects context about changed files through a `PreToolUse` hook, eliminating manual scope detection. The hook runs an improved scope detection script that prioritizes staged changes, then unstaged changes, then branch history.
+
+The agent's instructions have been refined to provide clearer guidance for writing user-facing changelog entries. New sections explicitly distinguish what to exclude (internal implementation details), what to preserve (user-facing terms), and what to include (outcomes and examples). A self-review checklist helps ensure changelog entries are clear and helpful.
+
+These improvements streamline the changelog creation workflow by automatically providing essential context while guiding the agent toward writing changelogs that focus on user benefits rather than implementation details.
+
+*By @mavam and @claude.*
+
+### Streamlined review workflow with structured decision points
+
+The `/dev:review` command now streamlines the workflow by using Claude's structured `AskUserQuestion` tool to consolidate decision points into focused, meaningful interactions.
+
+**Phase 2 (Triage)** now presents structured options after showing findings:
+
+- Fix all findings (Recommended)
+- Select which findings to skip
+- Abort review
+
+**Phase 3 (Plan)** proceeds automatically after the user approves findings in Phase 2, eliminating the intermediate plan review prompt.
+
+**Phase 4 (Execute)** optimizes prompting based on finding type:
+
+- Findings from automated reviewers (security, architecture, tests, and others) execute without per-task prompts
+- GitHub PR comments only trigger an additional prompt if they exist, with options to address all, review each comment individually, or skip
+- Per-finding prompts only appear when the user explicitly selects "Review each comment" for GitHub feedback
+
+This reduction in prompts—from 2+ decisions down to 1 for automated reviewers, and conditionally 2 for workflows with GitHub comments—keeps the review workflow responsive while maintaining full control over important decisions.
+
+*By @mavam and @claude.*

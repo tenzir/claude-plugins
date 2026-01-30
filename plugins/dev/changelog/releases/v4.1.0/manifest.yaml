@@ -1,0 +1,12 @@
+created: 2026-01-30
+title: Workflow Automation Improvements
+intro: >-
+  This release improves workflow automation for changelog creation and code review.
+
+  The changelog-adder agent now auto-detects changed files and provides clearer
+
+  guidance for writing user-focused entries. The review command streamlines
+
+  decision points, reducing prompts while maintaining control over important
+
+  choices.
