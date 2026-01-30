@@ -8,7 +8,7 @@ hooks:
     - matcher: "*"
       hooks:
         - type: command
-          command: "$CLAUDE_PLUGIN_ROOT/scripts/detect-review-scope.sh"
+          command: "$CLAUDE_PLUGIN_ROOT/scripts/detect-change-scope.sh"
           once: true
         - type: command
           command: "$CLAUDE_PLUGIN_ROOT/scripts/detect-pr-context.sh"

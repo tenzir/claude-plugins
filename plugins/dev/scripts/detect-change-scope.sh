@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Detect which files to review based on git state.
+# Detect which files changed based on git state.
 # Priority: staged > unstaged > branch changes
 #
 # Output format:
@@ -23,7 +23,10 @@ untracked=$(git ls-files --others --exclude-standard)
 if [[ -n "$unstaged" || -n "$untracked" ]]; then
   echo "Scope: unstaged changes"
   echo "Diff: git diff --"
-  { echo "$unstaged"; echo "$untracked"; } | grep -v '^$' | sort -u
+  {
+    echo "$unstaged"
+    echo "$untracked"
+  } | grep -v '^$' | sort -u
   exit 0
 fi
 
