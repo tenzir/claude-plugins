@@ -50,7 +50,7 @@ does, key characteristics relevant to review).
 
 ### Select and Launch Reviewers
 
-If `$ARGUMENTS` is non-empty, run only the specified reviewers. Otherwise, run
+If $ARGUMENTS is non-empty, run only the specified reviewers. Otherwise, run
 the diff to see actual changes and select relevant reviewers based on the
 changes—skip those with nothing to review, but when uncertain include them.
 
