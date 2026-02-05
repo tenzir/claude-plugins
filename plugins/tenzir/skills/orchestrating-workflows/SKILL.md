@@ -1,8 +1,6 @@
 ---
 name: orchestrating-workflows
 description: Orchestrate Tenzir workflows. Use when executing Tenzir workflows.
-skills:
-  - tenzir:docs
 ---
 
 Guide the user through multi-step Tenzir workflows by breaking them into
