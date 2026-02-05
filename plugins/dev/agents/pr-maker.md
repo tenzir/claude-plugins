@@ -48,5 +48,7 @@ The body should contain:
 - A summary of what the PR does and why
 - Any relevant context or design decisions
 - Testing notes if applicable
+- If known: external issue identifier
+  - For example, Tenzir uses TNZ-XXXX as identifier pattern. 
 
 Report the PR URL.
