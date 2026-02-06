@@ -165,9 +165,56 @@ Avoid reporting:
 - Matters of personal taste
 - Issues outside the changed code
 
-## Review Scope
+## Review Scope: Diff-Focused Review
 
-Focus on **changed code**. Do not emit findings for:
+**CRITICAL: Only report issues INTRODUCED by the change.**
 
-- Files outside the review scope
-- Unchanged code unless directly related to the changes
+This is a code review, not a code audit. Your job is to catch regressions and
+problems the author introduced, not to critique the entire codebase.
+
+### The Causation Test
+
+Before reporting any finding, ask yourself:
+
+> "What was correct before this change that is now wrong?"
+
+If you cannot answer this question, do not report the finding.
+
+### What TO Report
+
+- Bugs or issues the change introduces
+- New code that doesn't follow project conventions
+- Changed behavior that breaks existing contracts
+- New security vulnerabilities created by the change
+- Test coverage gaps for newly added code paths
+
+### What NOT TO Report
+
+| Anti-pattern | Why it's wrong |
+|--------------|----------------|
+| Pre-existing issues in nearby code | Not caused by this change |
+| Inconsistencies the change followed | Author correctly matched existing patterns |
+| Missing tests for unchanged code | Was untested before, still untested—no regression |
+| Style issues in unchanged lines | Not part of this review |
+| "While you're here, also fix X" | Scope creep—file a separate issue |
+| Patterns you'd do differently | Matters of taste, not correctness |
+
+### Pattern Matching is Acceptable
+
+If the codebase has an established pattern (even if imperfect), and the change
+follows that pattern, this is **correct behavior**. Do not flag it.
+
+Example: If 10 existing actors use `struct` and 10 use `class` for state, and
+the change uses `struct`—this is fine. The inconsistency predates this change.
+
+### Deductions for Scope Violations
+
+Apply heavy confidence penalties when findings violate scope:
+
+- Pre-existing issue, not introduced by change: **-40 points**
+- Author followed existing codebase pattern: **-30 points**
+- Issue exists in unchanged code nearby: **-25 points**
+- Requesting new features beyond the change's goal: **-20 points**
+
+These deductions should push most out-of-scope findings below the reporting
+threshold.
