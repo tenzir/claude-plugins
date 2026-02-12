@@ -14,12 +14,7 @@
       "description": "Tenzir brand and style guidelines for frontend development",
       "source": "./plugins/brand"
     },
-    {
-      "name": "cpp",
-      "description": "C++ language support, tooling, and coding conventions",
-      "source": "./plugins/cpp"
-    },
-    {
+{
       "name": "dev",
       "description": "Developer utilities including documentation, changelogs, code review, plan review, git workflows, auto-formatting, and releases",
       "source": "./plugins/dev"

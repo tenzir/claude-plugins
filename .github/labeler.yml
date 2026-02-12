@@ -5,10 +5,6 @@ plugin:brand:
   - changed-files:
       - any-glob-to-any-file: plugins/brand/**
 
-plugin:cpp:
-  - changed-files:
-      - any-glob-to-any-file: plugins/cpp/**
-
 plugin:dev:
   - changed-files:
       - any-glob-to-any-file: plugins/dev/**
