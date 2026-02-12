@@ -43,6 +43,8 @@ index=0
 for plugin in $plugins; do
   label="${LABEL_PREFIX}${plugin}"
   description=$(jq -r --arg name "$plugin" '.plugins[] | select(.name == $name) | .description' "$MARKETPLACE_JSON")
+  # GitHub label descriptions have a 100-character limit
+  description="${description:0:100}"
   # Evenly space hues around the color wheel
   hue=$((360 * index / plugin_count))
   color=$(hsl_to_rgb "$hue" 0.65 0.45)
