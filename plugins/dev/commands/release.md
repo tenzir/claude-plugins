@@ -1,5 +1,5 @@
 ---
-description: Guide through releasing a project with tenzir-ship (detect, stage, commit, publish, verify).
+description: Guide through releasing a project via remote workflow or local tenzir-ship (detect, stage, commit, publish, verify).
 context: fork
 argument-hint: "[patch|minor|major]"
 ---
@@ -33,7 +33,56 @@ Before starting, verify:
 
 If any check fails, abort and explain why. Do not attempt to fix issues.
 
-## Release steps
+## Remote release workflow
+
+> Skip this section for module releases—they only stage the changelog and bump a
+> version within a subdirectory, so the parent project handles publishing.
+
+Check whether the repository contains a dedicated worfklow for releasing, such
+as`.github/workflows/release.yaml`.
+
+If it does **not** exist, fall through to the local "Release steps" below.
+
+If it **does** exist, perform the remote release:
+
+### 1. Determine inputs
+
+The release workflow requires inputs. In most cases, inputs are:
+
+- **bump**: Use `$1` if provided. Otherwise, infer from the unreleased changelog
+  entries (same logic as the local step 2).
+- **intro**: Summarize the entries in `changelog/unreleased/` into 1–2 sentences
+  describing the release highlights.
+- **title** (optional): Identify the lead topic—the single most important change
+  from a user's perspective.
+
+If you encounter other inputs, make reasonable choices and inform the user.
+
+### 2. Trigger the workflow
+
+```sh
+gh workflow run release.yaml \
+  -f bump=<patch|minor|major> \
+  -f intro="<intro text>" \
+  [-f title="<title>"]
+```
+
+### 3. Monitor the run
+
+Wait briefly for the run to register, find its ID, then watch it.
+
+### 4. Verify
+
+- If the run succeeds, report the GitHub release URL.
+- If it fails, report the run URL so the user can inspect the logs.
+
+### 5. Stop
+
+Do **not** proceed to the local release steps. The release is complete.
+
+## Release steps (local)
+
+> The following steps apply only when no remote release workflow was found.
 
 Begin by identifying the project type by running
 `${CLAUDE_PLUGIN_ROOT}/scripts/detect-project-type.sh`.
