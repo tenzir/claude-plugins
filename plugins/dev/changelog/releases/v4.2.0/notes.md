@@ -1,0 +1,39 @@
+This release adds remote release workflow detection to `/dev:release`, letting you trigger GitHub Actions workflows instead of running local release steps. It also modularizes the documentation editing architecture and improves issue identifier guidance in the PR maker agent.
+
+## 🚀 Features
+
+### Remote release workflow detection
+
+The `/dev:release` command now detects and uses remote release workflows. When your repository has a release workflow (such as `.github/workflows/release.yaml`), the command automatically triggers it using `gh workflow run` instead of performing a local release. This enables centralized, consistent release processes managed through GitHub Actions.
+
+If your repository doesn't have a remote workflow, the command falls back to the existing local release process. Module releases continue using their local steps, since the parent project handles publishing.
+
+*By @mavam and @claude.*
+
+## 🔧 Changes
+
+### External issue identifier guidance in PR maker agent
+
+The `@dev:pr-maker` agent now guides you to include external issue identifiers in your PR descriptions when available. You can reference related issues like TNZ-XXXX (used by Tenzir) or your project's own identifier pattern to connect your changes to your issue tracking system.
+
+*By @mavam and @claude.*
+
+### Modularized documentation editing into layered architecture
+
+The `@dev:docs-updater` agent now uses a modular, layered architecture to separate concerns.
+
+A new `dev:docs-editing` skill now handles the core workflow for creating and editing documentation, with five phases: determine scope, check existing docs, write docs, validate, and report results. The skill includes a `detect-change-scope.sh` hook that automatically injects change context at invocation.
+
+A new `@dev:docs-editor` agent executes the `dev:docs-editing` skill and manages synchronization with the `.docs/` documentation repository. The agent leaves changes uncommitted for manual review or for the updater to handle.
+
+The `@dev:docs-updater` agent is now an orchestrator that spawns `@dev:docs-editor` to perform edits, then spawns `@dev:pr-maker` to commit and create pull requests. It handles cross-linking PRs between the main repository and the documentation repository.
+
+The skill layering now clearly separates concerns:
+
+- `dev:docs-authoring` — what and where to create (structure, Diátaxis framework)
+- `dev:technical-writing` — how to write (style, voice, clarity)
+- `dev:docs-editing` — the process to follow (operational workflow, phases)
+
+This modularization makes it easier to reuse skills independently and reason about documentation workflows.
+
+*By @mavam and @claude.*

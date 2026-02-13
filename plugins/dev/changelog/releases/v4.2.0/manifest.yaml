@@ -1,0 +1,7 @@
+created: 2026-02-13
+title: Remote Release Workflows
+intro: >-
+  This release adds remote release workflow detection to `/dev:release`, letting you
+  trigger GitHub Actions workflows instead of running local release steps. It also
+  modularizes the documentation editing architecture and improves issue identifier
+  guidance in the PR maker agent.
