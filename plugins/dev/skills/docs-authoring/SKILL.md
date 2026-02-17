@@ -55,4 +55,4 @@ Invoke `dev:technical-writing` for detailed style guidance.
 
 ## Workflow
 
-Use `@dev:docs-updater` to write, review, and publish documentation autonomously.
+The `dev:shipping-changes` skill orchestrates documentation updates end-to-end.

@@ -11,9 +11,9 @@ skills:
 # Create Pull Request
 
 > **Important**: All project-specific quality gates must pass before creating a
-> PR. Check `CLAUDE.md` or project documentation for required linting,
-> formatting, type checking, and build steps. Run these first and fix any
-> failures.
+> PR. Check `AGENTS.md`/`CLAUDE.md` or project documentation for required
+> linting, formatting, type checking, and build steps. Run these first and fix
+> any failures.
 
 ## 1. Verify changes
 

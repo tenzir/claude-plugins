@@ -23,7 +23,7 @@ plugins/<plugin-name>/
 Always prefix skills, slash commands, and agents with their plugin name:
 
 - Skills: `dev:writing-commit-messages`, `brand:styling-tenzir-ui`
-- Commands: `/dev:review`, `/dev:finalize`
+- Commands: `/dev:review`, `/dev:release`
 - Agents: `@dev:fixer`, `@dev:changelog-adder`
 
 Use this format in documentation, changelog entries, and code references.

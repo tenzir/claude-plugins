@@ -38,5 +38,5 @@ automatically.
 
 Excute the `dev:docs-editing` documentation workflow.
 
-Do not create commits or pull requests. Leave changes uncommitted for review or
-for `@dev:docs-updater` to handle.
+Do not create commits or pull requests. Leave changes uncommitted for the
+caller to handle.

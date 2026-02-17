@@ -19,7 +19,6 @@ edits.
 - 🔍 **Code Review Command**: Spawns specialized reviewers in parallel, triages
   findings, creates fix tasks, and executes fixes with GitHub thread resolution
 - 🚀 **Release Command**: Guides through releasing a project with tenzir-ship
-- 🔄 **Finalize Command**: Adds changelog entry, commits, and pushes changes
 - 🔬 **Plan Reviewer Agent**: Reviews implementation plans using external AI
   models (Codex, Gemini, Opus) with structured evaluation methodology
 - 📦 **Committer Agent**: Stages and commits changes with cohesion analysis and
@@ -33,21 +32,12 @@ edits.
   and deduplicates cross-reviewer overlap for focused review
 - 📋 **Planner Agent**: Creates ordered fix tasks with file-level dependencies
   to prevent merge conflicts
+- 🚢 **Shipping Skill**: Ships code and docs — commit, PR, changelog, and
+  documentation updates orchestrated end-to-end
 - 🔧 **Auto-Formatting Hook**: Automatically formats files after every Write or
   Edit operation using language-specific formatters
 
 ## 🚀 Usage
-
-### Updating documentation
-
-For hands-off documentation, delegate to the docs updater subagent:
-
-```
-Document the latest changes @dev:docs-updater
-```
-
-The subagent writes docs, reviews them, runs linting, and creates a PR against
-`tenzir/docs`--all without further input.
 
 ### Creating changelog entries
 
@@ -186,14 +176,6 @@ Guide through a release:
 /dev:release [patch|minor|major]
 ```
 
-### Finalizing changes
-
-Add changelog, commit, and push in one command:
-
-```
-/dev:finalize
-```
-
 ### Committing changes
 
 For automated workflows, use the committer agent:
@@ -205,6 +187,24 @@ For automated workflows, use the committer agent:
 The agent gathers context, runs static checks, analyzes change cohesion (auto-
 splitting orthogonal changes into separate commits), and commits with proper
 messages.
+
+### Shipping changes
+
+Ship code and documentation end-to-end:
+
+```
+Ship my changes
+```
+
+The skill detects the current branch and runs the appropriate workflow:
+
+- **Main mode** (on `main`): Adds changelog, commits everything, pushes
+- **Worktree mode** (on topic branch): Commits, creates draft PR, adds
+  changelog, commits again, pushes
+
+For user-facing changes, the skill also handles documentation updates: clones
+or fetches `.docs/` (the `tenzir/docs` repo), creates a topic branch, spawns
+`@dev:docs-editor`, opens a docs PR, and cross-links both PRs.
 
 ### Creating pull requests
 
