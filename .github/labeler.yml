@@ -9,7 +9,3 @@ plugin:excalidraw:
   - changed-files:
       - any-glob-to-any-file: plugins/excalidraw/**
 
-plugin:tenzir:
-  - changed-files:
-      - any-glob-to-any-file: plugins/tenzir/**
-

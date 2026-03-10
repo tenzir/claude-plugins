@@ -1,7 +1,7 @@
 {
   "name": "dev",
-  "version": "5.0.0",
-  "description": "Developer utilities including documentation, changelogs, code review, plan review, git workflows, auto-formatting, and releases",
+  "version": "4.2.0",
+  "description": "Automatic file formatting hook for edited files",
   "author": {
     "name": "Tenzir",
     "email": "engineering@tenzir.com",

@@ -11,18 +11,13 @@
   "plugins": [
     {
       "name": "dev",
-      "description": "Developer utilities including documentation, changelogs, code review, plan review, git workflows, auto-formatting, and releases",
+      "description": "Automatic file formatting hook for edited files",
       "source": "./plugins/dev"
     },
     {
       "name": "excalidraw",
       "description": "Create Excalidraw diagrams with proper JSON structure",
       "source": "./plugins/excalidraw"
-    },
-    {
-      "name": "tenzir",
-      "description": "Authoritative Tenzir documentation, user guides, and workflows",
-      "source": "./plugins/tenzir"
     }
   ]
 }

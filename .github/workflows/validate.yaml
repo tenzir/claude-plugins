@@ -64,25 +64,3 @@ jobs:
           fi
           echo "All skills validated successfully"
 
-  changelog:
-    name: Add changelog
-    # Skip bot PRs (automated syncs) - they don't represent human-authored changes
-    if: github.event_name == 'pull_request' && github.event.pull_request.user.type != 'Bot'
-    needs: [structure, agentskills]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pull-requests: write
-    concurrency:
-      group: changelog-${{ github.event.pull_request.number }}
-      cancel-in-progress: true
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{ github.head_ref }}
-
-      - name: Add changelog entry
-        uses: ./.github/actions/changelog-adder
-        with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}

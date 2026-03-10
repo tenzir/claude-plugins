@@ -9,9 +9,8 @@ commands, agents, hooks, skills, and MCP servers tailored for working with
 
 | Plugin       | Description                                                                                         |
 | ------------ | --------------------------------------------------------------------------------------------------- |
-| `dev`        | Developer utilities including documentation, changelogs, code review, git workflows, and formatting |
+| `dev`        | Automatic file formatting hook for edited files                                                       |
 | `excalidraw` | Create Excalidraw diagrams with proper JSON structure                                               |
-| `tenzir`     | Authoritative Tenzir documentation, user guides, and workflows                                      |
 
 ## 🛠️ Development
 

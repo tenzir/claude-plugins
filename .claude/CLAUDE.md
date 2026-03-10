@@ -22,9 +22,9 @@ plugins/<plugin-name>/
 
 Always prefix skills, slash commands, and agents with their plugin name:
 
-- Skills: `dev:writing-commit-messages`, `tenzir:docs`
-- Commands: `/dev:review`, `/dev:release`
-- Agents: `@dev:fixer`, `@dev:changelog-adder`
+- Skills: `excalidraw:diagramming`, `plugin-name:skill-name`
+- Commands: `/plugin-name:command-name`
+- Agents: `@plugin-name:agent-name`
 
 Use this format in documentation, changelog entries, and code references.
 
@@ -53,8 +53,8 @@ Use array notation for the `skills:` frontmatter field in agents:
 
 ```yaml
 skills:
-  - dev:writing-commit-messages
-  - dev:addressing-reviews
+  - excalidraw:diagramming
+  - plugin-name:skill-name
 ```
 
 ## Slash Commands
@@ -100,7 +100,7 @@ jq -n \
 
 1. Make your changes
 2. Keep the README description up to date when the plugin changes
-3. Add changelog entry: spawn `@dev:changelog-adder`
+3. Add changelog entry in the appropriate changelog
 
 ### Renaming or Removing a Plugin
 
