@@ -1,10 +1,6 @@
 # Auto-generated from marketplace.json by sync-labels workflow
 # Do not edit manually
 
-plugin:brand:
-  - changed-files:
-      - any-glob-to-any-file: plugins/brand/**
-
 plugin:dev:
   - changed-files:
       - any-glob-to-any-file: plugins/dev/**
@@ -12,10 +8,6 @@ plugin:dev:
 plugin:excalidraw:
   - changed-files:
       - any-glob-to-any-file: plugins/excalidraw/**
-
-plugin:python:
-  - changed-files:
-      - any-glob-to-any-file: plugins/python/**
 
 plugin:tenzir:
   - changed-files:

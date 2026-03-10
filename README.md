@@ -9,10 +9,8 @@ commands, agents, hooks, skills, and MCP servers tailored for working with
 
 | Plugin       | Description                                                                                         |
 | ------------ | --------------------------------------------------------------------------------------------------- |
-| `brand`      | Tenzir brand and style guidelines for frontend development                                          |
 | `dev`        | Developer utilities including documentation, changelogs, code review, git workflows, and formatting |
 | `excalidraw` | Create Excalidraw diagrams with proper JSON structure                                               |
-| `python`     | Python coding conventions for Tenzir projects                                                       |
 | `tenzir`     | Authoritative Tenzir documentation, user guides, and workflows                                      |
 
 ## 🛠️ Development

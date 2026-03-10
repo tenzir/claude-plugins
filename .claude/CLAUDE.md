@@ -22,7 +22,7 @@ plugins/<plugin-name>/
 
 Always prefix skills, slash commands, and agents with their plugin name:
 
-- Skills: `dev:writing-commit-messages`, `brand:styling-tenzir-ui`
+- Skills: `dev:writing-commit-messages`, `tenzir:docs`
 - Commands: `/dev:review`, `/dev:release`
 - Agents: `@dev:fixer`, `@dev:changelog-adder`
 

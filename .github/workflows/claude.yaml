@@ -12,10 +12,8 @@ on:
         required: false
         type: string
         default: |
-          brand@tenzir
           dev@tenzir
           excalidraw@tenzir
-          python@tenzir
           tenzir@tenzir
     secrets:
       anthropic_api_key:
@@ -45,8 +43,6 @@ jobs:
           # Keep in sync with .claude/settings.json
           plugin_marketplaces: |
             https://github.com/tenzir/claude-plugins.git
-          plugins: ${{ inputs.plugins || 'brand@tenzir
-            dev@tenzir
+          plugins: ${{ inputs.plugins || 'dev@tenzir
             excalidraw@tenzir
-            python@tenzir
             tenzir@tenzir' }}

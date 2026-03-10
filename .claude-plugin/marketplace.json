@@ -10,11 +10,6 @@
   },
   "plugins": [
     {
-      "name": "brand",
-      "description": "Tenzir brand and style guidelines for frontend development",
-      "source": "./plugins/brand"
-    },
-{
       "name": "dev",
       "description": "Developer utilities including documentation, changelogs, code review, plan review, git workflows, auto-formatting, and releases",
       "source": "./plugins/dev"
@@ -23,11 +18,6 @@
       "name": "excalidraw",
       "description": "Create Excalidraw diagrams with proper JSON structure",
       "source": "./plugins/excalidraw"
-    },
-    {
-      "name": "python",
-      "description": "Python coding conventions for Tenzir projects",
-      "source": "./plugins/python"
     },
     {
       "name": "tenzir",
